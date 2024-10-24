@@ -112,7 +112,7 @@ export default function Screen() {
           </Button>
           <Link
             href={{
-              pathname: "/test",
+              pathname: "/",
               params: {
                 name: "Rick Sanchez",
                 age: 70,
@@ -130,6 +130,26 @@ export default function Screen() {
               onPress={updateProgressValue}
             >
               <Text>Move Test Page</Text>
+            </Button>
+          </Link>
+          <Link
+            href={{
+              pathname: "/auth/login",
+            }}
+            asChild
+          >
+            <Button variant="outline" className="shadow shadow-foreground/5">
+              <Text>Move Login Page</Text>
+            </Button>
+          </Link>
+          <Link
+            href={{
+              pathname: "/profile",
+            }}
+            asChild
+          >
+            <Button variant="outline" className="shadow shadow-foreground/5">
+              <Text>(auth) profile page</Text>
             </Button>
           </Link>
         </CardFooter>
