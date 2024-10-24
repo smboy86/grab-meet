@@ -11,7 +11,8 @@
     "ios": "expo start -c --ios",
     "web": "expo start -c --web",
     "clean": "rm -rf .expo node_modules",
-    "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css"
+    "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
+    "storybook-generate": "sb-rn-get-stories"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.0.4",
@@ -23,7 +24,6 @@
     "@rn-primitives/slot": "~1.0.3",
     "@rn-primitives/tooltip": "~1.0.3",
     "@rn-primitives/types": "~1.0.3",
-    "@storybook/react-native": "^8.3.10",
     "@supabase/supabase-js": "^2.45.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -36,9 +36,11 @@
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.7",
+    "install": "^0.13.0",
     "lodash": "^4.17.21",
     "lucide-react-native": "^0.378.0",
     "nativewind": "^4.0.33",
+    "npm": "^10.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
@@ -59,6 +61,7 @@
     "@types/lodash": "^4.17.12",
     "@types/react": "~18.2.79",
     "metro": "^0.81.0",
+    "prettier": "^3.3.3",
     "typescript": "~5.3.3"
   },
   "private": true
