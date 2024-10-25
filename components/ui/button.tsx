@@ -52,6 +52,7 @@ const buttonTextVariants = cva(
         sm: '',
         lg: '',
         icon: '',
+        small: '',
       },
     },
     defaultVariants: {
