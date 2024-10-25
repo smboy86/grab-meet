@@ -10,6 +10,16 @@ export default function PubMain() {
       <Text>퍼블리싱 목록</Text>
       <Link
         href={{
+          pathname: '/auth/login',
+        }}
+        asChild>
+        <Button variant='outline' className='shadow shadow-foreground/5'>
+          <Text>1.login</Text>
+        </Button>
+      </Link>
+      <View className='w-full border-t border-1' />
+      <Link
+        href={{
           pathname: '/pub/(main)/calendar',
         }}
         asChild>

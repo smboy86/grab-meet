@@ -69,12 +69,22 @@ export default function RootLayout() {
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <SessionProvider>
         <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-        <Stack>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}>
           <Stack.Screen
             name='index'
             options={{
               title: 'Starter Base',
               headerRight: () => <ThemeToggle />,
+            }}
+          />
+          <Stack.Screen
+            name='modal'
+            options={{
+              headerShown: false,
+              presentation: 'modal',
             }}
           />
         </Stack>

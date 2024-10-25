@@ -1,7 +1,17 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { supabase } from "~/utils/supabase";
-import { User as SupabaseUser } from "@supabase/auth-js"; // supabase User 타입 임포트
+import React, { useState } from 'react';
+import { View, TextInput, StyleSheet } from 'react-native';
+import { supabase } from '~/utils/supabase';
+import { User as SupabaseUser } from '@supabase/auth-js'; // supabase User 타입 임포트
+import { Container } from '~/components/layout/container';
+import { Header } from '~/components/layout/header';
+import { Wrap } from '~/components/layout/\bwrap';
+import { Input } from '~/components/ui/input';
+import { Button } from '~/components/ui/button';
+import { Text } from '~/components/ui/text';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ImageBox } from '~/components/ui/imageBox';
+import images from '~/constants/images';
+import { useRouter } from 'expo-router';
 
 interface User {
   id: string;
@@ -14,8 +24,10 @@ interface Session {
 }
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [user, setUser] = useState<SupabaseUser | null>(null);
 
@@ -27,9 +39,12 @@ export default function Login() {
 
     if (error) {
       console.error(error);
+      alert(error);
     } else {
-      data.user;
+      alert(`로그인 성공 :: ` + JSON.stringify(data.user, null, 2));
       setUser(data.user); // user 객체만 추출하여 setUser에 전달
+      // TODO 성공 후 메인화면으로 전환
+      router.replace('/');
     }
   };
 
@@ -56,44 +71,65 @@ export default function Login() {
   };
 
   return (
-    <View style={styles.container}>
-      {user ? (
-        <View>
-          <Text>Welcome, {user.email}</Text>
-          <Button title="Sign Out" onPress={signOut} />
+    <Container className='items-center justify-center'>
+      <Header type='default' />
+      <Wrap type='default' full className='mt-6'>
+        <View className='max-wi flex h-full justify-between'>
+          <View className=''>
+            <Input value={email} onChangeText={setEmail} placeholder='이메일을 입력하세요' className='mb-3' />
+            <Input
+              value={password}
+              onChangeText={setPassword}
+              placeholder='비밀번호를 입력하세요'
+              className='mb-3'
+            />
+            <View className='mt-6'>
+              <Button onPress={signInWithEmail} variant={'default'}>
+                <Text>로그인</Text>
+              </Button>
+            </View>
+          </View>
+          <View className='btm pb-6'>
+            <Button
+              className='mb-2 flex flex-row bg-[#F1F1F5]'
+              onPress={() => {
+                alert('구글로 시작하기');
+              }}>
+              <ImageBox source={images.icon_google} className='mr-1 h-[20px] w-[20px]' />
+              <Text className='text-[#505050]'>구글로 시작하기</Text>
+            </Button>
+            <Button
+              className='mb-2 flex flex-row bg-[#F1F1F5]'
+              onPress={() => {
+                alert('카카오로 시작하기');
+              }}>
+              <ImageBox source={images.icon_kakao} className='mr-1 h-[20px] w-[20px]' />
+              <Text className='text-[#505050]'>카카오로 시작하기</Text>
+            </Button>
+            <Button
+              className='flex flex-row bg-[#F1F1F5]'
+              onPress={() => {
+                alert('애플로 시작하기');
+              }}>
+              <ImageBox source={images.icon_apple} className='mr-1 h-[20px] w-[20px]' />
+              <Text className='text-[#505050]'>애플로 시작하기</Text>
+            </Button>
+          </View>
         </View>
-      ) : (
-        <View>
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={styles.input}
-          />
-          <Button title="Sign In" onPress={signInWithEmail} />
-          <Button title="Sign Up" onPress={signUpWithEmail} />
-        </View>
-      )}
-    </View>
+      </Wrap>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 16,
   },
   input: {
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 12,
     paddingLeft: 8,
