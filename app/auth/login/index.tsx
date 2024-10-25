@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { supabase } from '~/utils/supabase';
 import { User as SupabaseUser } from '@supabase/auth-js'; // supabase User 타입 임포트
 import { Container } from '~/components/layout/container';
@@ -8,7 +8,6 @@ import { Wrap } from '~/components/layout/\bwrap';
 import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ImageBox } from '~/components/ui/imageBox';
 import images from '~/constants/images';
 import { useRouter } from 'expo-router';
