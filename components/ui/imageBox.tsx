@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { View, Text, ViewProps, ImageSourcePropType } from 'react-native';
+import { View } from 'react-native';
 import { cn } from '~/lib/utils';
 import { ViewRef } from '@rn-primitives/types';
 import { Image, ImageProps } from 'expo-image';
-import images from '~/constants/images';
 
 interface ImageBoxProps extends ImageProps {
   className: string;
