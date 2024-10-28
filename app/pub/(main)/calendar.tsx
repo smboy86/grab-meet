@@ -18,7 +18,7 @@ export default function CalendarScreen() {
           }}
         />
         <ScrollView className='mt-4 h-full' contentContainerStyle={{ flexGrow: 1 }}>
-          {[...Array(7)].map((item, key) => {
+          {[...Array(7)].join('').map((item, key) => {
             return (
               <DateItem
                 key={key.toString()}
