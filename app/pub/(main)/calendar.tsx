@@ -1,11 +1,13 @@
 import { FlashList } from '@shopify/flash-list';
 import * as React from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
 import { Header } from '~/components/layout/header';
 import { DateItem } from '~/components/screen/dateItem';
 import { CalendarBox } from '~/components/ui/calendar';
+
+// TODO - 스크롤 할때 달력 위로 말려 올라가는 애니메이션
 
 export default function CalendarScreen() {
   return (
