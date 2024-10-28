@@ -9,7 +9,8 @@ interface ImageBoxProps extends ImageProps {
   type?: 'default' | 'btn';
 }
 
-const defaultUri = 'https://picsum.photos/seed/696/3000/2000'; // 초록색 산 모양
+// const defaultUri = 'https://picsum.photos/seed/696/3000/2000'; // 초록색 산 모양
+const defaultUri = require('~/assets/icon/icon_grab_meet.png'); // local
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
