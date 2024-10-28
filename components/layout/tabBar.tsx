@@ -2,10 +2,19 @@ import { View, StyleSheet, Platform } from 'react-native';
 import TabBarButton from './tabBarButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const TabBar = ({ state, descriptors, navigation }) => {
+// TODO - 타입 세이프
+type Props = {
+  state: {
+    index: number;
+    routes: [any];
+  };
+  descriptors: any;
+  navigation: any;
+};
+
+const TabBar = ({ state, descriptors, navigation }: Props) => {
   const primaryColor = '#1B2679';
   const greyColor = '#111111';
-  const { bottom = 0 } = useSafeAreaInsets();
 
   return (
     <View style={styles.tabbar}>
