@@ -1,3 +1,4 @@
+import { FlashList } from '@shopify/flash-list';
 import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { Wrap } from '~/components/layout/\bwrap';
@@ -17,19 +18,17 @@ export default function CalendarScreen() {
             console.log('111 selected day', day, days);
           }}
         />
-        <ScrollView className='mt-4 h-full' contentContainerStyle={{ flexGrow: 1 }}>
-          {[...Array(7)].fill('').map((item, key) => {
-            return (
-              <DateItem
-                key={key.toString()}
-                status={key === 0 ? 'a' : key === 1 ? 'b' : 'c'}
-                onPress={() => alert('일정 상세보기 :::  ' + (key + 1).toString())}
-              />
-            );
-          })}
-          {/* empty item Required */}
-          <View className='py-5' />
-        </ScrollView>
+        <View className='mt-4 flex flex-1'>
+          <FlashList
+            data={[...Array(11)].fill('')}
+            renderItem={({ item }) => (
+              <DateItem status={'a'} onPress={() => alert('일정 상세보기 :::  ' + JSON.stringify(item))} />
+            )}
+            ListFooterComponent={<View className='py-10' />}
+            estimatedItemSize={40}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       </Wrap>
     </Container>
   );
