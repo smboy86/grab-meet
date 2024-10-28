@@ -7,9 +7,10 @@ import { ImageBox } from '../ui/imageBox';
 import { Text } from '../ui/text';
 import { Button } from '../ui/button';
 import { Calendar, DateData, LocaleConfig, CalendarProps } from 'react-native-calendars';
+import { Theme } from 'react-native-calendars/src/types';
 
 interface CalendarBoxProps extends ViewProps {
-  onDaySelect?: (selectDay: string, selectedDays: string[]) => void; // 날짜 선택시 이벤트
+  onDaySelect?: (selectDay: string, selectedDays: any) => void; // 날짜 선택시 이벤트
 }
 
 // Theme 타입 확장
@@ -114,29 +115,31 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(({ onDaySelect }
         //   justifyContent: 'center',
         //   alignItems: 'center',
         // }}
-        theme={{
-          calendarBackground: '#ffffff', // 캘린더 배경색
-          selectedDayBackgroundColor: '#FCEA60', // 선택한 날짜 동그란 배경색
-          selectedDayTextColor: '#000', // 선택한 날짜 텍스트 색상
-          todayTextColor: '#d9d9d9', // 오늘날짜 텍스트 색상
-          //   // 파악중
-          //   // backgroundColor: '#000', // 변화 없음
-          //   // textSectionTitleColor: '#999999',
-          //   // 백업
-          //   // arrowStyle: {
-          //   //   padding: 10,
-          //   // },
-          'stylesheet.calendar.header': {
-            header: {
-              flexDirection: 'row',
-              justifyContent: 'center',
-              // paddingLeft: 50,
-              // paddingRight: 100,
-              // marginTop: 6,
-              alignItems: 'center',
+        theme={
+          {
+            calendarBackground: '#ffffff', // 캘린더 배경색
+            selectedDayBackgroundColor: '#FCEA60', // 선택한 날짜 동그란 배경색
+            selectedDayTextColor: '#000', // 선택한 날짜 텍스트 색상
+            todayTextColor: '#d9d9d9', // 오늘날짜 텍스트 색상
+            //   // 파악중
+            //   // backgroundColor: '#000', // 변화 없음
+            //   // textSectionTitleColor: '#999999',
+            //   // 백업
+            //   // arrowStyle: {
+            //   //   padding: 10,
+            //   // },
+            'stylesheet.calendar.header': {
+              header: {
+                flexDirection: 'row',
+                justifyContent: 'center',
+                // paddingLeft: 50,
+                // paddingRight: 100,
+                // marginTop: 6,
+                alignItems: 'center',
+              },
             },
-          },
-        }}
+          } as Theme
+        }
         // renderHeader={(date: string) => {
         //   return (
         //     <View>

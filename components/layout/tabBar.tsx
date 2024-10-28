@@ -1,16 +1,9 @@
 import { View, StyleSheet, Platform } from 'react-native';
 import TabBarButton from './tabBarButton';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
 // TODO - 타입 세이프
-type Props = {
-  state: {
-    index: number;
-    routes: [any];
-  };
-  descriptors: any;
-  navigation: any;
-};
+type Props = {} & BottomTabBarProps;
 
 const TabBar = ({ state, descriptors, navigation }: Props) => {
   const primaryColor = '#1B2679';
@@ -62,6 +55,8 @@ const TabBar = ({ state, descriptors, navigation }: Props) => {
 const styles = StyleSheet.create({
   tabbar: {
     position: 'absolute',
+    // left: 122.5,
+    alignSelf: 'center',
     bottom: 16 + (Platform.OS === 'ios' ? 34 : 0), // 34 : 아이폰 하단
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -75,6 +70,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 },
     shadowRadius: 10,
     shadowOpacity: 0.1,
+    width: 255, // TODO - 반응형 체크
   },
 });
 
