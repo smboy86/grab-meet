@@ -10,8 +10,6 @@ type ContainerProps = React.ComponentPropsWithoutRef<typeof View>;
 //TODO - Defail 페이지 내부 회색
 const Container = React.forwardRef<ViewRef, React.ComponentPropsWithoutRef<typeof View>>(
   ({ children, className, ...props }, ref) => {
-    const { bottom = 0 } = useSafeAreaInsets();
-
     if (Platform.OS === 'ios') {
       return (
         <>
@@ -20,7 +18,7 @@ const Container = React.forwardRef<ViewRef, React.ComponentPropsWithoutRef<typeo
             <SafeAreaView className={cn('relative flex h-full flex-1')}>
               <View className={cn('flex h-full flex-col items-center', className)} ref={ref} {...props}>
                 {children}
-                <View className={`absolute -bottom-[${bottom}px] h-[84px] w-full bg-transparent`}>
+                <View className={cn('absolute -bottom-[34px] h-[84px] w-full bg-transparent')}>
                   <LinearGradient
                     // Background Linear Gradient
                     colors={['rgba(217, 217, 217, 0)', 'rgba(247, 247, 251, 100)']}
