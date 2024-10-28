@@ -1,10 +1,11 @@
-import { View, StyleSheet } from 'react-native';
-import { Text } from '../ui/text';
+import { View, StyleSheet, Platform } from 'react-native';
 import TabBarButton from './tabBarButton';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TabBar = ({ state, descriptors, navigation }) => {
   const primaryColor = '#1B2679';
   const greyColor = '#111111';
+  const { bottom = 0 } = useSafeAreaInsets();
 
   return (
     <View style={styles.tabbar}>
@@ -52,7 +53,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
 const styles = StyleSheet.create({
   tabbar: {
     position: 'absolute',
-    bottom: 16 + 34, // 34 : 아이폰 하단
+    bottom: 16 + (Platform.OS === 'ios' ? 34 : 0), // 34 : 아이폰 하단
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

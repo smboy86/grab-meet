@@ -55,7 +55,7 @@ const Container = React.forwardRef<ViewRef, React.ComponentPropsWithoutRef<typeo
             <View className='absolute bottom-0 h-[84px] w-full bg-transparent'>
               <LinearGradient
                 // Background Linear Gradient
-                colors={['transparent', '#F7F7FB']}
+                colors={['rgba(217, 217, 217, 0)', 'rgba(247, 247, 251, 100)']}
                 style={{
                   position: 'absolute',
                   left: 0,
