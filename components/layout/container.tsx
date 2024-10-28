@@ -1,18 +1,74 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Platform, StatusBar } from 'react-native';
 import { cn } from '~/lib/utils';
 import { ViewRef } from '@rn-primitives/types';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 type ContainerProps = React.ComponentPropsWithoutRef<typeof View>;
 
+//TODO - Defail 페이지 내부 회색
 const Container = React.forwardRef<ViewRef, React.ComponentPropsWithoutRef<typeof View>>(
-  ({ className, ...props }, ref) => {
-    return (
-      <SafeAreaView className={cn('flex flex-1')}>
-        <View className={cn('flex h-full flex-col', className)} ref={ref} {...props} />
-      </SafeAreaView>
-    );
+  ({ children, className, ...props }, ref) => {
+    const { bottom = 0 } = useSafeAreaInsets();
+
+    if (Platform.OS === 'ios') {
+      return (
+        <>
+          <SafeAreaProvider>
+            <StatusBar barStyle='dark-content' />
+            <SafeAreaView className={cn('relative flex h-full flex-1')}>
+              <View className={cn('flex h-full flex-col items-center', className)} ref={ref} {...props}>
+                {children}
+                <View className={`absolute -bottom-[${bottom}px] h-[84px] w-full bg-transparent`}>
+                  <LinearGradient
+                    // Background Linear Gradient
+                    colors={['rgba(217, 217, 217, 0)', 'rgba(247, 247, 251, 100)']}
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      right: 0,
+                      top: 0,
+                      height: 84,
+                    }}
+                  />
+                </View>
+              </View>
+            </SafeAreaView>
+            <SafeAreaView
+              mode='padding'
+              edges={['bottom']}
+              style={{
+                flex: 0,
+                height: 10,
+                backgroundColor: '#F7F7FB',
+              }}
+            />
+          </SafeAreaProvider>
+        </>
+      );
+    } else {
+      return (
+        <SafeAreaView className={cn('relative flex flex-1 bg-[#F7F7FB]')}>
+          <View className={cn('flex h-full flex-col items-center', className)} ref={ref} {...props}>
+            {children}
+            <View className='absolute bottom-0 h-[84px] w-full bg-transparent'>
+              <LinearGradient
+                // Background Linear Gradient
+                colors={['transparent', '#F7F7FB']}
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: 84,
+                }}
+              />
+            </View>
+          </View>
+        </SafeAreaView>
+      );
+    }
   },
 );
 Container.displayName = 'Container';

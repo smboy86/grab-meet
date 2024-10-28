@@ -73,7 +73,7 @@ export default function Login() {
     <Container className='items-center justify-center'>
       <Header type='default' />
       <Wrap type='default' full className='mt-6'>
-        <View className='max-wi flex h-full justify-between'>
+        <View className='flex h-full justify-between'>
           <View className=''>
             <Input value={email} onChangeText={setEmail} placeholder='이메일을 입력하세요' className='mb-3' />
             <Input

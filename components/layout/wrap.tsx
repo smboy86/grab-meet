@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { cn } from '~/lib/utils';
 import { ViewRef } from '@rn-primitives/types';
+import { Text } from '../ui/text';
 
 interface WrapProps extends React.ComponentPropsWithoutRef<typeof View> {
   /**
@@ -9,11 +10,12 @@ interface WrapProps extends React.ComponentPropsWithoutRef<typeof View> {
    * large :  padding x 8
    * */
   type?: 'default' | 'large';
-  full?: boolean;
+  full?: boolean; // default true
+  scroll?: boolean;
 }
 
 const Wrap = React.forwardRef<ViewRef, WrapProps>(
-  ({ className, children, type = 'default', full, ...props }, ref) => {
+  ({ className, children, type = 'default', full = true, scroll = false, ...props }, ref) => {
     return (
       <View
         className={cn(
