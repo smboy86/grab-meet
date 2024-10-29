@@ -1,23 +1,25 @@
 import { Link } from 'expo-router';
 import * as React from 'react';
 import { View } from 'react-native';
+import { Wrap } from '~/components/layout/\bwrap';
+import { Container } from '~/components/layout/container';
+import { Header } from '~/components/layout/header';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 
-export default function PubMain() {
+export default function Screen() {
   return (
-    <View className='flex-1 justify-center items-center gap-5 p-6 bg-secondary/30'>
-      <Text>퍼블리싱 목록</Text>
+    <Container className='items-center justify-center'>
       <Link
         href={{
-          pathname: '/auth/login',
+          pathname: '/pub/auth/login',
         }}
         asChild>
         <Button variant='outline' className='shadow shadow-foreground/5'>
           <Text>1.login</Text>
         </Button>
       </Link>
-      <View className='w-full border-t border-1' />
+      <View className='my-4 w-full border-t' />
       <Link
         href={{
           pathname: '/pub/(main)/calendar',
@@ -45,6 +47,15 @@ export default function PubMain() {
           <Text>Main - 마이페이지</Text>
         </Button>
       </Link>
-    </View>
+      <Link
+        href={{
+          pathname: '/modal',
+        }}
+        asChild>
+        <Button variant='outline' className='shadow shadow-foreground/5'>
+          <Text>모달창</Text>
+        </Button>
+      </Link>
+    </Container>
   );
 }

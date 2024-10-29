@@ -1,8 +1,6 @@
-import { Text } from 'react-native';
 import { Stack } from 'expo-router';
-import { useSession } from '~/components/Providers';
 
-export default function Layout() {
+export default function AuthLayout() {
   return (
     <Stack
       screenOptions={{

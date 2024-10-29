@@ -2,7 +2,7 @@ import '~/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
-import { SplashScreen, Stack } from 'expo-router';
+import { Slot, SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Platform } from 'react-native';
@@ -11,7 +11,6 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
-import { supabase } from '~/utils/supabase';
 import { SessionProvider } from '~/components/Providers';
 
 const LIGHT_THEME: Theme = {
@@ -30,6 +29,14 @@ export {
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
+
+// export const unstable_settings = {
+//   // Ensure any route can link back to `/`
+//   initialRouteName: '(auth)/login',
+//   test: {
+//     initialRouteName: '(auth)/test/login',
+//   },
+// };
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
@@ -76,7 +83,7 @@ export default function RootLayout() {
           <Stack.Screen
             name='index'
             options={{
-              title: 'Starter Base',
+              title: '초기 진입 화면',
               headerRight: () => <ThemeToggle />,
             }}
           />
