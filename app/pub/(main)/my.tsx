@@ -49,7 +49,7 @@ export default function My() {
         ))}
         <Button
           variant='outline'
-          className='mb-2 bg-[#E5E5EC]'
+          className='mb-2 border-[#E5E5EC] bg-[#E5E5EC]'
           onPress={() => {
             // router.push('/pub/details/setting/resetPassword');
             alert('로그아웃');
