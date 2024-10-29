@@ -1,15 +1,13 @@
 import { Link } from 'expo-router';
 import * as React from 'react';
 import { View } from 'react-native';
-import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
-import { Header } from '~/components/layout/header';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 
 export default function Screen() {
   return (
-    <Container className='items-center justify-center'>
+    <Container className='items-center justify-center gap-2'>
       <Link
         href={{
           pathname: '/pub/auth/login',
@@ -47,6 +45,17 @@ export default function Screen() {
           <Text>Main - 마이페이지</Text>
         </Button>
       </Link>
+      <View className='my-4 w-full border-t' />
+      <Link
+        href={{
+          pathname: '/pub/detail/setting/resetPassword',
+        }}
+        asChild>
+        <Button variant='outline' className='shadow shadow-foreground/5'>
+          <Text>Detail - 패스워드 재설정</Text>
+        </Button>
+      </Link>
+      <View className='my-4 w-full border-t' />
       <Link
         href={{
           pathname: '/modal',

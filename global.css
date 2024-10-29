@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --brand: hsl(231 66% 29%); /* 남색 */
+    --gray03: hsl(0 0% 31%);
     /* origin */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -29,6 +30,7 @@
 
   .dark:root {
     --brand: hsl(231 66% 29%); /* 남색 */
+    --gray03: hsl(0 31% 100%);
     /* origin */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;

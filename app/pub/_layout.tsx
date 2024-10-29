@@ -13,7 +13,9 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerShown: true,
-        title: '퍼블 홈',
+        title: '퍼블홈',
+        headerShadowVisible: false /** 헤더 밑줄 삭제 */,
+        headerBackTitleVisible: false,
       }}>
       <Stack.Screen
         name='(main)'
@@ -22,11 +24,11 @@ export default function Layout() {
           headerShown: false,
         }}
       />
+      {/* Details screen... */}
       <Stack.Screen
-        name='details'
+        name='detail/setting/resetPassword'
         options={{
-          title: '상세 화면',
-          headerShown: true,
+          title: '패스워드 재설정',
         }}
       />
     </Stack>

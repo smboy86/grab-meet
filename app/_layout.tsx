@@ -13,6 +13,10 @@ import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { SessionProvider } from '~/components/Providers';
 
+export const unstable_settings = {
+  initialRouteName: '/pub/index',
+};
+
 const LIGHT_THEME: Theme = {
   dark: false,
   colors: NAV_THEME.light,
@@ -79,6 +83,7 @@ export default function RootLayout() {
         <Stack
           screenOptions={{
             headerShown: false,
+            headerShadowVisible: false /** 헤더 밑줄 삭제 */,
           }}>
           <Stack.Screen
             name='index'

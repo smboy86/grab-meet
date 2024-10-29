@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         brand: 'var(--brand)',
+        gray03: 'var(--gray03)',
         // origin
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

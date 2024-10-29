@@ -21,13 +21,13 @@ export default function AuthLayout() {
         headerShown: false,
       }}>
       {/* 현재 루트 폴더 or 루트 파일만 지정 */}
-      <Stack.Screen
+      {/* <Stack.Screen
         name='setting'
         options={{
           title: '패스워드 재설정',
           headerShown: true,
         }}
-      />
+      /> */}
     </Stack>
   );
 }
