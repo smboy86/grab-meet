@@ -4,6 +4,7 @@ import { cn } from '~/lib/utils';
 import { ViewRef } from '@rn-primitives/types';
 import { Text } from '../ui/text';
 
+// TODO - 스크롤 분기 필요한지 검토
 interface WrapProps extends React.ComponentPropsWithoutRef<typeof View> {
   /**
    * default : full 화면, padding x 5
@@ -11,7 +12,7 @@ interface WrapProps extends React.ComponentPropsWithoutRef<typeof View> {
    * */
   type?: 'default' | 'large';
   full?: boolean; // default true
-  scroll?: boolean;
+  scroll?: boolean; // 스크롤 화면일때 조정 (작업중))
 }
 
 const Wrap = React.forwardRef<ViewRef, WrapProps>(

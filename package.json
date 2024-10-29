@@ -18,12 +18,14 @@
     "@gorhom/bottom-sheet": "^5.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^6.0.2",
+    "@rn-primitives/alert-dialog": "^1.1.0",
     "@rn-primitives/avatar": "~1.0.4",
     "@rn-primitives/portal": "~1.0.3",
     "@rn-primitives/progress": "~1.0.3",
     "@rn-primitives/slot": "~1.0.3",
     "@rn-primitives/tooltip": "~1.0.3",
     "@rn-primitives/types": "~1.0.3",
+    "@shopify/flash-list": "1.6.4",
     "@supabase/supabase-js": "^2.45.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -58,8 +60,7 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "3.3.5",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^4.5.5",
-    "@shopify/flash-list": "1.6.4"
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
