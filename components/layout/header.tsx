@@ -24,7 +24,7 @@ const Header = React.forwardRef<ViewRef, HeaderProps>(
           type === 'default' ? 'justify-center' : 'justify-between',
         )}
         ref={ref}>
-        <ImageBox className='w-[104px]' source={images.icon_grab} />
+        <ImageBox className='w-[137px]' source={images.icon_grab_new} />
         {type !== 'default' && (
           <Button variant={'small'} size={'small'} onPress={onAction}>
             <Text>{actionBtnText}</Text>

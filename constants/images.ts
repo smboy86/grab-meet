@@ -1,4 +1,5 @@
-const icon_grab = require('~/assets/icon/icon_grab_meet.png');
+const icon_grab = require('~/assets/icon/icon_grab.png');
+const icon_grab_new = require('~/assets/icon/icon_grab_new.png');
 const icon_google = require('~/assets/icon/icon_google.png');
 const icon_kakao = require('~/assets/icon/icon_kakao.png');
 const icon_apple = require('~/assets/icon/icon_apple.png');
@@ -10,6 +11,7 @@ const icon_arrow_right = require('~/assets/icon/icon_arrow_right.png');
 
 export default {
   icon_grab,
+  icon_grab_new,
   icon_google,
   icon_kakao,
   icon_apple,

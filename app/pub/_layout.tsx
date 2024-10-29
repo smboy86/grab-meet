@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { useSession } from '~/components/Providers';
+import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 
 export default function Layout() {
@@ -29,6 +30,12 @@ export default function Layout() {
         name='detail/setting/resetPassword'
         options={{
           title: '패스워드 재설정',
+        }}
+      />
+      <Stack.Screen
+        name='detail/scheduleInfo'
+        options={{
+          title: '일정상세',
         }}
       />
     </Stack>

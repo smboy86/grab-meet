@@ -19,7 +19,7 @@ const MENU_LIST: Array<Menu> = [
   },
   {
     title: '패스워드 재설정',
-    link: '/pub/details/setting/resetPassword',
+    link: '/pub/detail/setting/resetPassword',
   },
   {
     title: '스토어 평점주기',

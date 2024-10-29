@@ -8,7 +8,7 @@
     "scheme": "grab-meet",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/app/splash.png",
+      "image": "./assets/app/splash_new.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
