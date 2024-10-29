@@ -35,7 +35,13 @@ export default function Layout() {
       <Stack.Screen
         name='detail/scheduleInfo'
         options={{
-          title: '일정상세',
+          title: '일정 상세',
+        }}
+      />
+      <Stack.Screen
+        name='detail/scheduleConfirm'
+        options={{
+          title: '일정 확정 공유',
         }}
       />
     </Stack>

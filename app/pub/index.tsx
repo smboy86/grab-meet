@@ -61,7 +61,16 @@ export default function Screen() {
         }}
         asChild>
         <Button variant='outline' className='shadow shadow-foreground/5'>
-          <Text>Detail - 일정 상세 (작업중)</Text>
+          <Text>Detail - 일정 상세</Text>
+        </Button>
+      </Link>
+      <Link
+        href={{
+          pathname: '/pub/detail/scheduleConfirm',
+        }}
+        asChild>
+        <Button variant='outline' className='shadow shadow-foreground/5'>
+          <Text>Detail - 일정 확정</Text>
         </Button>
       </Link>
       <View className='my-4 w-full border-t' />

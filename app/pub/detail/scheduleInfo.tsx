@@ -1,4 +1,4 @@
-import { useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { Wrap } from '~/components/layout/\bwrap';
@@ -22,6 +22,7 @@ import images from '~/constants/images';
 
 export default function ScheduleInfo() {
   const navigation = useNavigation();
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('aaaa');
 
@@ -52,12 +53,11 @@ export default function ScheduleInfo() {
             <Text className='mb-3 text-sm text-[#111111]'>일정 선택</Text>
             {/* 일정 투표 A */}
             <View className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
-              <Text className='text-[14px] font-semibold'>2024.10.17 (목)</Text>
+              <Text className='text-[14px] font-semibold'>2024.10.15 (화)</Text>
               {/* 막대기 Box*/}
               <View className='gab-1'>
                 {/* 막대기 1 */}
                 <GrabDateItem
-                  isSelected
                   date={'10:00'}
                   userCnt={4}
                   selectedCnt={1}
@@ -78,7 +78,7 @@ export default function ScheduleInfo() {
             </View>
             {/* 일정 투표 B */}
             <View className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
-              <Text className='text-[14px] font-semibold'>2024.10.17 (목)</Text>
+              <Text className='text-[14px] font-semibold'>2024.10.16 (수)</Text>
               {/* 막대기 List Box*/}
               <View className='gab-1'>
                 <GrabDateItem
@@ -202,7 +202,11 @@ export default function ScheduleInfo() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction className='w-[50%] text-center' onPress={() => alert('확정 누름')}>
+            <AlertDialogAction
+              className='w-[50%] text-center'
+              onPress={() => {
+                router.push('/pub/detail/scheduleConfirm');
+              }}>
               <Text>확정</Text>
             </AlertDialogAction>
             <AlertDialogCancel className='w-[50%] text-center'>

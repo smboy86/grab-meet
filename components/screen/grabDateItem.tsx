@@ -8,7 +8,7 @@ interface GrabDateItemProps extends ViewProps {
   date?: string;
   userCnt: number;
   selectedCnt: number;
-  onAction: () => void;
+  onAction?: () => void;
 }
 
 const GrabDateItem = React.forwardRef<React.ElementRef<typeof Pressable>, GrabDateItemProps>(
