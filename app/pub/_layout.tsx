@@ -50,6 +50,12 @@ export default function Layout() {
           title: '일정 생성',
         }}
       />
+      <Stack.Screen
+        name='detail/scheduleShare'
+        options={{
+          title: '일정 투표 공유',
+        }}
+      />
     </Stack>
   );
 }
