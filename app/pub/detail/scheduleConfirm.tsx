@@ -12,10 +12,11 @@ export default function Screen() {
       <Wrap type='default' full className='mt-6'>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className='mb-6'>
-            <Text className='mb-3 text-sm text-[#111111]'>일정 확정 공유</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>일정 확정 공유</Text>
             <Button
               variant='outline'
               className='mb-3'
+              // size={'lg'}
               onPress={() => {
                 alert('일정 확인 공유하기');
               }}>
@@ -31,21 +32,20 @@ export default function Screen() {
             </Button>
           </View>
           <View className='mb-6'>
-            <Text className='mb-3 text-sm text-[#111111]'>일정 제목</Text>
-            <Text className='text-sm font-semibold text-[#111111]'>24회 동창회 모임</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
+            <Text className='text-[15px] font-semibold text-[#111111]'>24회 동창회 모임</Text>
           </View>
           <View className='mb-6'>
-            <Text className='mb-3 text-sm text-[#111111]'>참여 인원</Text>
-            <Text className='text-sm font-semibold text-[#111111]'>4명</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>참여 인원</Text>
+            <Text className='text-[15px] font-semibold text-[#111111]'>4명</Text>
           </View>
           <View className='mb-6'>
-            <Text className='mb-3 text-sm text-[#111111]'>일정 확정</Text>
-            <Text className='text-sm font-semibold text-[#111111]'>🔥︎2024.10.17(목) 14:00🔥︎</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>일정 확정</Text>
+            <Text className='text-[15px] font-semibold text-[#111111]'>🔥︎2024.10.17(목) 14:00🔥︎</Text>
           </View>
           <View className='mb-6'>
-            <Text className='mb-3 text-sm text-[#111111]'>투표 결과</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>투표 결과</Text>
             <View className='mb-6 flex'>
-              <Text className='mb-3 text-sm text-[#111111]'>일정 선택</Text>
               {/* 일정 투표 A */}
               <View className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
                 <Text className='text-[14px] font-semibold'>2024.10.15 (목)</Text>

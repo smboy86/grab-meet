@@ -13,7 +13,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '~/components/ui/alert-dialog';
 import { Button } from '~/components/ui/button';
 import { ImageBox } from '~/components/ui/imageBox';
@@ -42,15 +41,15 @@ export default function ScheduleInfo() {
       <Wrap type='default' scroll className='mt-6'>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className='mb-6'>
-            <Text className='mb-3 text-sm text-[#111111]'>일정 제목</Text>
-            <Text className='text-sm font-semibold text-[#111111]'>24회 동창회 모임</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
+            <Text className='text-[15px] font-semibold text-[#111111]'>24회 동창회 모임</Text>
           </View>
           <View className='mb-6'>
-            <Text className='mb-3 text-sm text-[#111111]'>참여 인원</Text>
-            <Text className='text-sm font-semibold text-[#111111]'>4명</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>참여 인원</Text>
+            <Text className='text-[15px] font-semibold text-[#111111]'>4명</Text>
           </View>
           <View className='mb-6 flex'>
-            <Text className='mb-3 text-sm text-[#111111]'>일정 선택</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>일정 선택</Text>
             {/* 일정 투표 A */}
             <View className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
               <Text className='text-[14px] font-semibold'>2024.10.15 (화)</Text>
@@ -166,7 +165,7 @@ export default function ScheduleInfo() {
           </View>
           {/* 일정 투표 링크 */}
           <View className='mb-6'>
-            <Text className='mb-3 text-sm text-[#111111]'>일정 투표 링크</Text>
+            <Text className='mb-2 text-sm text-[#111111]'>일정 투표 링크</Text>
             <View className='flex w-full flex-row justify-between rounded-md border border-[#E5E5EC] bg-white p-3'>
               <View className='w-10/12 flex-nowrap'>
                 <Text className='flex-nowrap' numberOfLines={1}>
