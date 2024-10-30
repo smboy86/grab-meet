@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { View } from 'react-native';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
 import { Header } from '~/components/layout/header';

@@ -94,6 +94,25 @@ export default function Screen() {
       <View className='my-4 w-full border-t' />
       <Link
         href={{
+          pathname: '/pub/public/joinMeet',
+        }}
+        asChild>
+        <Button variant='outline' className='shadow shadow-foreground/5'>
+          <Text>미팅선택 참여</Text>
+        </Button>
+      </Link>
+      <Link
+        href={{
+          pathname: '/pub/public/joinComplete',
+        }}
+        asChild>
+        <Button variant='outline' className='shadow shadow-foreground/5'>
+          <Text>미팅 참여 완료</Text>
+        </Button>
+      </Link>
+      <View className='my-4 w-full border-t' />
+      <Link
+        href={{
           pathname: '/modal',
         }}
         asChild>

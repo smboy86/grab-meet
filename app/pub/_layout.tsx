@@ -56,6 +56,20 @@ export default function Layout() {
           title: '일정 투표 공유',
         }}
       />
+      <Stack.Screen
+        name='public/joinMeet'
+        options={{
+          title: '미팅 선택 참여',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name='public/joinComplete'
+        options={{
+          title: '미팅 참여 완료',
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
