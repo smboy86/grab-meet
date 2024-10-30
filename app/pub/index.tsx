@@ -73,6 +73,15 @@ export default function Screen() {
           <Text>Detail - 일정 확정</Text>
         </Button>
       </Link>
+      <Link
+        href={{
+          pathname: '/pub/detail/scheduleCreate',
+        }}
+        asChild>
+        <Button variant='outline' className='shadow shadow-foreground/5'>
+          <Text>Detail - 일정 생성</Text>
+        </Button>
+      </Link>
       <View className='my-4 w-full border-t' />
       <Link
         href={{

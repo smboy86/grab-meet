@@ -10,7 +10,8 @@ import { Calendar, DateData, LocaleConfig, CalendarProps } from 'react-native-ca
 import { Theme } from 'react-native-calendars/src/types';
 
 interface CalendarBoxProps extends ViewProps {
-  onDaySelect?: (selectDay: string, selectedDays: any) => void; // 날짜 선택시 이벤트
+  input?: boolean; // 입력모드
+  onDaySelect?: (selectDay: string, selectedDays: string[] | undefined) => void; // 날짜 선택시 이벤트
 }
 
 // Theme 타입 확장
@@ -61,7 +62,7 @@ LocaleConfig.locales.kr = {
 };
 LocaleConfig.defaultLocale = 'kr';
 
-const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(({ onDaySelect }, ref) => {
+const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(({ input, onDaySelect }, ref) => {
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [markedDates, setMarkedDates] = React.useState<Record<string, { selected: boolean }>>({});
 
@@ -78,28 +79,24 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(({ onDaySelect }
         newMarkedDates[date] = { selected: true }; // Add the date
       }
 
+      // 상위 컴포넌트 이벤트 호출
+      if (onDaySelect) {
+        onDaySelect(
+          date,
+          Object.keys(markedDates)?.filter((date) => markedDates[date].selected),
+        );
+      }
+
       return newMarkedDates; // Return the updated object
     });
   };
 
   return (
-    <View className='w-full rounded-md border border-[#E5E5EC] p-4'>
+    <View className={cn('w-full', !input && 'rounded-md border border-[#E5E5EC] p-4')}>
       <Calendar
         onDayPress={(day) => {
-          // cl
-          if (onDaySelect) {
-            // onDaySelect?: (selectDay: string, selectedDays: string[]) => void; // 날짜 선택시 이벤트
-            // console.log('dddd   ', updatedMarkedDates);
-            onDaySelect(day.dateString, updatedMarkedDates);
-          }
-          // setMarkedDates([...markedDates, day.dateString]);
-          // setSelected(day.dateString);
-
           handleToggleDate(day.dateString);
         }}
-        // markedDates={{
-        //   [selected]: { selected: true },
-        // }}
         markedDates={updatedMarkedDates}
         // 이하 스타일관련
         renderArrow={(direction) => {
@@ -118,7 +115,7 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(({ onDaySelect }
         theme={
           {
             calendarBackground: '#ffffff', // 캘린더 배경색
-            selectedDayBackgroundColor: '#FCEA60', // 선택한 날짜 동그란 배경색
+            selectedDayBackgroundColor: input ? '#F59917' : '#FCEA60', // 선택한 날짜 동그란 배경색
             selectedDayTextColor: '#000', // 선택한 날짜 텍스트 색상
             todayTextColor: '#d9d9d9', // 오늘날짜 텍스트 색상
             //   // 파악중
@@ -134,7 +131,7 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(({ onDaySelect }
                 justifyContent: 'center',
                 // paddingLeft: 50,
                 // paddingRight: 100,
-                // marginTop: 6,
+                marginTop: 6,
                 alignItems: 'center',
               },
             },

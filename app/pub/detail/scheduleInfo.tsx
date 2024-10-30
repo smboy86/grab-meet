@@ -24,6 +24,7 @@ export default function ScheduleInfo() {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('aaaa');
+  const [selected, setSelected] = React.useState(100);
 
   // 스크린 안에서 헤더 버튼 생성
   React.useEffect(() => {
@@ -57,20 +58,24 @@ export default function ScheduleInfo() {
               <View className='gab-1'>
                 {/* 막대기 1 */}
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 0}
                   date={'10:00'}
                   userCnt={4}
                   selectedCnt={1}
                   onAction={() => {
-                    alert('일정 선택 1');
+                    setSelected(0);
                   }}
                 />
                 {/* 막대기 2 */}
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 1}
                   date={'13:00'}
                   userCnt={4}
                   selectedCnt={4}
                   onAction={() => {
-                    alert('일정 선택 1');
+                    setSelected(1);
                   }}
                 />
               </View>
@@ -81,27 +86,33 @@ export default function ScheduleInfo() {
               {/* 막대기 List Box*/}
               <View className='gab-1'>
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 2}
                   date={'10:00'}
                   userCnt={4}
                   selectedCnt={0}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(2);
                   }}
                 />
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 3}
                   date={'11:00'}
                   userCnt={4}
                   selectedCnt={0}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(3);
                   }}
                 />
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 4}
                   date={'12:00'}
                   userCnt={4}
                   selectedCnt={3}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(4);
                   }}
                 />
               </View>
@@ -112,52 +123,63 @@ export default function ScheduleInfo() {
               {/* 막대기 List Box*/}
               <View className='gab-1'>
                 <GrabDateItem
-                  isSelected
+                  isInit={selected > 99}
+                  isSelected={selected === 5}
                   date={'14:00'}
                   userCnt={4}
                   selectedCnt={4}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(5);
                   }}
                 />
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 6}
                   date={'15:00'}
                   userCnt={4}
                   selectedCnt={0}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(6);
                   }}
                 />
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 7}
                   date={'16:00'}
                   userCnt={4}
                   selectedCnt={0}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(7);
                   }}
                 />
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 8}
                   date={'17:00'}
                   userCnt={4}
                   selectedCnt={4}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(8);
                   }}
                 />
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 9}
                   date={'18:00'}
                   userCnt={4}
                   selectedCnt={0}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(9);
                   }}
                 />
                 <GrabDateItem
+                  isInit={selected > 99}
+                  isSelected={selected === 10}
                   date={'19:00'}
                   userCnt={4}
                   selectedCnt={3}
                   onAction={() => {
-                    alert('일정 선택 5');
+                    setSelected(10);
                   }}
                 />
               </View>

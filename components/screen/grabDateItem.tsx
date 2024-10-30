@@ -4,6 +4,7 @@ import { cn } from '~/lib/utils';
 import { Text } from '../ui/text';
 
 interface GrabDateItemProps extends ViewProps {
+  isInit?: boolean; // 선택값이 없는 최초 렌더링시
   isSelected?: boolean;
   date?: string;
   userCnt: number;
@@ -12,18 +13,21 @@ interface GrabDateItemProps extends ViewProps {
 }
 
 const GrabDateItem = React.forwardRef<React.ElementRef<typeof Pressable>, GrabDateItemProps>(
-  ({ isSelected = false, date = '', userCnt = 0, selectedCnt = 0, onAction }, ref) => {
+  ({ isInit = false, isSelected = false, date = '', userCnt = 0, selectedCnt = 0, onAction }, ref) => {
     const percent = Math.round((selectedCnt / userCnt) * 100);
     return (
       <Pressable onPress={onAction}>
         <View
           className={cn(
-            'relative mt-3 rounded-md border bg-[#F1F1F5]',
-            isSelected ? 'border-brand' : 'border-[#F1F1F5]',
+            'relative mt-3 rounded-md border-transparent bg-[#F1F1F5]',
+            isSelected ? 'border-[2px] border-brand' : 'border-[2px] border-[#F1F1F5]',
           )}>
           {/* 1/2) 미선택 회색 / 선택시 노란색  */}
           <View
-            className={cn('absolute h-full rounded-md', isSelected ? 'bg-[#FCEA60]' : 'bg-[#E5E5EC]')}
+            className={cn(
+              'absolute h-full rounded-md',
+              isInit || isSelected ? 'bg-[#FCEA60]' : 'bg-[#E5E5EC]',
+            )}
             style={{
               width: `${percent}%`,
             }}

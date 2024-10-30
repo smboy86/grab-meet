@@ -7,6 +7,8 @@ import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 
 export default function Screen() {
+  const [selected, setSelected] = React.useState(0);
+
   return (
     <Container className='items-center justify-center'>
       <Wrap type='default' full className='mt-6'>
@@ -53,9 +55,25 @@ export default function Screen() {
                 {/* 막대기 Box*/}
                 <View className='gab-1'>
                   {/* 막대기 1 */}
-                  <GrabDateItem date={'10:00'} userCnt={4} selectedCnt={1} />
+                  <GrabDateItem
+                    isSelected={selected === 0}
+                    date={'10:00'}
+                    userCnt={4}
+                    selectedCnt={1}
+                    onAction={() => {
+                      setSelected(0);
+                    }}
+                  />
                   {/* 막대기 2 */}
-                  <GrabDateItem date={'13:00'} userCnt={4} selectedCnt={4} />
+                  <GrabDateItem
+                    isSelected={selected === 1}
+                    date={'13:00'}
+                    userCnt={4}
+                    selectedCnt={4}
+                    onAction={() => {
+                      setSelected(1);
+                    }}
+                  />
                 </View>
               </View>
               {/* 일정 투표 B */}
@@ -63,9 +81,33 @@ export default function Screen() {
                 <Text className='text-[14px] font-semibold'>2024.10.16 (목)</Text>
                 {/* 막대기 List Box*/}
                 <View className='gab-1'>
-                  <GrabDateItem date={'10:00'} userCnt={4} selectedCnt={0} />
-                  <GrabDateItem date={'11:00'} userCnt={4} selectedCnt={0} />
-                  <GrabDateItem date={'12:00'} userCnt={4} selectedCnt={3} />
+                  <GrabDateItem
+                    isSelected={selected === 2}
+                    date={'10:00'}
+                    userCnt={4}
+                    selectedCnt={0}
+                    onAction={() => {
+                      setSelected(2);
+                    }}
+                  />
+                  <GrabDateItem
+                    isSelected={selected === 3}
+                    date={'11:00'}
+                    userCnt={4}
+                    selectedCnt={0}
+                    onAction={() => {
+                      setSelected(3);
+                    }}
+                  />
+                  <GrabDateItem
+                    isSelected={selected === 4}
+                    date={'12:00'}
+                    userCnt={4}
+                    selectedCnt={3}
+                    onAction={() => {
+                      setSelected(4);
+                    }}
+                  />
                 </View>
               </View>
               {/* 일정 투표 C */}
@@ -73,12 +115,60 @@ export default function Screen() {
                 <Text className='text-[14px] font-semibold'>2024.10.17 (목)</Text>
                 {/* 막대기 List Box*/}
                 <View className='gab-1'>
-                  <GrabDateItem isSelected date={'14:00'} userCnt={4} selectedCnt={4} />
-                  <GrabDateItem date={'15:00'} userCnt={4} selectedCnt={0} />
-                  <GrabDateItem date={'16:00'} userCnt={4} selectedCnt={0} />
-                  <GrabDateItem date={'17:00'} userCnt={4} selectedCnt={4} />
-                  <GrabDateItem date={'18:00'} userCnt={4} selectedCnt={0} />
-                  <GrabDateItem date={'19:00'} userCnt={4} selectedCnt={3} />
+                  <GrabDateItem
+                    isSelected={selected === 5}
+                    date={'14:00'}
+                    userCnt={4}
+                    selectedCnt={4}
+                    onAction={() => {
+                      setSelected(5);
+                    }}
+                  />
+                  <GrabDateItem
+                    isSelected={selected === 6}
+                    date={'15:00'}
+                    userCnt={4}
+                    selectedCnt={0}
+                    onAction={() => {
+                      setSelected(6);
+                    }}
+                  />
+                  <GrabDateItem
+                    isSelected={selected === 7}
+                    date={'16:00'}
+                    userCnt={4}
+                    selectedCnt={0}
+                    onAction={() => {
+                      setSelected(7);
+                    }}
+                  />
+                  <GrabDateItem
+                    isSelected={selected === 8}
+                    date={'17:00'}
+                    userCnt={4}
+                    selectedCnt={4}
+                    onAction={() => {
+                      setSelected(8);
+                    }}
+                  />
+                  <GrabDateItem
+                    isSelected={selected === 9}
+                    date={'18:00'}
+                    userCnt={4}
+                    selectedCnt={0}
+                    onAction={() => {
+                      setSelected(9);
+                    }}
+                  />
+                  <GrabDateItem
+                    isSelected={selected === 10}
+                    date={'19:00'}
+                    userCnt={4}
+                    selectedCnt={3}
+                    onAction={() => {
+                      setSelected(10);
+                    }}
+                  />
                 </View>
               </View>
             </View>

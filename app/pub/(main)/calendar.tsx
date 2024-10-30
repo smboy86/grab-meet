@@ -17,7 +17,7 @@ export default function CalendarScreen() {
         <CalendarBox
           onDaySelect={(day, days) => {
             // 날짜 선택시 이벤트
-            console.log('111 selected day', day, days);
+            // console.log('111 selected day', day, days);
           }}
         />
         <View className='mt-4 flex flex-1'>

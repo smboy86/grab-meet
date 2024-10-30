@@ -75,22 +75,28 @@ export default function Login() {
       <Wrap type='default' full className='mt-6'>
         <View className='flex h-full justify-between'>
           <View className=''>
-            <Input value={email} onChangeText={setEmail} placeholder='이메일을 입력하세요' className='mb-3' />
+            <Input
+              value={email}
+              onChangeText={setEmail}
+              placeholder='이메일을 입력하세요'
+              className='mb-[12px]'
+            />
             <Input
               value={password}
               onChangeText={setPassword}
               placeholder='비밀번호를 입력하세요'
-              className='mb-3'
+              className='mb-[24px]'
             />
-            <View className='mt-6'>
-              <Button onPress={signInWithEmail} variant={'default'}>
-                <Text>로그인</Text>
+            <View>
+              <Button size={'base'} onPress={signInWithEmail} variant={'default'} className='h-[52px]'>
+                <Text className='font-semibold'>로그인</Text>
               </Button>
             </View>
           </View>
           <View className='btm pb-6'>
             <Button
-              className='mb-2 flex flex-row bg-[#F1F1F5]'
+              size={'base'}
+              className='mb-[8px] flex h-[52px] flex-row bg-[#F1F1F5]'
               onPress={() => {
                 alert('구글로 시작하기');
               }}>
@@ -98,7 +104,8 @@ export default function Login() {
               <Text className='text-[#505050]'>구글로 시작하기</Text>
             </Button>
             <Button
-              className='mb-2 flex flex-row bg-[#F1F1F5]'
+              className='mb-[8px] flex h-[52px] flex-row bg-[#F1F1F5]'
+              size={'base'}
               onPress={() => {
                 alert('카카오로 시작하기');
               }}>
@@ -106,12 +113,13 @@ export default function Login() {
               <Text className='text-[#505050]'>카카오로 시작하기</Text>
             </Button>
             <Button
-              className='flex flex-row bg-[#F1F1F5]'
+              className='flex h-[52px] flex-row bg-[#F1F1F5] text-[16px]'
+              size={'base'}
               onPress={() => {
                 alert('애플로 시작하기');
               }}>
               <ImageBox source={images.icon_apple} className='mr-1 h-[20px] w-[20px]' />
-              <Text className='text-[#505050]'>애플로 시작하기</Text>
+              <Text className='text-lg text-[#505050]'>애플로 시작하기</Text>
             </Button>
           </View>
         </View>
