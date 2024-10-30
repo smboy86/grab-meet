@@ -31,6 +31,7 @@ export default function Screen() {
               <Text>카카오로 공유하기</Text>
             </Button>
           </View>
+          <View className='mb-6 w-full border-t border-[#E5E5EC]' />
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
             <Text className='text-[15px] font-semibold text-[#111111]'>24회 동창회 모임</Text>
