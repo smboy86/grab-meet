@@ -9,6 +9,7 @@ const icon_my = require('~/assets/icon/icon_my.png');
 const icon_arrow_left = require('~/assets/icon/icon_arrow_left.png');
 const icon_arrow_right = require('~/assets/icon/icon_arrow_right.png');
 const icon_copy = require('~/assets/icon/icon_copy.png');
+const icon_remove = require('~/assets/icon/icon_remove.png');
 
 export default {
   icon_grab,
@@ -22,4 +23,5 @@ export default {
   icon_arrow_left,
   icon_arrow_right,
   icon_copy,
+  icon_remove,
 };

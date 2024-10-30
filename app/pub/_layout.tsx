@@ -44,6 +44,12 @@ export default function Layout() {
           title: '일정 확정 공유',
         }}
       />
+      <Stack.Screen
+        name='detail/scheduleCreate'
+        options={{
+          title: '일정 생성',
+        }}
+      />
     </Stack>
   );
 }

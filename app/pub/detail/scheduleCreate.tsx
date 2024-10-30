@@ -1,13 +1,13 @@
 import { FlashList } from '@shopify/flash-list';
+import { useNavigation } from 'expo-router';
 import * as React from 'react';
-import { ScrollView, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
-import { Header } from '~/components/layout/header';
-import { DateItem } from '~/components/screen/dateItem';
 import { Button } from '~/components/ui/button';
 import { CalendarBox } from '~/components/ui/calendar';
+import { ImageBox } from '~/components/ui/imageBox';
 import { Input } from '~/components/ui/input';
 import {
   Select,
@@ -19,10 +19,55 @@ import {
   SelectValue,
 } from '~/components/ui/select';
 import { Text } from '~/components/ui/text';
+import images from '~/constants/images';
+import { cn } from '~/lib/utils';
+
+const { width } = Dimensions.get('window'); // Get screen width
 
 export default function Screen() {
+  const navigation = useNavigation();
   const [value, setValue] = React.useState({ title: '', password: '' });
-  const [selectDate, setSelectedDate] = React.useState('');
+  const [selectDay, setSelectedDay] = React.useState<string[]>([]);
+  const [selectTime, setSelectedTime] = React.useState<string[]>([]);
+  interface DataObject {
+    time: string;
+    isSelected: boolean;
+  }
+  interface DataItem {
+    [key: string]: DataObject[];
+  }
+
+  const tempData: DataItem[] = [
+    {
+      '2024.10.17(목)': [
+        { time: '09:00', isSelected: false },
+        { time: '10:00', isSelected: true },
+        { time: '14:00', isSelected: false },
+        { time: '16:00', isSelected: true },
+        { time: '17:00', isSelected: false },
+      ],
+    },
+    {
+      '2024.10.18(금)': [
+        { time: '09:00', isSelected: false },
+        { time: '10:00', isSelected: false },
+        { time: '11:00', isSelected: false },
+        { time: '12:00', isSelected: false },
+        { time: '13:00', isSelected: false },
+        { time: '14:00', isSelected: false },
+        { time: '15:00', isSelected: false },
+        { time: '16:00', isSelected: false },
+        { time: '17:00', isSelected: false },
+      ],
+    },
+    {
+      '2024.10.19(토)': [
+        { time: '09:00', isSelected: false },
+        { time: '10:00', isSelected: false },
+      ],
+    },
+  ];
+
   const insets = useSafeAreaInsets();
   const contentInsets = {
     top: insets.top,
@@ -30,6 +75,23 @@ export default function Screen() {
     left: 12,
     right: 12,
   };
+
+  // 스크린 안에서 헤더 버튼 생성
+  React.useEffect(() => {
+    // TODO - 완료 버튼 디자인
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          variant={'small'}
+          size={'small'}
+          onPress={() => alert('일정 확정')}
+          disabled={false}
+          className='bg-brand text-white'>
+          <Text className='text-white'>완료</Text>
+        </Button>
+      ),
+    });
+  }, [navigation, value]);
 
   return (
     <Container gray className='items-center justify-center'>
@@ -84,25 +146,79 @@ export default function Screen() {
             <View>
               <CalendarBox
                 input
+                initMarkedDates={{
+                  '2024-10-17': { selected: true },
+                  '2024-10-19': { selected: true },
+                  '2024-10-24': { selected: true },
+                  '2024-10-27': { selected: true },
+                }}
                 onDaySelect={(day, days) => {
+                  // TODO - 날짜 가공
                   // 날짜 선택시 이벤트
-                  console.log('111 selected day', day);
-                  console.log('2222 selected day', days);
+                  // console.log('111 selected day', day);
+                  // console.log('2222 selected day', days);
+                  setSelectedDay(days);
                 }}
               />
             </View>
           </View>
-
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>시간 선택</Text>
             <FlashList
-              data={[...Array(11)].fill('')}
-              renderItem={({ item }) => (
-                <DateItem status={'a'} onPress={() => alert('일정 상세보기 :::  ' + JSON.stringify(item))} />
-              )}
+              data={tempData}
+              renderItem={({ item }) => {
+                const keyDate = Object.keys(item)[0];
+                const valueTime = item[keyDate];
+
+                return (
+                  <View key={keyDate} className='bg-white px-5 py-3'>
+                    <View className='mb-2.5 flex w-full flex-row justify-between'>
+                      <Text className='mb-2 text-sm font-semibold text-[#000000]'>{keyDate}</Text>
+                      <Pressable
+                        onPress={() => {
+                          alert('remove');
+                        }}>
+                        <ImageBox source={images.icon_remove} className='h-5 w-5' />
+                      </Pressable>
+                    </View>
+                    <View className='justify-starts flex flex-row flex-wrap'>
+                      {valueTime.map((subItem, index) => {
+                        return (
+                          <Pressable
+                            onPress={() => {
+                              console.log('ddddd ');
+                              setSelectedTime((prev) => {
+                                console.log('ffff  ', { ...prev, [subItem.time]: !subItem.isSelected });
+                                return { ...prev, [subItem.time]: !subItem.isSelected };
+                              });
+                            }}
+                            key={index}
+                            className={cn(
+                              'h-[38px] items-center justify-center rounded-md border border-[#E5E5EC]',
+                              subItem.isSelected ? 'bg-brand' : 'bg-[#F1F1F5]',
+                            )}
+                            style={{
+                              width: width / 4 - 40, // margin 값 기준으로 40만큼 깍아서 좌우 정렬 맞춤 4열
+                              margin: 8,
+                            }}>
+                            <Text className={cn(subItem.isSelected ? 'text-white' : 'text-[#999999]')}>
+                              {subItem.time}
+                            </Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                  </View>
+                );
+              }}
               ListFooterComponent={<View className='py-10' />}
               estimatedItemSize={40}
               showsVerticalScrollIndicator={false}
+              ListEmptyComponent={
+                <View>
+                  <Text className='text-[#999999]'>선택한 일정이 없습니다.</Text>
+                </View>
+              }
             />
           </View>
         </ScrollView>

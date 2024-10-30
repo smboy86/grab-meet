@@ -2,10 +2,11 @@
 
 # 남은 할 일
 
-- [ ] - 디폴트 이미지 &check;
-- [ ] - 달력 선택시 값 제어
-- [ ] - reactQuery + supabase :: https://supabase.com/blog/react-query-nextjs-app-router-cache-helpers
-    - https://www.youtube.com/watch?v=QTZTUrAbjeo&t=49s
+- [ ] 디폴트 이미지 &check;
+- [ ] 달력 선택시 값 제어
+- [ ] reactQuery + supabase :: https://supabase.com/blog/react-query-nextjs-app-router-cache-helpers
+  - https://www.youtube.com/watch?v=QTZTUrAbjeo&t=49s
+- [ ] 헤더 하단 마진
 
 # 프로젝트 구성 해야할 것
 
