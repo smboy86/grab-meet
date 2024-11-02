@@ -44,7 +44,7 @@ const TabBar = ({ state, descriptors, navigation }: Props) => {
             isFocused={isFocused}
             routeName={route.name}
             color={isFocused ? primaryColor : greyColor}
-            label={label}
+            label={label as string}
           />
         );
       })}

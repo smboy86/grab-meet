@@ -1,10 +1,10 @@
 import { Stack } from 'expo-router';
-import { useSession } from '~/components/Providers';
+import { useAuth } from '~/providers/AuthProvider';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 
 export default function Layout() {
-  const { isLoading } = useSession();
+  const { isLoading } = useAuth();
 
   if (isLoading) {
     return <Text>Loading...</Text>;

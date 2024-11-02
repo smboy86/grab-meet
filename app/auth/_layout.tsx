@@ -1,18 +1,13 @@
-import { Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { Redirect, Stack } from 'expo-router';
 import { isEmpty } from 'lodash';
-import { useSession } from '~/components/Providers';
+import { useAuth } from '~/providers/AuthProvider';
 
 export default function AuthLayout() {
-  const { isLoading, session } = useSession();
+  const { isLoading } = useAuth();
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (isEmpty(session)) {
-    // return <Redirect href={'/auth/login'} />;
-    return <Redirect href={'/'} />;
+    return <ActivityIndicator size='large' color='blue' />;
   }
 
   return (

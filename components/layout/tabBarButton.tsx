@@ -7,10 +7,15 @@ import { Text } from '../ui/text';
 // import Entypo from '@expo/vector-icons/Entypo';
 // import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { ImageBox } from '../ui/imageBox';
-import images from '~/constants/images';
 
-const TabBarButton = (props) => {
+type Props = {
+  onPress: () => void;
+  isFocused: boolean;
+  routeName: string;
+  color: string;
+  label: string;
+};
+const TabBarButton = (props: Props) => {
   const { isFocused, label, routeName, color } = props;
 
   const scale = useSharedValue(0);
@@ -60,6 +65,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 4,
+    width: 40,
+    height: 40,
+    // borderWidth: 1, // 터치 영역 확인용
   },
 });
 

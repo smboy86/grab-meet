@@ -3,8 +3,16 @@ import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
 import TabBar from '~/components/layout/tabBar';
+import { useAuth } from '~/providers/AuthProvider';
+import { ActivityIndicator } from 'react-native';
 
 export default function TabLayout() {
+  const { isLoading } = useAuth();
+
+  if (isLoading) {
+    return <ActivityIndicator size='large' color='blue' />;
+  }
+
   return (
     <Tabs
       tabBar={(props) => <TabBar {...props} />}
@@ -15,8 +23,6 @@ export default function TabLayout() {
           title: 'Home',
           tabBarIcon: ({ color }) => <Entypo size={28} name='calendar' color={color} />,
         }}
-        // redirect={!isSignedIn}
-        redirect={false}
       />
       <Tabs.Screen
         name='home'
@@ -24,7 +30,6 @@ export default function TabLayout() {
           title: 'Settings',
           tabBarIcon: ({ color }) => <FontAwesome size={28} name='home' color={color} />,
         }}
-        redirect={false}
       />
       <Tabs.Screen
         name='my'
@@ -32,7 +37,6 @@ export default function TabLayout() {
           title: 'Settings',
           tabBarIcon: ({ color }) => <Ionicons size={28} name='person-outline' color={color} />,
         }}
-        redirect={false}
       />
     </Tabs>
   );

@@ -1,9 +1,9 @@
 import { Text } from 'react-native';
 import { Stack } from 'expo-router';
-import { useSession } from '~/components/Providers';
+import { useAuth } from '~/providers/AuthProvider';
 
 export default function Layout() {
-  const { isLoading, session } = useSession();
+  const { isLoading, session } = useAuth();
 
   if (isLoading) {
     return <Text>Loading...</Text>;
