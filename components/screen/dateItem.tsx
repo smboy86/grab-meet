@@ -4,7 +4,7 @@ import { cn } from '~/lib/utils';
 import { PressableRef, ViewRef } from '@rn-primitives/types';
 import { Text } from '../ui/text';
 
-export interface DateItemProps {
+interface DateItemProps {
   ref?: PressableRef;
   title: string;
   status: string; // 투표중, 확정, 종료
@@ -48,4 +48,3 @@ const DateItem = React.forwardRef<React.ElementRef<typeof Pressable>, DateItemPr
 DateItem.displayName = 'DateItem';
 
 export { DateItem };
-export type { DateItemProps };
