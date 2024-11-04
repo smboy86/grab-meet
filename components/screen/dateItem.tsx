@@ -4,15 +4,17 @@ import { cn } from '~/lib/utils';
 import { PressableRef, ViewRef } from '@rn-primitives/types';
 import { Text } from '../ui/text';
 
-interface DateItemProps {
+export interface DateItemProps {
   ref?: PressableRef;
-  status?: 'a' | 'b' | 'c'; // 투표중, 확정, 종료
+  title: string;
+  status: string; // 투표중, 확정, 종료
+  member_cnt: number;
+  confirm_date: string | null; // 확정일 2024. 10. 11
   onPress: (item: string) => void;
-  // TODO create rightBtn
 }
 
 const DateItem = React.forwardRef<React.ElementRef<typeof Pressable>, DateItemProps>(
-  ({ status = 'a', onPress }, ref) => {
+  ({ title, status = 'a', member_cnt = 0, confirm_date, onPress }, ref) => {
     return (
       <Pressable
         onPress={() => onPress(status)}
@@ -22,25 +24,22 @@ const DateItem = React.forwardRef<React.ElementRef<typeof Pressable>, DateItemPr
             className='text-ellipsis text-lg font-semibold text-[#111111]'
             ellipsizeMode='tail'
             numberOfLines={1}>
-            24회 동창회 모임222222222222222222222222 33333333333
+            {title}
           </Text>
-          <Text className='text-sm text-[#767676]'>____.__.__ 참여인원 5명</Text>
+          <Text className='text-sm text-[#767676]'>
+            {confirm_date ? confirm_date : '____.__.__'} 참여인원 {member_cnt}명
+          </Text>
         </View>
         <View className='flex w-2/12'>
-          {status === 'a' /* style 1/3 */ ? (
-            <View className='h-[50px] w-[50px] items-center justify-center rounded-full bg-[#F59917]'>
-              <Text className='text-[13px]'>투표중</Text>
-            </View>
-          ) : status === 'b' /* style 2/3 */ ? (
-            <View className='h-[50px] w-[50px] items-center justify-center rounded-full bg-[#FCEA60] text-[13px]'>
-              <Text className='text-[13px]'>확정</Text>
-            </View>
-          ) : (
-            /* style 3/3 */
-            <View className='h-[50px] w-[50px] items-center justify-center rounded-full bg-[#F1F1F5] text-[13px]'>
-              <Text className='text-[13px] text-[#767676]'>종료</Text>
-            </View>
-          )}
+          <View
+            className={cn(
+              'h-[50px] w-[50px] items-center justify-center rounded-full',
+              status === '투표중' && 'bg-[#F59917]',
+              status === '확정' && 'bg-[#FCEA60]',
+              status === '종료' && 'bg-[#F1F1F5]',
+            )}>
+            <Text className={cn('text-[13px]', status === '종료' && 'text-[#767676]')}>{status}</Text>
+          </View>
         </View>
       </Pressable>
     );

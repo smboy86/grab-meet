@@ -32,7 +32,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(JSON.stringify(session));
+      // setSession(JSON.stringify(session));
+      setSession('{"aaa":"dddd"}');
     });
 
     const {

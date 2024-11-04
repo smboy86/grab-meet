@@ -8,12 +8,13 @@ import { FlashList } from '@shopify/flash-list';
 import { DateItem } from '~/components/screen/dateItem';
 import { useAuth } from '~/providers/AuthProvider';
 import { useRouter } from 'expo-router';
-import { supabase } from '~/utils/supabase';
+import useGetHomeList from '~/api/useGetHomeList';
 
 export default function Home() {
   const [isEmpty, setIsEmpty] = React.useState(false);
   const { isLogin } = useAuth();
   const router = useRouter();
+  const { data, isLoading } = useGetHomeList();
 
   const handleAddSchedule = () => {
     if (!isLogin) {
@@ -25,13 +26,9 @@ export default function Home() {
     alert('일정 추가');
   };
 
-  React.useEffect(() => {
-    async function ttt() {
-      const { data, error } = await supabase.from('schedule').select('');
-    }
-
-    ttt();
-  }, []);
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <Container className='items-center justify-center'>
@@ -44,9 +41,15 @@ export default function Home() {
           </View>
         ) : (
           <FlashList
-            data={[...Array(11)].fill('')}
+            data={data}
             renderItem={({ item }) => (
-              <DateItem status={'a'} onPress={() => alert('일정 상세보기 :::  ' + JSON.stringify(item))} />
+              <DateItem
+                title={item.title || ''}
+                member_cnt={item.member_cnt || 0}
+                confirm_date={item.confirm_date || null}
+                status={item.status || ''}
+                onPress={() => alert('일정 상세보기 :::  ' + JSON.stringify(item))}
+              />
             )}
             ListFooterComponent={<View className='py-5' />}
             estimatedItemSize={40}
