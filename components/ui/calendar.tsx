@@ -4,9 +4,7 @@ import { cn } from '~/lib/utils';
 import { ViewRef } from '@rn-primitives/types';
 import images from '~/constants/images';
 import { ImageBox } from '../ui/imageBox';
-import { Text } from '../ui/text';
-import { Button } from '../ui/button';
-import { Calendar, DateData, LocaleConfig, CalendarProps } from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { Theme } from 'react-native-calendars/src/types';
 
 interface CalendarBoxProps extends ViewProps {
@@ -102,7 +100,6 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(
             handleToggleDate(day.dateString);
           }}
           markedDates={updatedMarkedDates}
-          // 이하 스타일관련
           renderArrow={(direction) => {
             return direction === 'left' ? (
               <ImageBox className={'h-5 w-5'} source={images.icon_arrow_left} />
@@ -110,44 +107,41 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(
               <ImageBox className={'h-5 w-5'} source={images.icon_arrow_right} />
             );
           }}
-          // 여기서 headerStyle은 상단과 날짜 요일을 같이 잡는듯 하다
-          // headerStyle={{
-          //   flexDirection: 'column',
-          //   justifyContent: 'center',
-          //   alignItems: 'center',
-          // }}
+          // 이하 스타일관련
+          monthFormat='MM월'
+          style={{
+            // backgroundColor: '#000', // 날짜 제외 부분 배경색 거의 의미 없음
+            paddingLeft: 24,
+            paddingRight: 24,
+            paddingTop: 20,
+            paddingBottom: 30,
+          }}
           theme={
             {
               calendarBackground: '#ffffff', // 캘린더 배경색
               selectedDayBackgroundColor: input ? '#F59917' : '#FCEA60', // 선택한 날짜 동그란 배경색
               selectedDayTextColor: '#000', // 선택한 날짜 텍스트 색상
-              todayTextColor: '#d9d9d9', // 오늘날짜 텍스트 색상
-              //   // 파악중
-              //   // backgroundColor: '#000', // 변화 없음
-              //   // textSectionTitleColor: '#999999',
-              //   // 백업
-              //   // arrowStyle: {
-              //   //   padding: 10,
-              //   // },
+              todayTextColor: '#111111', // 오늘날짜 텍스트 색상
+              dayTextColor: '#999999', // 해당 월 날짜 색상
+              textDayHeaderFontSize: 13, // dayName 폰트 사이즈
+              // ## 이하 스타일 강제 정의
               'stylesheet.calendar.header': {
                 header: {
                   flexDirection: 'row',
                   justifyContent: 'center',
-                  // paddingLeft: 50,
-                  // paddingRight: 100,
                   marginTop: 6,
                   alignItems: 'center',
                 },
+                dayTextAtIndex0: { color: 'red' }, // 일요일 dayName 색상 빨간색
+                dayTextAtIndex1: { color: '#111111' }, // d dayName 색상 빨간색
+                dayTextAtIndex2: { color: '#111111' }, // 일요일 dayName 색상 빨간색
+                dayTextAtIndex3: { color: '#111111' }, // 일요일 dayName 색상 빨간색
+                dayTextAtIndex4: { color: '#111111' }, // 일요일 dayName 색상 빨간색
+                dayTextAtIndex5: { color: '#111111' }, // 일요일 dayName 색상 빨간색
+                dayTextAtIndex6: { color: '#111111' }, // 일요일 dayName 색상 빨간색
               },
             } as Theme
           }
-          // renderHeader={(date: string) => {
-          //   return (
-          //     <View>
-          //       <Text>222</Text>
-          //     </View>
-          //   );
-          // }}
         />
       </View>
     );

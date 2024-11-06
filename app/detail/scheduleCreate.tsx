@@ -97,7 +97,7 @@ export default function Screen() {
         <Wrap type='default' scroll className='mt-6'>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View className='mb-6'>
-              <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
+              <Text className='mb-2 text-[14px] text-[#111111]'>일정 제목</Text>
               <Input
                 value={value.title}
                 onChangeText={(text) => setValue((prev) => ({ ...prev, title: text }))}
@@ -106,7 +106,7 @@ export default function Screen() {
               />
             </View>
             <View className='mb-6'>
-              <Text className='mb-2 text-sm text-[#111111]'>인원 선택</Text>
+              <Text className='mb-2 text-[14px] text-[#111111]'>인원 선택</Text>
               <Select
                 onValueChange={(option) => {
                   // ex)  {"label": "2명", "value": "2"}
@@ -141,16 +141,11 @@ export default function Screen() {
               </Select>
             </View>
             <View className='mb-6'>
-              <Text className='mb-2 text-sm text-[#111111]'>날짜 선택</Text>
+              <Text className='mb-2 text-[14px] text-[#111111]'>날짜 선택</Text>
               <View>
                 <CalendarBox
                   input
-                  initMarkedDates={{
-                    '2024-10-17': { selected: true },
-                    '2024-10-19': { selected: true },
-                    '2024-10-24': { selected: true },
-                    '2024-10-27': { selected: true },
-                  }}
+                  initMarkedDates={{}}
                   onDaySelect={(day, days) => {
                     // TODO - 날짜 가공
                     // 날짜 선택시 이벤트
@@ -162,7 +157,7 @@ export default function Screen() {
               </View>
             </View>
             <View className='mb-6'>
-              <Text className='mb-2 text-sm text-[#111111]'>시간 선택</Text>
+              <Text className='text-[14px]text-[#111111] mb-2'>시간 선택</Text>
               <FlashList
                 data={tempData}
                 renderItem={({ item }) => {
