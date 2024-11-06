@@ -88,7 +88,7 @@ export default function Screen() {
               onPress={() => alert('일정 확정')}
               disabled={true}
               className='bg-brand'>
-              <Text>완료22</Text>
+              <Text>완료</Text>
             </Button>
           ),
         }}

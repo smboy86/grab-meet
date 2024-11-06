@@ -11,12 +11,11 @@ const Text = React.forwardRef<TextRef, SlottableTextProps>(
     const textClass = React.useContext(TextClassContext);
     const Component = asChild ? Slot.Text : RNText;
 
-    console.log('dddd  ', textClass);
     return (
       <Component
         className={cn(
           'text-base text-foreground web:select-text',
-          props.disabled && 'text-[#999999]',
+          props.disabled && 'native:text-[#999999]',
           textClass,
           className,
         )}

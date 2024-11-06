@@ -91,8 +91,6 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(
           );
         }
 
-        console.log('dddd  ', newMarkedDates);
-
         return newMarkedDates; // Return the updated object
       });
     };
