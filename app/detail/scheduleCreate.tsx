@@ -25,13 +25,12 @@ import { cn } from '~/lib/utils';
 const { width } = Dimensions.get('window'); // Get screen width
 
 export default function Screen() {
-  const navigation = useNavigation();
   const [value, setValue] = React.useState({ title: '', password: '' });
   const [selectDay, setSelectedDay] = React.useState<string[]>([]);
   const [selectTime, setSelectedTime] = React.useState<string[]>([]);
   interface DataObject {
     time: string;
-    isSelected: boolean;
+    isSelected?: boolean;
   }
   interface DataItem {
     [key: string]: DataObject[];
@@ -97,7 +96,7 @@ export default function Screen() {
         <Wrap type='default' scroll className='mt-6'>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View className='mb-6'>
-              <Text className='mb-2 text-[14px] text-[#111111]'>일정 제목</Text>
+              <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
               <Input
                 value={value.title}
                 onChangeText={(text) => setValue((prev) => ({ ...prev, title: text }))}
@@ -106,7 +105,7 @@ export default function Screen() {
               />
             </View>
             <View className='mb-6'>
-              <Text className='mb-2 text-[14px] text-[#111111]'>인원 선택</Text>
+              <Text className='mb-2 text-sm text-[#111111]'>인원 선택</Text>
               <Select
                 onValueChange={(option) => {
                   // ex)  {"label": "2명", "value": "2"}
@@ -141,10 +140,10 @@ export default function Screen() {
               </Select>
             </View>
             <View className='mb-6'>
-              <Text className='mb-2 text-[14px] text-[#111111]'>날짜 선택</Text>
+              <Text className='mb-2 text-sm text-[#111111]'>날짜 선택</Text>
               <View>
                 <CalendarBox
-                  input
+                  editable
                   initMarkedDates={{}}
                   onDaySelect={(day, days) => {
                     // TODO - 날짜 가공
@@ -157,7 +156,7 @@ export default function Screen() {
               </View>
             </View>
             <View className='mb-6'>
-              <Text className='text-[14px]text-[#111111] mb-2'>시간 선택</Text>
+              <Text className='text-smtext-[#111111] mb-2'>시간 선택</Text>
               <FlashList
                 data={tempData}
                 renderItem={({ item }) => {

@@ -7,6 +7,9 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontSize: {
+        sm: '14px', // 12.5px 정도로 측정되는 문제 확인중
+      },
       colors: {
         brand: 'var(--brand)',
         gray03: 'var(--gray03)',
