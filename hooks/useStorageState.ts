@@ -11,6 +11,21 @@ function useAsyncState<T>(initialValue: [boolean, T | null] = [true, null]): Use
   ) as UseStateHook<T>;
 }
 
+// 메타 정보가 너무 길어서 특정 정보 삭제 후 저장
+// 에러 내용 WARN  Value being stored in SecureStore is larger than 2048 bytes and it may not be stored successfully. In a future SDK version, this call may throw an error.
+// 삭제 정보 .user.identities, .user.user_metadata
+function removeUserMetaData(itemValue: string) {
+  let parsedItemValue = JSON.parse(itemValue);
+
+  // Remove properties from the object
+  if (parsedItemValue) {
+    delete parsedItemValue.user?.identities;
+    delete parsedItemValue.user?.user_metadata;
+  }
+  // Convert the modified object back to a JSON string
+  return JSON.stringify(parsedItemValue);
+}
+
 export async function setStorageItemAsync(key: string, value: string | null) {
   if (Platform.OS === 'web') {
     try {
@@ -26,7 +41,8 @@ export async function setStorageItemAsync(key: string, value: string | null) {
     if (value == null) {
       await SecureStore.deleteItemAsync(key);
     } else {
-      await SecureStore.setItemAsync(key, value);
+      // await SecureStore.setItemAsync(key, value);
+      await SecureStore.setItemAsync(key, removeUserMetaData(value));
     }
   }
 }
@@ -47,7 +63,6 @@ export function useStorageState(key: string): UseStateHook<string> {
       }
     } else {
       SecureStore.getItemAsync(key).then((value) => {
-        console.log('value :: ', key, value);
         setState(value);
       });
     }

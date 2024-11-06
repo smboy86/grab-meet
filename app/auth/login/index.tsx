@@ -12,7 +12,7 @@ import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 import { ImageBox } from '~/components/ui/imageBox';
 import images from '~/constants/images';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 
 interface User {
   id: string;
@@ -42,7 +42,7 @@ export default function Login() {
       console.error(error);
       alert(error);
     } else {
-      alert(`로그인 성공 :: ` + JSON.stringify(data.user, null, 2));
+      // alert(`로그인 성공 :: ` + JSON.stringify(data.user, null, 2));
       setUser(data.user); // user 객체만 추출하여 setUser에 전달
       // TODO 성공 후 메인화면으로 전환
       router.replace('/(main)/home');
@@ -73,6 +73,7 @@ export default function Login() {
 
   return (
     <Container className='items-center justify-center'>
+      <Stack.Screen options={{ title: '화면에서 타이틀 재정의', headerBackTitleVisible: false }} redirect />
       <Header type='default' />
       <Wrap type='default' full className='mt-6'>
         <View className='flex h-full justify-between'>

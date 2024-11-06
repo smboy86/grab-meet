@@ -1,4 +1,4 @@
-import { Link, Routes, useRouter } from 'expo-router';
+import { Link, Routes, Stack, useRouter } from 'expo-router';
 import * as React from 'react';
 import { useAuth } from '~/providers/AuthProvider';
 import { Wrap } from '~/components/layout/\bwrap';
@@ -44,6 +44,7 @@ export default function My() {
 
   return (
     <Container className='items-center justify-center'>
+      <Stack.Screen options={{ title: 'Sign up' }} />
       <Header type='default' onAction={() => alert('일정 추가')} actionBtnText='일정 추가' />
       <Wrap type='default' full className='mt-6'>
         <Link
@@ -70,13 +71,23 @@ export default function My() {
           }}
           asChild>
           <Button variant='outline' className='mb-2 border border-brand'>
-            <Text>앱정보</Text>
+            <Text>스토어 평점주기</Text>
           </Button>
         </Link>
-        {isLogin && (
+        {isLogin ? (
           <Button variant='outline' className='mb-2 border-[#E5E5EC] bg-[#E5E5EC]' onPress={handleLogout}>
             <Text className='text-[#505050]'>로그아웃</Text>
           </Button>
+        ) : (
+          <Link
+            href={{
+              pathname: '/auth/login',
+            }}
+            asChild>
+            <Button variant='outline' className='mb-2 border border-brand'>
+              <Text>로그인 하기</Text>
+            </Button>
+          </Link>
         )}
       </Wrap>
     </Container>

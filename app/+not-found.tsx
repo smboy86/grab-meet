@@ -5,12 +5,12 @@ import { Text } from '~/components/ui/text';
 export default function NotFoundScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
+      <Stack.Screen options={{ title: 'Not Page', headerBackTitleVisible: false }} />
       <View>
-        <Text>This screen doesn't exist.</Text>
+        <Text>해당 화면이 존재하지 않습니다!</Text>
 
         <Link href='/'>
-          <Text>Go to home screen!</Text>
+          <Text>메인으로 돌아갑니다.</Text>
         </Link>
       </View>
     </>

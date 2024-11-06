@@ -1,12 +1,8 @@
 import { Pressable, StyleSheet } from 'react-native';
 import React, { useEffect } from 'react';
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import { Text } from '../ui/text';
-
-// import FontAwesome from '@expo/vector-icons/FontAwesome';
-// import Entypo from '@expo/vector-icons/Entypo';
-// import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import images from '~/constants/images';
+import { ImageBox } from '../ui/imageBox';
 
 type Props = {
   onPress: () => void;
@@ -27,10 +23,9 @@ const TabBarButton = (props: Props) => {
   }, [scale, isFocused]);
 
   const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [1, 1.1]);
+    const scaleValue = interpolate(scale.value, [0, 1], [1, 1]);
 
     return {
-      // styles
       transform: [{ scale: scaleValue }],
     };
   });
@@ -39,20 +34,21 @@ const TabBarButton = (props: Props) => {
     <Pressable {...props} style={styles.container}>
       <Animated.View style={[animatedIconStyle]}>
         {/* // TODO array */}
-        {/* {icons[routeName]({
-          color,
-        })} */}
         {routeName === 'calendar' ? (
-          // <ImageBox className='w-[28px]' source={images.main_cal} />
-          // <Entypo size={28} name='calendar' color={color} />
-          <MaterialCommunityIcons name='calendar-blank-outline' size={24} color={color} />
+          <ImageBox
+            source={isFocused ? images.icon_btm_cal_on : images.icon_btm_cal}
+            className='h-[28px] w-[28px]'
+          />
         ) : routeName === 'home' ? (
-          // <ImageBox className='w-[28px]' source={images.icon_home} />
-          // <FontAwesome size={28} name='home' color={color} />
-          <MaterialCommunityIcons name='home-minus' size={28} color={color} />
+          <ImageBox
+            source={isFocused ? images.icon_btm_home_on : images.icon_btm_home}
+            className='h-[28px] w-[28px]'
+          />
         ) : routeName === 'my' ? (
-          // <ImageBox className='w-[28px]' source={images.icon_my} />
-          <MaterialCommunityIcons name='account-outline' size={28} color={color} />
+          <ImageBox
+            source={isFocused ? images.icon_btm_my_on : images.icon_btm_my}
+            className='h-[28px] w-[28px]'
+          />
         ) : null}
       </Animated.View>
     </Pressable>

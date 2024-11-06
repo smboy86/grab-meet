@@ -10,6 +10,12 @@ const icon_arrow_left = require('~/assets/icon/icon_arrow_left.png');
 const icon_arrow_right = require('~/assets/icon/icon_arrow_right.png');
 const icon_copy = require('~/assets/icon/icon_copy.png');
 const icon_remove = require('~/assets/icon/icon_remove.png');
+const icon_btm_cal_on = require('~/assets/icon/icon_btm_cal_on.png');
+const icon_btm_cal = require('~/assets/icon/icon_btm_cal.png');
+const icon_btm_my_on = require('~/assets/icon/icon_btm_my_on.png');
+const icon_btm_my = require('~/assets/icon/icon_btm_my.png');
+const icon_btm_home = require('~/assets/icon/icon_btm_home.png');
+const icon_btm_home_on = require('~/assets/icon/icon_btm_home_on.png');
 
 export default {
   icon_grab,
@@ -24,4 +30,10 @@ export default {
   icon_arrow_right,
   icon_copy,
   icon_remove,
+  icon_btm_cal_on,
+  icon_btm_cal,
+  icon_btm_my_on,
+  icon_btm_my,
+  icon_btm_home,
+  icon_btm_home_on,
 };

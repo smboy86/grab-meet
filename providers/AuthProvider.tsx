@@ -29,11 +29,12 @@ export function useAuth() {
 export function AuthProvider({ children }: PropsWithChildren) {
   // TODO - 왜 isLoading 가 ture 였다가 false로 되는지 이해 필요
   const [[isLoading, session], setSession] = useStorageState('session');
+  const [isLogin, setIsLogin] = useState(false); // 로그인 제어용
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      // setSession(JSON.stringify(session));
-      setSession('{"aaa":"dddd"}');
+      setIsLogin(!isEmpty(session));
+      setSession(JSON.stringify(session));
     });
 
     const {
@@ -44,6 +45,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       } else if (_event === 'SIGNED_OUT') {
       }
 
+      setIsLogin(!isEmpty(session));
       setSession(JSON.stringify(session));
     });
 
@@ -55,7 +57,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
       value={{
         isLoading,
         session: session ? JSON.parse(session) : null,
-        isLogin: isEmpty(session), // useStorage string 'null'로 형변횐 되서 들어온다.. ㅅ
+        isLogin, // useStorage string 'null'로 형변횐 되서 들어온다.. ㅅ
+        // isLogin: isEmpty(session), // useStorage string 'null'로 형변횐 되서 들어온다.. ㅅ
+        // isLogin: true, // useStorage string 'null'로 형변횐 되서 들어온다.. ㅅ
       }}>
       {children}
     </AuthContext.Provider>

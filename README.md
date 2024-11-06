@@ -7,6 +7,7 @@
 - [ ] reactQuery + supabase :: https://supabase.com/blog/react-query-nextjs-app-router-cache-helpers
   - https://www.youtube.com/watch?v=QTZTUrAbjeo&t=49s
 - [ ] 헤더 하단 마진
+- [ ] 이미지 초기 로딩 네모난 산 모양
 
 # 프로젝트 구성 해야할 것
 
@@ -16,6 +17,8 @@
 - [ ] 웹에서 접근 가능한 페이지 구현
 - [ ] 슈퍼베이스 + react query
 - [ ] 리스트 줌 투 리프레쉬
+- [ ] 웹 배포 및 셀프 호스팅
+- [ ] 앱아이콘 & 스플래시 이미지
 
 # 미팅을 잡자
 

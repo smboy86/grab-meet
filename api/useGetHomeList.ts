@@ -24,6 +24,8 @@ const useGetHomeList = () => {
 
       return data;
     },
+    refetchOnWindowFocus: true,
+    retry: 1,
   });
 };
 
