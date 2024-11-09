@@ -10,7 +10,7 @@ type ReturnValue = {
   confirm_date: string | null; // 확정일 2024. 10. 11
 };
 
-const useGetHomeList = () => {
+const useGetScheduleInfo = () => {
   return useQuery<Array<ReturnValue>>({
     queryKey: ['home'],
     queryFn: async () => {
@@ -30,4 +30,4 @@ const useGetHomeList = () => {
   });
 };
 
-export default useGetHomeList;
+export default useGetScheduleInfo;

@@ -10,7 +10,9 @@ import { Theme } from 'react-native-calendars/src/types';
 interface CalendarBoxProps extends ViewProps {
   editable?: boolean; // 입력모드
   initMarkedDates?: Record<string, { selected: boolean }>; // 초기 선택된 날짜
-  onDaySelect?: (selectDay: string, selectedDays: string[]) => void; // 날짜 선택시 이벤트
+  markedDates?: Record<string, { selected: boolean }>; // 수정된 선택된 날짜
+  // onDaySelect?: (selectDay: string, selectedDays: string[]) => void; // 날짜 선택시 이벤트
+  onDaySelect: (selectDay: string) => void; // 날짜 선택시 이벤트
 }
 
 // Theme 타입 확장
@@ -62,45 +64,48 @@ LocaleConfig.locales.kr = {
 LocaleConfig.defaultLocale = 'kr';
 
 const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(
-  ({ editable, initMarkedDates, onDaySelect }, ref) => {
+  ({ editable, initMarkedDates, markedDates, onDaySelect }, ref) => {
     const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
-    const [markedDates, setMarkedDates] = React.useState<Record<string, { selected: boolean }>>(
-      initMarkedDates || {},
-    ); // ex) {"2024-10-15": {"selected": true}}
+    // const [markedDates, setMarkedDates] = React.useState<Record<string, { selected: boolean }>>(
+    //   initMarkedDates || {},
+    // ); // ex) {"2024-10-15": {"selected": true}}
 
     const updatedMarkedDates = React.useMemo(() => ({ ...markedDates }), [markedDates]);
 
-    const handleToggleDate = (date: string) => {
-      setMarkedDates((prev) => {
-        const newMarkedDates = { ...prev }; // Create a new copy of the current markedDates
+    // const handleToggleDate = (date: string) => {
+    //   setMarkedDates((prev) => {
+    //     const newMarkedDates = { ...prev }; // Create a new copy of the current markedDates
 
-        // If the date exists, remove it; otherwise, add it
-        if (newMarkedDates[date]) {
-          delete newMarkedDates[date]; // Remove the date
-        } else {
-          newMarkedDates[date] = { selected: true }; // Add the date
-        }
+    //     // If the date exists, remove it; otherwise, add it
+    //     if (newMarkedDates[date]) {
+    //       delete newMarkedDates[date]; // Remove the date
+    //     } else {
+    //       newMarkedDates[date] = { selected: true }; // Add the date
+    //     }
 
-        // 상위 컴포넌트 이벤트 호출
-        if (onDaySelect) {
-          onDaySelect(
-            date,
-            Object.keys(newMarkedDates)?.filter((date) => newMarkedDates[date].selected),
-          );
-        }
+    //     // 상위 컴포넌트 이벤트 호출
+    //     if (onDaySelect) {
+    //       onDaySelect(
+    //         date,
+    //         Object.keys(newMarkedDates)?.filter((date) => newMarkedDates[date].selected),
+    //       );
+    //     }
 
-        return newMarkedDates; // Return the updated object
-      });
-    };
+    //     return newMarkedDates; // Return the updated object
+    //   });
+    // };
 
     return (
       <View className={cn('w-full', !editable && 'rounded-md border border-[#E5E5EC] p-4')}>
         <Calendar
           disabledByDefault={!editable}
           onDayPress={(day) => {
-            handleToggleDate(day.dateString);
+            // day >> {"dateString": "2024-11-07", "day": 7, "month": 11, "timestamp": 1730937600000, "year": 2024}
+            // console.log('ffff  ', day);
+            // handleToggleDate(day.dateString);
+            onDaySelect(day.dateString);
           }}
-          markedDates={updatedMarkedDates}
+          markedDates={markedDates}
           renderArrow={(direction) => {
             return direction === 'left' ? (
               <ImageBox className={'h-5 w-5'} source={images.icon_arrow_left} />

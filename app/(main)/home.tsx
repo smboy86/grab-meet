@@ -60,7 +60,8 @@ export default function Home() {
               member_cnt={item.member_cnt || 0}
               confirm_date={item.confirm_date || null}
               status={item.status || ''}
-              onPress={() => alert('일정 상세보기 :::  ' + JSON.stringify(item))}
+              // onPress={() => router.push(`/detail/scheduleInfo`)}
+              onPress={() => router.push(`/detail/schedule/${item.schedule_id}`)}
             />
           )}
           ListFooterComponent={<View className='py-5' />}
