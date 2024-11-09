@@ -1,6 +1,7 @@
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
+import useGetScheduleDetail from '~/api/useGetScheduleInfo';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
 import { GrabDateItem } from '~/components/screen/grabDateItem';
@@ -20,10 +21,16 @@ import { Text } from '~/components/ui/text';
 import images from '~/constants/images';
 
 export default function ScheduleInfo() {
+  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('aaaa');
   const [selected, setSelected] = React.useState(100);
+  const { data, isLoading, refetch } = useGetScheduleDetail({ id });
+
+  // console.log('ddd  ', JSON.stringify(data[0].date_time), isLoading);
+  if (data && data.length > 0) {
+    console.log('ddd  ', data[0].date_time, isLoading);
+  }
 
   return (
     <>
@@ -41,7 +48,7 @@ export default function ScheduleInfo() {
         <Wrap type='default' scroll className='mt-6'>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View className='mb-6'>
-              <Text className='mb-2 text-sm text-[#111111]'>일정 제목222</Text>
+              <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
               <Text className='text-[15px] font-semibold text-[#111111]'>24회 동창회 모임</Text>
             </View>
             <View className='mb-6'>

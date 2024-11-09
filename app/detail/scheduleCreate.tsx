@@ -54,21 +54,18 @@ export const TForm = z.object({
   member_cnt: z.string().min(1, {
     message: 'err 인원을 선택해주세요',
   }),
-  selected_days: z.array(
-    z.record(
-      z.string(), // Date 형태의 키를 사용합니다.
-      z.array(TimeSlotSchema),
-    ),
-  ),
+  selected_days: z
+    .array(
+      z.record(
+        z.string(), // Date 형태의 키를 사용합니다.
+        z.array(TimeSlotSchema),
+      ),
+    )
+    .min(1, { message: 'err 시간을 선택해주세요' }),
 });
 
 export default function Screen() {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid, defaultValues },
-    setValue,
-  } = useForm<z.infer<typeof TForm>>({
+  const { control, handleSubmit, formState, setValue } = useForm<z.infer<typeof TForm>>({
     resolver: zodResolver(TForm),
     defaultValues: {
       title: '',
@@ -157,7 +154,7 @@ export default function Screen() {
               variant={'default'}
               size={'small'}
               onPress={handleSubmit(handleCreateSchedule)}
-              disabled={!isValid}
+              disabled={!formState.isValid}
               className='bg-brand'>
               <Text>완료</Text>
             </Button>
@@ -185,7 +182,7 @@ export default function Screen() {
                   />
                 )}
               />
-              {errors.title && <Text>This field is required.</Text>}
+              {formState.errors.title && <Text>This field is required.</Text>}
             </View>
             <View className='mb-6'>
               <Text className='mb-2 text-sm text-[#111111]'>인원 선택</Text>
