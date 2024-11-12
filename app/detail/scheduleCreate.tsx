@@ -48,7 +48,9 @@ const TimeSlotSchema = z.object({
 });
 
 export const TForm = z.object({
-  title: z.string().min(1, {
+  // title: z.string({ required_error: '필수값이에요' }).max(3, { message: 'err 일정 제목이 너무 길어요' }),
+  // title: z.string().min(1, { message: 'errrrr' }),
+  title: z.string().min(3, {
     message: 'err 일정 제목을 입력해주세요',
   }),
   member_cnt: z.string().min(1, {
@@ -65,7 +67,7 @@ export const TForm = z.object({
 });
 
 export default function Screen() {
-  const { control, handleSubmit, formState, setValue } = useForm<z.infer<typeof TForm>>({
+  const { control, handleSubmit, formState, setValue, trigger } = useForm<z.infer<typeof TForm>>({
     resolver: zodResolver(TForm),
     defaultValues: {
       title: '',
@@ -103,8 +105,6 @@ export default function Screen() {
       //   ],
     },
   });
-
-  // console.log('dddd  ', defaultValues?.selectedDays);
 
   const [selectDay, setSelectedDay] = React.useState<string[]>([]);
   const [selectTime, setSelectedTime] = React.useState<string[]>([]);
@@ -144,6 +144,10 @@ export default function Screen() {
     return scheduleArray.filter((item) => Object.keys(item)[0] !== dateToRemove);
   }
 
+  React.useEffect(() => {
+    trigger();
+  }, []);
+
   return (
     <>
       <Stack.Screen
@@ -165,7 +169,12 @@ export default function Screen() {
         <Wrap type='default' scroll className='mt-6'>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View className='mb-6'>
-              <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
+              <Text className='mb-2 text-sm text-[#111111]'>
+                일정 제목{' '}
+                {formState.errors.title && (
+                  <Text className='ml-1.5 text-xs text-[#E73B2F]'>*{formState.errors.title.message}</Text>
+                )}
+              </Text>
               <Controller
                 name='title'
                 control={control}
@@ -182,7 +191,6 @@ export default function Screen() {
                   />
                 )}
               />
-              {formState.errors.title && <Text>This field is required.</Text>}
             </View>
             <View className='mb-6'>
               <Text className='mb-2 text-sm text-[#111111]'>인원 선택</Text>
@@ -201,7 +209,7 @@ export default function Screen() {
                     <SelectTrigger className='w-full'>
                       <SelectValue
                         className='native:text-lg text-sm text-foreground'
-                        placeholder='인원을 선택해주세요222'
+                        placeholder='인원을 선택해주세요'
                       />
                     </SelectTrigger>
                     <SelectContent insets={contentInsets} className='w-full'>

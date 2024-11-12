@@ -17,7 +17,7 @@ type ReturnValue = {
 
 const useGetScheduleDetail = ({ id }: Props) => {
   return useQuery<Array<ReturnValue>>({
-    queryKey: ['schedule_info'],
+    queryKey: ['schedule_info', id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('schedule')

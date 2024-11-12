@@ -4,6 +4,7 @@ import { cn } from '~/lib/utils';
 import { Text } from '../ui/text';
 
 interface GrabDateItemProps extends ViewProps {
+  isEditable?: boolean;
   isInit?: boolean; // 선택값이 없는 최초 렌더링시
   isSelected?: boolean;
   date?: string;
@@ -13,10 +14,21 @@ interface GrabDateItemProps extends ViewProps {
 }
 
 const GrabDateItem = React.forwardRef<React.ElementRef<typeof Pressable>, GrabDateItemProps>(
-  ({ isInit = false, isSelected = false, date = '', userCnt = 0, selectedCnt = 0, onAction }, ref) => {
+  (
+    {
+      isEditable = false,
+      isInit = false,
+      isSelected = false,
+      date = '',
+      userCnt = 0,
+      selectedCnt = 0,
+      onAction,
+    },
+    ref,
+  ) => {
     const percent = Math.round((selectedCnt / userCnt) * 100);
     return (
-      <Pressable onPress={onAction}>
+      <Pressable disabled={!isEditable} onPress={onAction}>
         <View
           className={cn(
             'relative mt-3 rounded-md border-transparent bg-[#F1F1F5]',

@@ -1,9 +1,24 @@
 import { clsx, type ClassValue } from 'clsx';
+import { isEmpty } from 'lodash';
 import { twMerge } from 'tailwind-merge';
 import { DateTime } from '~/app/detail/schedule/[id]';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function extractDate(dateString: string | null): string {
+  try {
+    if (isEmpty(dateString)) {
+      return '____.__.__';
+    }
+    const parsedData = JSON.parse(dateString as string);
+    const dateKey = Object.keys(parsedData[0])[0];
+    return dateKey;
+  } catch (error) {
+    // throw new Error('유효하지 않은 날짜 형식입니다.');
+    return '____.__.__';
+  }
 }
 
 // 선택한 날짜와 시간을 업데이트하는 함수

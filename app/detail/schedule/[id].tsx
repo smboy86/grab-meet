@@ -1,7 +1,7 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
-import useGetScheduleDetail, { useGetScheduleDetailProps } from '~/api/useGetScheduleInfo';
+import useGetScheduleDetail from '~/api/useGetScheduleInfo';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
 import { GrabDateItem } from '~/components/screen/grabDateItem';
@@ -22,32 +22,56 @@ import images from '~/constants/images';
 import dayjs from 'dayjs';
 import { updateDateTime } from '~/lib/utils';
 import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import useMutationScheduleInfo from '~/api/useMutationScheduleInfo';
+import { isEmpty } from 'lodash';
 
 export type DateTime = Array<{ [date: string]: string[] }>;
-const TFrom = z.array(
-  z.record(
-    z.string(), // Date 형태의 키를 사용합니다.
-    z.array(z.string()),
-  ),
-);
+
+const TForm = z.object({
+  confirm_date: z
+    .array(
+      z.record(
+        z.string(), // Date 형태의 키를 사용합니다.
+        z.array(z.string()),
+      ),
+    )
+    .nonempty({
+      message: '일정을 선택해주세요.',
+    }),
+});
 
 export default function ScheduleInfo() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, mode } = useLocalSearchParams<{ id: string; mode: string }>();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState(100);
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
   const scheduleData = React.useMemo(() => {
     return data && data.length > 0 ? data[0] : null;
   }, [data]);
 
   const [selectedDateTime, setSelectedDateTime] = React.useState<DateTime>([]);
+  const { handleSubmit, formState, setValue, trigger } = useForm<z.infer<typeof TForm>>({
+    resolver: zodResolver(TForm),
+    defaultValues: {
+      confirm_date: selectedDateTime,
+    },
+    shouldFocusError: true,
+    criteriaMode: 'firstError',
+    mode: 'all',
+  });
 
-  // if (data && data.length > 0) {
-  //   console.log('111  ', data);
-  //   console.log('2222  ', scheduleData);
-  //   console.log('333 선택 날짜  ', selectedDateTime);
-  // }
+  const { mutateAsync: updateScheduleInfo } = useMutationScheduleInfo();
+
+  // console.log('ffff ', formState);
+
+  if (data && data.length > 0) {
+    // console.log('111  ', data);
+    // console.log('2222  ', scheduleData);
+    // console.log('2222  ', scheduleData?.confirm_date);
+    // console.log('333 선택 날짜  ', selectedDateTime);
+  }
 
   // 활성화된 날짜와 시간을 확인하는 함수
   const isActive = (date: string, time: string): boolean => {
@@ -59,6 +83,30 @@ export default function ScheduleInfo() {
     setSelectedDateTime(resultValue);
   };
 
+  const handleConfirmTime = async (data: z.infer<typeof TForm>) => {
+    updateScheduleInfo(
+      {
+        id,
+        confirm_date: data.confirm_date,
+      },
+      {
+        onSuccess: (data) => {
+          alert('확정 되었습니다.');
+          router.replace('/home');
+        },
+      },
+    );
+  };
+
+  React.useEffect(() => {
+    trigger(); // 수동으로 체크하는 이게 최선인가..?
+
+    if (scheduleData?.confirm_date && !isEmpty(scheduleData.confirm_date)) {
+      setSelectedDateTime(JSON.parse(scheduleData.confirm_date));
+      setValue('confirm_date', JSON.parse(scheduleData.confirm_date), { shouldValidate: true });
+    }
+  }, []);
+
   if (isLoading) {
     return null;
   }
@@ -68,11 +116,22 @@ export default function ScheduleInfo() {
       <Stack.Screen
         options={{
           title: '화면에서 타이틀 재정의',
-          headerRight: () => (
-            <Button variant={'small'} size={'small'} onPress={() => setOpen(true)}>
-              <Text>일정 확정</Text>
-            </Button>
-          ),
+          headerRight: () => {
+            if (mode === 'view') {
+              return null;
+            }
+
+            return (
+              <Button
+                className='bg-brand'
+                variant={'default'}
+                size={'small'}
+                onPress={handleSubmit(handleConfirmTime)}
+                disabled={!formState.isValid}>
+                <Text>일정 확정</Text>
+              </Button>
+            );
+          },
         }}
       />
       <Container gray className='items-center justify-center'>
@@ -87,7 +146,12 @@ export default function ScheduleInfo() {
               <Text className='text-[15px] font-semibold text-[#111111]'>{scheduleData?.member_cnt}명</Text>
             </View>
             <View className='mb-6 flex'>
-              <Text className='mb-2 text-sm text-[#111111]'>일정 선택</Text>
+              <Text className='mb-2 text-sm text-[#111111]'>
+                일정 선택{'  '}
+                {formState.errors.confirm_date && (
+                  <Text className='text-xs text-[#E73B2F]'>* {formState.errors.confirm_date.message}</Text>
+                )}
+              </Text>
               {Array.isArray(scheduleData?.date_time) &&
                 (scheduleData?.date_time as DateTime).map((item) => {
                   const date = Object.keys(item)[0];
@@ -101,6 +165,7 @@ export default function ScheduleInfo() {
                       <View className='gab-1'>
                         {times.map((time: string) => (
                           <GrabDateItem
+                            isEditable={mode === 'edit'}
                             key={`${date}-${time}`}
                             isInit={selectedDateTime.length === 0}
                             isSelected={isActive(date, time)}
@@ -110,6 +175,7 @@ export default function ScheduleInfo() {
                             onAction={() => {
                               // handleUpdateDateTime(date, time);
                               setSelectedDateTime([{ [date]: [time] }]);
+                              setValue('confirm_date', [{ [date]: [time] }], { shouldValidate: true });
                             }}
                           />
                         ))}

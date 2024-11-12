@@ -13,6 +13,7 @@ module.exports = {
       colors: {
         brand: 'var(--brand)',
         gray03: 'var(--gray03)',
+        error: 'var(--error)',
         // origin
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

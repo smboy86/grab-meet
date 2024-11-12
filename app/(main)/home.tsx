@@ -9,6 +9,8 @@ import { DateItem } from '~/components/screen/dateItem';
 import { useAuth } from '~/providers/AuthProvider';
 import { useFocusEffect, useRouter } from 'expo-router';
 import useGetHomeList from '~/api/useGetHomeList';
+import { isEmpty } from 'lodash';
+import { extractDate } from '~/lib/utils';
 
 export default function Home() {
   const { isLogin } = useAuth();
@@ -58,10 +60,17 @@ export default function Home() {
             <DateItem
               title={item.title || ''}
               member_cnt={item.member_cnt || 0}
-              confirm_date={item.confirm_date || null}
+              confirm_date={extractDate(item.confirm_date)}
               status={item.status || ''}
-              // onPress={() => router.push(`/detail/scheduleInfo`)}
-              onPress={() => router.push(`/detail/schedule/${item.schedule_id}`)}
+              onPress={() => {
+                router.push({
+                  pathname: `/detail/schedule/[id]`,
+                  params: {
+                    id: item.schedule_id as string,
+                    mode: item.status === '투표중' ? 'edit' : 'view',
+                  },
+                });
+              }}
             />
           )}
           ListFooterComponent={<View className='py-5' />}
