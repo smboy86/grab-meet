@@ -36,8 +36,8 @@ const useMutationInsertSchedule = () => {
       return data;
     },
     onSuccess: async () => {
-      console.log('일정 생성 완료');
-      await queryClient.invalidateQueries({ queryKey: ['home'] });
+      // console.log('일정 생성 완료');
+      queryClient.invalidateQueries({ queryKey: ['home'] });
     },
   });
 };

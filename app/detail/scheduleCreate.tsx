@@ -1,3 +1,5 @@
+// TODO - 달력, 오늘 이전 날짜는 선택 불가능
+// TODO - 일정 생성시 Alert 창만 보여줄건지
 import { FlashList } from '@shopify/flash-list';
 import { Stack, useRouter } from 'expo-router';
 import * as React from 'react';
@@ -134,7 +136,6 @@ export default function Screen() {
   };
 
   const handleCreateSchedule = async (data: z.infer<typeof TForm>) => {
-    console.log('최종 제출 :::  ', JSON.stringify(data));
     const params: useMutationInsertScheduleProps = {
       title: data.title,
       member_cnt: Number(data.member_cnt),
@@ -144,7 +145,7 @@ export default function Screen() {
     insertSchedule(
       { ...params },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
           alert('생성 되었습니다.');
           router.replace('/home');
         },
