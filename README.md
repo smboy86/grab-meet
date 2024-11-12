@@ -7,7 +7,6 @@
 - [ ] reactQuery + supabase :: https://supabase.com/blog/react-query-nextjs-app-router-cache-helpers
   - https://www.youtube.com/watch?v=QTZTUrAbjeo&t=49s
 - [ ] 헤더 하단 마진
-- [ ] 이미지 초기 로딩 네모난 산 모양
 - [ ] Alert 다이얼로그 컴포넌트화, 화면에 너무 많은 코드 차지
 
 # 프로젝트 구성 해야할 것 (반복 적인 꼭지들)
@@ -21,9 +20,10 @@
 - [ ] 웹 배포 및 셀프 호스팅
 - [ ] 앱아이콘 & 스플래시 이미지
 
-# 잡아야하 오류
+# 잡아야 하는 오류
 
 - [ ] expo router = '/' 으로 이동하면 빈 페이지가 보여지는 문제
+- [ ] 이미지 초기 로딩 네모난 산 모양
 
 # 미팅을 잡자
 

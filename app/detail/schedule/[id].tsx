@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import useGetScheduleDetail from '~/api/useGetScheduleInfo';
@@ -26,20 +26,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import useMutationScheduleInfo from '~/api/useMutationScheduleInfo';
 import { isEmpty } from 'lodash';
+import { ItemText } from '@rn-primitives/select';
 
-export type DateTime = Array<{ [date: string]: string[] }>;
+export type DateTime = Array<{ [date: string]: { time: string }[] }>;
+
+const TimeSlotScheme = z.object({
+  time: z.string(),
+});
+
+const DayTimeScheme = z.array(
+  z.record(
+    z.string(), // Date 형태의 키를 사용합니다.
+    z.array(TimeSlotScheme),
+  ),
+);
 
 const TForm = z.object({
-  confirm_date: z
-    .array(
-      z.record(
-        z.string(), // Date 형태의 키를 사용합니다.
-        z.array(z.string()),
-      ),
-    )
-    .nonempty({
-      message: '일정을 선택해주세요.',
-    }),
+  confirm_date: DayTimeScheme.nonempty({
+    message: '일정을 선택해주세요.',
+  }),
 });
 
 export default function ScheduleInfo() {
@@ -75,7 +80,12 @@ export default function ScheduleInfo() {
 
   // 활성화된 날짜와 시간을 확인하는 함수
   const isActive = (date: string, time: string): boolean => {
-    return selectedDateTime.some((entry) => date in entry && entry[date].includes(time));
+    // return selectedDateTime.some((entry) => date in entry && entry[date].includes(time));
+    return selectedDateTime.some((item) => {
+      const times = item[date];
+      if (!times) return false;
+      return times.some((slot) => slot.time === time);
+    });
   };
 
   const handleUpdateDateTime = (date: string, time: string) => {
@@ -106,6 +116,13 @@ export default function ScheduleInfo() {
       setValue('confirm_date', JSON.parse(scheduleData.confirm_date), { shouldValidate: true });
     }
   }, []);
+
+  // 포커스 재조회
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, []),
+  );
 
   if (isLoading) {
     return null;
@@ -163,7 +180,8 @@ export default function ScheduleInfo() {
                         {date} ({dayjs(date).format('dd')})
                       </Text>
                       <View className='gab-1'>
-                        {times.map((time: string) => (
+                        {/* {times.map((time: string) => ( */}
+                        {times.map(({ time }) => (
                           <GrabDateItem
                             isEditable={mode === 'edit'}
                             key={`${date}-${time}`}
@@ -171,11 +189,11 @@ export default function ScheduleInfo() {
                             isSelected={isActive(date, time)}
                             date={time}
                             userCnt={scheduleData.member_cnt ?? 0}
-                            selectedCnt={2}
+                            selectedCnt={0}
                             onAction={() => {
                               // handleUpdateDateTime(date, time);
-                              setSelectedDateTime([{ [date]: [time] }]);
-                              setValue('confirm_date', [{ [date]: [time] }], { shouldValidate: true });
+                              setSelectedDateTime([{ [date]: [{ time }] }]);
+                              setValue('confirm_date', [{ [date]: [{ time }] }], { shouldValidate: true });
                             }}
                           />
                         ))}

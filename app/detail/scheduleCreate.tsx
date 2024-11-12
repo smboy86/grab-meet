@@ -1,5 +1,5 @@
 import { FlashList } from '@shopify/flash-list';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import * as React from 'react';
 import { Dimensions, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -24,6 +24,7 @@ import { cn } from '~/lib/utils';
 import * as z from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useMutationInsertSchedule, { useMutationInsertScheduleProps } from '~/api/useMutationInsertSchedule';
 
 const { width } = Dimensions.get('window'); // Get screen width
 
@@ -39,36 +40,48 @@ const options = [
 
 type TimeSlot = {
   time: string;
-  isSelected: boolean;
 };
 
-const TimeSlotSchema = z.object({
+type DateTimeSlot = {
+  [key: string]: {
+    time: string;
+  }[];
+};
+
+type TargetDateTimeSlot = {
+  [key: string]: {
+    time: string;
+  }[];
+};
+
+const TimeSlotScheme = z.object({
   time: z.string(),
-  isSelected: z.boolean(),
 });
+
+const DayTimeScheme = z.array(
+  z.record(
+    z.string(), // Date 형태의 키를 사용합니다.
+    z.array(TimeSlotScheme),
+  ),
+);
 
 export const TForm = z.object({
   // title: z.string({ required_error: '필수값이에요' }).max(3, { message: 'err 일정 제목이 너무 길어요' }),
   // title: z.string().min(1, { message: 'errrrr' }),
   title: z.string().min(3, {
-    message: 'err 일정 제목을 입력해주세요',
+    message: '일정 제목을 입력해주세요 (3자 이상)',
   }),
   member_cnt: z.string().min(1, {
-    message: 'err 인원을 선택해주세요',
+    message: '인원을 선택해주세요',
   }),
-  selected_days: z
-    .array(
-      z.record(
-        z.string(), // Date 형태의 키를 사용합니다.
-        z.array(TimeSlotSchema),
-      ),
-    )
-    .min(1, { message: 'err 시간을 선택해주세요' }),
+  selected_days: DayTimeScheme.min(1, { message: 'err 시간을 선택해주세요' }),
 });
 
 export default function Screen() {
+  const router = useRouter();
   const { control, handleSubmit, formState, setValue, trigger } = useForm<z.infer<typeof TForm>>({
     resolver: zodResolver(TForm),
+    mode: 'onChange',
     defaultValues: {
       title: '',
       member_cnt: '',
@@ -105,12 +118,12 @@ export default function Screen() {
       //   ],
     },
   });
-
-  const [selectDay, setSelectedDay] = React.useState<string[]>([]);
-  const [selectTime, setSelectedTime] = React.useState<string[]>([]);
+  const [targetDateTime, setTargetDateTime] = React.useState<DateTimeSlot[]>([]); // 달력 선택시 나열되는 타겟 날짜들 폼
 
   // for calendar
   const [markedDates, setMarkedDates] = React.useState<Record<string, { selected: boolean }>>({}); // ex) {"2024-10-15": {"selected": true}}
+
+  const { mutateAsync: insertSchedule } = useMutationInsertSchedule();
 
   const insets = useSafeAreaInsets();
   const contentInsets = {
@@ -121,7 +134,25 @@ export default function Screen() {
   };
 
   const handleCreateSchedule = async (data: z.infer<typeof TForm>) => {
-    console.log('All fromData  ', data);
+    console.log('최종 제출 :::  ', JSON.stringify(data));
+    const params: useMutationInsertScheduleProps = {
+      title: data.title,
+      member_cnt: Number(data.member_cnt),
+      date_time: data.selected_days,
+    };
+
+    insertSchedule(
+      { ...params },
+      {
+        onSuccess: (data) => {
+          alert('생성 되었습니다.');
+          router.replace('/home');
+        },
+        onError: (err) => {
+          console.log('errrr  ', err);
+        },
+      },
+    );
   };
 
   // 선택된 날짜를 투표 날짜로 변환
@@ -131,7 +162,6 @@ export default function Screen() {
     return dates.map((date) => ({
       [date]: Array.from({ length: 12 }, (_, index) => ({
         time: `${('0' + (9 + index)).slice(-2)}:00`, // '09:00', '10:00', ..., '21:00'
-        isSelected: false,
       })),
     }));
   };
@@ -143,6 +173,88 @@ export default function Screen() {
   ): { [key: string]: TimeSlot[] }[] {
     return scheduleArray.filter((item) => Object.keys(item)[0] !== dateToRemove);
   }
+
+  // 날짜 선택시 선택 유무 업데이트
+  const updateTimeSelection = (
+    scheduleData: DateTimeSlot[],
+    targetDate: string,
+    targetTime: string,
+  ): DateTimeSlot[] => {
+    return scheduleData.map((dateObj) => {
+      // 날짜가 일치하는 경우에만 처리
+      if (dateObj[targetDate]) {
+        return {
+          [targetDate]: dateObj[targetDate].map((timeSlot) => {
+            // 시간이 일치하는 경우 isSelected 값을 변경
+            if (timeSlot.time === targetTime) {
+              // return { ...timeSlot, isSelected: !timeSlot.isSelected };
+              return { ...timeSlot };
+            }
+            return timeSlot;
+          }),
+        };
+      }
+      return dateObj;
+    });
+  };
+
+  // 시간 선택시 변수 값을 추가/삭제하는 토글 함수
+  const toggleSelectedTime = (
+    data: TargetDateTimeSlot[],
+    date: string,
+    time: string,
+  ): TargetDateTimeSlot[] => {
+    // 현재 데이터의 복사본 생성
+    let result = [...data];
+
+    // 해당 날짜의 데이터 찾기
+    const dateIndex = result.findIndex((item) => Object.keys(item)[0] === date);
+
+    if (dateIndex === -1) {
+      // 날짜가 존재하지 않으면 새로 추가
+      return [...result, { [date]: [{ time }] }];
+    }
+
+    const dateData = result[dateIndex];
+    const timeSlots = dateData[date];
+
+    // 해당 시간이 이미 존재하는지 확인
+    const timeIndex = timeSlots.findIndex((slot) => slot.time === time);
+
+    if (timeIndex === -1) {
+      // 시간이 존재하지 않으면 추가
+      dateData[date] = [...timeSlots, { time }];
+    } else {
+      // 시간이 존재하면 삭제
+      dateData[date] = timeSlots.filter((slot) => slot.time !== time);
+
+      // 해당 날짜의 모든 시간이 삭제되었다면 날짜도 제거
+      if (dateData[date].length === 0) {
+        result = result.filter((_, index) => index !== dateIndex);
+      }
+    }
+
+    return result;
+  };
+
+  // 날짜 삭제시 날짜 값을 삭제하는 함수
+  const deleteDate = (data: DateTimeSlot[], date: string): DateTimeSlot[] => {
+    // 해당 날짜를 제외한 데이터만 반환
+    return data.filter((item) => !Object.keys(item).includes(date));
+  };
+
+  // 현재 날짜와 시간이 존재하는지 체크 (for 활성화)
+  const checkTimeExists = (data: TargetDateTimeSlot[], date: string, time: string): boolean => {
+    // 해당 날짜의 데이터 찾기
+    const dateData = data.find((item) => Object.keys(item)[0] === date);
+
+    if (!dateData) {
+      return false;
+    }
+
+    // 해당 시간이 존재하는지 확인
+    return dateData[date].some((timeSlot) => timeSlot.time === time);
+  };
 
   React.useEffect(() => {
     trigger();
@@ -193,7 +305,14 @@ export default function Screen() {
               />
             </View>
             <View className='mb-6'>
-              <Text className='mb-2 text-sm text-[#111111]'>인원 선택</Text>
+              <Text className='mb-2 text-sm text-[#111111]'>
+                인원 선택{' '}
+                {formState.errors.member_cnt && (
+                  <Text className='ml-1.5 text-xs text-[#E73B2F]'>
+                    *{formState.errors.member_cnt.message}
+                  </Text>
+                )}
+              </Text>
               <Controller
                 name='member_cnt'
                 control={control}
@@ -250,25 +369,11 @@ export default function Screen() {
                       );
 
                       const convertSelectedDays = convertToScheduleArray(selectedDateArray);
-                      // console.log('convertSelectedDays  ', JSON.stringify(convertSelectedDays));
 
-                      setValue('selected_days', convertSelectedDays);
+                      setTargetDateTime(convertSelectedDays);
                       return newMarkedDates; // Return the updated object
                     });
                   }}
-                  // onDaySelect={(day, days) => {
-                  //   // TODO - 날짜 가공
-                  //   // 날짜 선택시 이벤트
-                  //   console.log('111 selected day', day);
-                  //   console.log('2222 selected day', days);
-                  //   // setSelectedDay(days);
-                  //   // setValue;
-
-                  //   const ttt = convertToScheduleArray(days);
-                  //   // console.log('ttt  ', JSON.stringify(ttt));
-
-                  //   setValue('selected_days', ttt);
-                  // }}
                 />
               </View>
             </View>
@@ -282,7 +387,7 @@ export default function Screen() {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <FlashList
-                    data={value}
+                    data={targetDateTime}
                     renderItem={({ item }) => {
                       const keyDate = item ? Object.keys(item)[0] : '';
                       const valueTime = item ? item[keyDate] : [];
@@ -293,13 +398,27 @@ export default function Screen() {
                             <Text className='mb-2 text-sm font-semibold text-[#000000]'>{keyDate}</Text>
                             <Pressable
                               onPress={() => {
-                                // 1) formDate 에서 삭제
-                                const removedDate = removeDate(keyDate, value);
-                                setValue('selected_days', removedDate);
-
+                                // 1) form 데이터 셋팅
+                                onChange(deleteDate(value, keyDate));
                                 // 2) 달력에서 삭제
-                                console.log('dddd  ', markedDates);
-                                // const ttt = removeDate(keyDate, markedDates)
+                                setMarkedDates((prev) => {
+                                  const newMarkedDates = { ...prev };
+
+                                  if (newMarkedDates[keyDate]) {
+                                    delete newMarkedDates[keyDate]; // Remove the date
+                                  } else {
+                                    newMarkedDates[keyDate] = { selected: true }; // Add the date
+                                  }
+
+                                  // 시간 선택 리스트
+                                  const selectedDateArray = Object.keys(newMarkedDates)?.filter(
+                                    (date) => newMarkedDates[date].selected,
+                                  );
+
+                                  return newMarkedDates; // Return the updated object
+                                });
+                                // 3) 시간선택 리스트에서 삭제
+                                setTargetDateTime((prev) => deleteDate(targetDateTime, keyDate));
                               }}>
                               <ImageBox source={images.icon_remove} className='h-5 w-5' />
                             </Pressable>
@@ -309,21 +428,31 @@ export default function Screen() {
                               return (
                                 <Pressable
                                   onPress={() => {
-                                    console.log('선택한 시간 ::: ', keyDate, subItem.time);
-                                    setSelectedTime((prev) => {
-                                      return { ...prev, [subItem?.time as string]: !subItem?.isSelected };
-                                    });
+                                    // 1) form 데이터 셋팅
+                                    onChange(toggleSelectedTime(value, keyDate, subItem.time));
+
+                                    // 2) selcted 렌더링
+                                    setTargetDateTime((prev) =>
+                                      updateTimeSelection(targetDateTime, keyDate, subItem.time),
+                                    );
                                   }}
                                   key={index}
                                   className={cn(
                                     'h-[38px] items-center justify-center rounded-md border border-[#E5E5EC]',
-                                    (subItem?.isSelected as boolean) ? 'bg-brand' : 'bg-[#F1F1F5]',
+                                    checkTimeExists(value, keyDate, subItem.time)
+                                      ? 'bg-brand'
+                                      : 'bg-[#F1F1F5]',
                                   )}
                                   style={{
                                     width: width / 4 - 40, // margin 값 기준으로 40만큼 깍아서 좌우 정렬 맞춤 4열
                                     margin: 8,
                                   }}>
-                                  <Text className={cn(subItem?.isSelected ? 'text-white' : 'text-[#999999]')}>
+                                  <Text
+                                    className={cn(
+                                      checkTimeExists(value, keyDate, subItem.time)
+                                        ? 'text-white'
+                                        : 'text-[#999999]',
+                                    )}>
                                     {subItem?.time}
                                   </Text>
                                 </Pressable>

@@ -40,7 +40,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('로그인 이벤트 onAuthStateChange :: ', _event);
+      // console.log('로그인 이벤트 onAuthStateChange :: ', _event);
       if (_event === 'SIGNED_IN') {
       } else if (_event === 'SIGNED_OUT') {
       }
