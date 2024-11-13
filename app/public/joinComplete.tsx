@@ -1,14 +1,13 @@
-import { useRouter } from 'expo-router';
+// TODO - 종료버튼 닫기나 뒤로 가기하기가 애매함.. web, native
+
 import * as React from 'react';
 import { View } from 'react-native';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
-import { Header } from '~/components/layout/header';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 
 export default function Screen() {
-  const router = useRouter();
   return (
     <Container className='items-center justify-center'>
       <Wrap type='default' full className='mt-6 flex flex-col justify-between'>
@@ -19,7 +18,6 @@ export default function Screen() {
         <Button
           onPress={() => {
             // TODO - 뒤로가기가 아니라 페이지 종료
-            alert('종료');
           }}
           variant='default'
           className='bg-[#111111] shadow shadow-foreground/5'>

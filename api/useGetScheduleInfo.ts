@@ -12,7 +12,7 @@ type ReturnValue = {
   status: string | null;
   date_time: Json | null; // 투표 대상 날짜/시간
   member_cnt: number | null; // 참여 인원
-  confirm_date: string | null; // 확정일 2024. 10. 11
+  confirm_date: Json | null; // 확정일 2024. 10. 11
 };
 
 const useGetScheduleDetail = ({ id }: Props) => {

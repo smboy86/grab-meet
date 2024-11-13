@@ -1,41 +1,30 @@
-// TODO - 멀티 선택 처리
+// TODO - 현재 일정 투표 완료된 건수
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { useRouter } from 'expo-router';
 import * as React from 'react';
-import { Dimensions, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import useGetScheduleDetail from '~/api/useGetScheduleInfo';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
 import { Header } from '~/components/layout/header';
 import { GrabDateItem } from '~/components/screen/grabDateItem';
 import { Button } from '~/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '~/components/ui/dialog';
-import { Input } from '~/components/ui/input';
 import { Text } from '~/components/ui/text';
 import dayjs from 'dayjs';
 import { DateTime } from '~/types/schedule.types';
-import { isEmpty } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { DayTimeScheme } from '~/types/scheme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FlashList } from '@shopify/flash-list';
-import { cn, isActive, toggleSelectedTime } from '~/lib/utils';
+import { isActive, toggleSelectedTime } from '~/lib/utils';
 import { Json } from '~/types/database.types';
+import GrabJoinAlert from '~/components/dialog/grabJoinAlert';
+import useMutationInsertJoin, { useMutationInsertJoinProps } from '~/api/useMutationInsertJoin';
+import { useRouter } from 'expo-router';
 
 type PageProps = {
   id: string;
 };
-
-const { width } = Dimensions.get('window'); // Get screen width
 
 export const TForm = z.object({
   selected_days: DayTimeScheme.min(1, { message: '시간을 선택해주세요' }),
@@ -46,6 +35,7 @@ export const TFormSec = z.object({
 });
 
 export default function Screen() {
+  const router = useRouter();
   const { id } = useLocalSearchParams<PageProps>();
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
   const scheduleData = React.useMemo(() => {
@@ -58,7 +48,7 @@ export default function Screen() {
     const value = data[0].date_time as Json[];
     return value.map((item) => item) as DateTime;
   }, [data]);
-  const { control, handleSubmit, formState, setValue, trigger, watch } = useForm<z.infer<typeof TForm>>({
+  const { control, handleSubmit, formState, trigger } = useForm<z.infer<typeof TForm>>({
     resolver: zodResolver(TForm),
     defaultValues: {
       selected_days: [],
@@ -68,10 +58,8 @@ export default function Screen() {
     mode: 'all',
   });
 
-  const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState(100); // temp
-  // const [value, setValue] = React.useState(''); // temp
+  const { mutateAsync: insertJoin } = useMutationInsertJoin();
 
   // 현재 날짜와 시간이 존재하는지 체크 (for 활성화)
   const checkTimeExists = (data: DateTime, date: string, time: string): boolean => {
@@ -125,8 +113,6 @@ export default function Screen() {
                       const keyDate = item ? Object.keys(item)[0] : '';
                       const valueTime: Array<{ time: string }> = item ? item[keyDate] : [];
 
-                      console.log('selected_days ::: value :::   ', value);
-
                       return (
                         <View className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
                           <Text className='text-[14px] font-semibold'>
@@ -179,39 +165,25 @@ export default function Screen() {
           </ScrollView>
         </Wrap>
         {/* Dialog */}
-        {/* TODO - 다이얼로그 취소 버튼 및 디자인 */}
-        <Dialog open={open} onOpenChange={setOpen} className='w-full'>
-          <DialogContent className='w-full'>
-            <DialogHeader>
-              <DialogTitle>미팅 확정</DialogTitle>
-              <DialogDescription className='flex flex-col pt-1' asChild>
-                <View className='flex flex-col'>
-                  <Text>참석자 정보</Text>
-                  <View>
-                    {/* <Input
-                      value={value}
-                      onChangeText={setValue}
-                      placeholder='핸드폰 번호를 입력하세요'
-                      className='my-2 w-full'
-                    /> */}
-                  </View>
-                  <Text className='text-[#505050]'>일정이 확정되면, 위 번호로 안내해드립니다.</Text>
-                </View>
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  disabled={false}
-                  onPress={() => {
-                    router.push('/public/joinComplete');
-                  }}>
-                  <Text>확인</Text>
-                </Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <GrabJoinAlert
+          open={open}
+          setOpen={setOpen}
+          onAction={(value) => {
+            handleSubmit((data) => {
+              const params: useMutationInsertJoinProps = {
+                id: id,
+                hp: value,
+                date_time: data.selected_days,
+              };
+
+              insertJoin(params, {
+                onSuccess: (data) => {
+                  router.replace('/public/joinComplete');
+                },
+              });
+            })();
+          }}
+        />
       </Container>
     </>
   );

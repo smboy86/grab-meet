@@ -26,7 +26,7 @@ export type Database = {
       }
       schedule: {
         Row: {
-          confirm_date: string | null
+          confirm_date: Json | null
           created_at: string
           date_time: Json[] | null
           id: number
@@ -37,7 +37,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
-          confirm_date?: string | null
+          confirm_date?: Json | null
           created_at?: string
           date_time?: Json[] | null
           id?: number
@@ -48,7 +48,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
-          confirm_date?: string | null
+          confirm_date?: Json | null
           created_at?: string
           date_time?: Json[] | null
           id?: number
@@ -74,6 +74,41 @@ export type Database = {
           id?: string
         }
         Relationships: []
+      }
+      schedule_grab: {
+        Row: {
+          created_at: string
+          date_time: Json | null
+          hp: string
+          id: number
+          schedule_id: string
+          udpate_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          date_time?: Json | null
+          hp: string
+          id?: number
+          schedule_id: string
+          udpate_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          date_time?: Json | null
+          hp?: string
+          id?: number
+          schedule_id?: string
+          udpate_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schedule_grab_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "schedule"
+            referencedColumns: ["schedule_id"]
+          },
+        ]
       }
       schedule_time: {
         Row: {

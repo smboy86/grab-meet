@@ -90,6 +90,12 @@ export default function RootLayout() {
             />
             <Stack.Screen name='detail/index' />
             <Stack.Screen
+              name='public/joinComplete'
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name='auth'
               options={{
                 headerShown: true /* 로그인은 헤더가 있으면 이상해보인다. */,
