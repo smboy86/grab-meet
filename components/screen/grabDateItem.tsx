@@ -26,6 +26,7 @@ const GrabDateItem = React.forwardRef<React.ElementRef<typeof Pressable>, GrabDa
     },
     ref,
   ) => {
+    console.log('111111  ', isSelected);
     const percent = Math.round((selectedCnt / userCnt) * 100);
     return (
       <Pressable disabled={!isEditable} onPress={onAction}>

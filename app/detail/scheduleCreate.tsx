@@ -22,11 +22,12 @@ import {
 } from '~/components/ui/select';
 import { Text } from '~/components/ui/text';
 import images from '~/constants/images';
-import { cn } from '~/lib/utils';
+import { cn, toggleSelectedTime } from '~/lib/utils';
 import * as z from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useMutationInsertSchedule, { useMutationInsertScheduleProps } from '~/api/useMutationInsertSchedule';
+import { DateTime } from '~/types/schedule.types';
 
 const { width } = Dimensions.get('window'); // Get screen width
 
@@ -40,22 +41,6 @@ const options = [
   { value: '7', label: '7명' },
 ];
 
-type TimeSlot = {
-  time: string;
-};
-
-type DateTimeSlot = {
-  [key: string]: {
-    time: string;
-  }[];
-};
-
-type TargetDateTimeSlot = {
-  [key: string]: {
-    time: string;
-  }[];
-};
-
 const TimeSlotScheme = z.object({
   time: z.string(),
 });
@@ -68,8 +53,6 @@ const DayTimeScheme = z.array(
 );
 
 export const TForm = z.object({
-  // title: z.string({ required_error: '필수값이에요' }).max(3, { message: 'err 일정 제목이 너무 길어요' }),
-  // title: z.string().min(1, { message: 'errrrr' }),
   title: z.string().min(3, {
     message: '일정 제목을 입력해주세요 (3자 이상)',
   }),
@@ -88,39 +71,9 @@ export default function Screen() {
       title: '',
       member_cnt: '',
       selected_days: [],
-      //   selectedDays: [
-      //     {
-      //       '2024.10.17(목)': [
-      //         { time: '09:00', isSelected: false },
-      //         { time: '10:00', isSelected: true },
-      //         { time: '14:00', isSelected: false },
-      //         { time: '16:00', isSelected: true },
-      //         { time: '17:00', isSelected: false },
-      //       ],
-      //     },
-      //     {
-      //       '2024.10.18(금)': [
-      //         { time: '09:00', isSelected: false },
-      //         { time: '10:00', isSelected: false },
-      //         { time: '11:00', isSelected: false },
-      //         { time: '12:00', isSelected: false },
-      //         { time: '13:00', isSelected: false },
-      //         { time: '14:00', isSelected: false },
-      //         { time: '15:00', isSelected: false },
-      //         { time: '16:00', isSelected: false },
-      //         { time: '17:00', isSelected: false },
-      //       ],
-      //     },
-      //     {
-      //       '2024.10.19(토)': [
-      //         { time: '09:00', isSelected: false },
-      //         { time: '10:00', isSelected: false },
-      //       ],
-      //     },
-      //   ],
     },
   });
-  const [targetDateTime, setTargetDateTime] = React.useState<DateTimeSlot[]>([]); // 달력 선택시 나열되는 타겟 날짜들 폼
+  const [targetDateTime, setTargetDateTime] = React.useState<DateTime>([]); // 달력 선택시 나열되는 타겟 날짜들 폼
 
   // for calendar
   const [markedDates, setMarkedDates] = React.useState<Record<string, { selected: boolean }>>({}); // ex) {"2024-10-15": {"selected": true}}
@@ -157,7 +110,7 @@ export default function Screen() {
   };
 
   // 선택된 날짜를 투표 날짜로 변환
-  const convertToScheduleArray = (dates: string[]): { [key: string]: TimeSlot[] }[] => {
+  const convertToScheduleArray = (dates: string[]): DateTime => {
     dates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
     return dates.map((date) => ({
@@ -167,20 +120,8 @@ export default function Screen() {
     }));
   };
 
-  // 선택한 날짜 값 삭제
-  function removeDate(
-    dateToRemove: string,
-    scheduleArray: { [key: string]: TimeSlot[] }[],
-  ): { [key: string]: TimeSlot[] }[] {
-    return scheduleArray.filter((item) => Object.keys(item)[0] !== dateToRemove);
-  }
-
   // 날짜 선택시 선택 유무 업데이트
-  const updateTimeSelection = (
-    scheduleData: DateTimeSlot[],
-    targetDate: string,
-    targetTime: string,
-  ): DateTimeSlot[] => {
+  const updateTimeSelection = (scheduleData: DateTime, targetDate: string, targetTime: string): DateTime => {
     return scheduleData.map((dateObj) => {
       // 날짜가 일치하는 경우에만 처리
       if (dateObj[targetDate]) {
@@ -199,53 +140,14 @@ export default function Screen() {
     });
   };
 
-  // 시간 선택시 변수 값을 추가/삭제하는 토글 함수
-  const toggleSelectedTime = (
-    data: TargetDateTimeSlot[],
-    date: string,
-    time: string,
-  ): TargetDateTimeSlot[] => {
-    // 현재 데이터의 복사본 생성
-    let result = [...data];
-
-    // 해당 날짜의 데이터 찾기
-    const dateIndex = result.findIndex((item) => Object.keys(item)[0] === date);
-
-    if (dateIndex === -1) {
-      // 날짜가 존재하지 않으면 새로 추가
-      return [...result, { [date]: [{ time }] }];
-    }
-
-    const dateData = result[dateIndex];
-    const timeSlots = dateData[date];
-
-    // 해당 시간이 이미 존재하는지 확인
-    const timeIndex = timeSlots.findIndex((slot) => slot.time === time);
-
-    if (timeIndex === -1) {
-      // 시간이 존재하지 않으면 추가
-      dateData[date] = [...timeSlots, { time }];
-    } else {
-      // 시간이 존재하면 삭제
-      dateData[date] = timeSlots.filter((slot) => slot.time !== time);
-
-      // 해당 날짜의 모든 시간이 삭제되었다면 날짜도 제거
-      if (dateData[date].length === 0) {
-        result = result.filter((_, index) => index !== dateIndex);
-      }
-    }
-
-    return result;
-  };
-
   // 날짜 삭제시 날짜 값을 삭제하는 함수
-  const deleteDate = (data: DateTimeSlot[], date: string): DateTimeSlot[] => {
+  const deleteDate = (data: DateTime, date: string): DateTime => {
     // 해당 날짜를 제외한 데이터만 반환
     return data.filter((item) => !Object.keys(item).includes(date));
   };
 
   // 현재 날짜와 시간이 존재하는지 체크 (for 활성화)
-  const checkTimeExists = (data: TargetDateTimeSlot[], date: string, time: string): boolean => {
+  const checkTimeExists = (data: DateTime, date: string, time: string): boolean => {
     // 해당 날짜의 데이터 찾기
     const dateData = data.find((item) => Object.keys(item)[0] === date);
 

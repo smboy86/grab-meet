@@ -1,5 +1,6 @@
+// TODO - 일정 투표 링크 (URL, 클립보드 복사)
+// TODO - 카카오 공유하기
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
-import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import useGetScheduleDetail from '~/api/useGetScheduleInfo';
 import { Wrap } from '~/components/layout/\bwrap';
@@ -20,15 +21,14 @@ import { ImageBox } from '~/components/ui/imageBox';
 import { Text } from '~/components/ui/text';
 import images from '~/constants/images';
 import dayjs from 'dayjs';
-import { updateDateTime } from '~/lib/utils';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import useMutationScheduleInfo from '~/api/useMutationScheduleInfo';
 import { isEmpty } from 'lodash';
-import { ItemText } from '@rn-primitives/select';
-
-export type DateTime = Array<{ [date: string]: { time: string }[] }>;
+import { DateTime } from '~/types/schedule.types';
+import { isActive } from '~/lib/utils';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const TimeSlotScheme = z.object({
   time: z.string(),
@@ -50,13 +50,13 @@ const TForm = z.object({
 export default function ScheduleInfo() {
   const { id, mode } = useLocalSearchParams<{ id: string; mode: string }>();
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
-  const scheduleData = React.useMemo(() => {
+  const scheduleData = useMemo(() => {
     return data && data.length > 0 ? data[0] : null;
   }, [data]);
 
-  const [selectedDateTime, setSelectedDateTime] = React.useState<DateTime>([]);
+  const [selectedDateTime, setSelectedDateTime] = useState<DateTime>([]);
 
   const { handleSubmit, formState, setValue, trigger } = useForm<z.infer<typeof TForm>>({
     resolver: zodResolver(TForm),
@@ -69,25 +69,6 @@ export default function ScheduleInfo() {
   });
 
   const { mutateAsync: updateScheduleInfo } = useMutationScheduleInfo();
-
-  // console.log('ffff ', formState);
-
-  if (data && data.length > 0) {
-    // console.log('111  ', data);
-    // console.log('2222  ', scheduleData);
-    // console.log('2222  ', scheduleData?.confirm_date);
-    // console.log('333 선택 날짜  ', selectedDateTime);
-  }
-
-  // 활성화된 날짜와 시간을 확인하는 함수
-  const isActive = (date: string, time: string): boolean => {
-    // return selectedDateTime.some((entry) => date in entry && entry[date].includes(time));
-    return selectedDateTime.some((item) => {
-      const times = item[date];
-      if (!times) return false;
-      return times.some((slot) => slot.time === time);
-    });
-  };
 
   const handleConfirmTime = async (data: z.infer<typeof TForm>) => {
     updateScheduleInfo(
@@ -112,7 +93,7 @@ export default function ScheduleInfo() {
     return `${yyyymmdd} (${dayjs(yyyymmdd).format('dd')}) ${date[0][yyyymmdd][0].time} `;
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     trigger(); // 수동으로 체크하는 이게 최선인가..?
 
     if (scheduleData?.confirm_date && !isEmpty(scheduleData.confirm_date)) {
@@ -123,7 +104,7 @@ export default function ScheduleInfo() {
 
   // 포커스 재조회
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       refetch();
     }, []),
   );
@@ -136,7 +117,7 @@ export default function ScheduleInfo() {
     <>
       <Stack.Screen
         options={{
-          title: '화면에서 타이틀 재정의',
+          title: '미팅 상세',
           headerRight: () => {
             if (mode === 'view') {
               return null;
@@ -192,7 +173,7 @@ export default function ScheduleInfo() {
                             isEditable={mode === 'edit'}
                             key={`${date}-${time}`}
                             isInit={selectedDateTime.length === 0}
-                            isSelected={isActive(date, time)}
+                            isSelected={isActive(selectedDateTime, date, time)}
                             date={time}
                             userCnt={scheduleData.member_cnt ?? 0}
                             selectedCnt={0}

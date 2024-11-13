@@ -19,7 +19,7 @@ export default function Screen() {
         <Button
           onPress={() => {
             // TODO - 뒤로가기가 아니라 페이지 종료
-            router.replace('/pub');
+            alert('종료');
           }}
           variant='default'
           className='bg-[#111111] shadow shadow-foreground/5'>

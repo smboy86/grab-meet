@@ -49,6 +49,18 @@ export default function My() {
       <Wrap type='default' full className='mt-6'>
         <Link
           href={{
+            pathname: '/public/grab/[id]',
+            params: {
+              id: '4ac40eef-718e-4d9b-8aa9-8e6924d4845d',
+            },
+          }}
+          asChild>
+          <Button variant='outline' className='mb-2 border border-brand'>
+            <Text>test 참여하기</Text>
+          </Button>
+        </Link>
+        <Link
+          href={{
             pathname: '/home',
           }}
           asChild>
