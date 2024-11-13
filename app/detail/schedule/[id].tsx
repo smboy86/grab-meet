@@ -1,4 +1,3 @@
-// TODO - 일정 투표 링크 (URL, 클립보드 복사)
 // TODO - 카카오 공유하기
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -29,6 +28,8 @@ import { isEmpty } from 'lodash';
 import { DateTime } from '~/types/schedule.types';
 import { isActive } from '~/lib/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { domain } from '~/constants/options';
+import * as Clipboard from 'expo-clipboard';
 
 const TimeSlotScheme = z.object({
   time: z.string(),
@@ -204,10 +205,15 @@ export default function ScheduleInfo() {
               <View className='flex w-full flex-row justify-between rounded-md border border-[#E5E5EC] bg-white p-3'>
                 <View className='w-10/12 flex-nowrap'>
                   <Text className='flex-nowrap' numberOfLines={1}>
-                    https://url.kr/a99a6whttpsttps://url.kr/a99a6w
+                    {`${domain}/public/grab/${id}`}
                   </Text>
                 </View>
-                <Pressable className='' onPress={() => alert('복사 완료')}>
+                <Pressable
+                  className=''
+                  onPress={async () => {
+                    await Clipboard.setStringAsync(`${domain}/public/grab/${id}`);
+                    alert('복사 완료');
+                  }}>
                   <ImageBox source={images.icon_copy} style={{ width: 20, height: 20 }} className='h-5 w-5' />
                 </Pressable>
               </View>
