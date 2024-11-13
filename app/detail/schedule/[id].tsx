@@ -57,6 +57,7 @@ export default function ScheduleInfo() {
   }, [data]);
 
   const [selectedDateTime, setSelectedDateTime] = React.useState<DateTime>([]);
+
   const { handleSubmit, formState, setValue, trigger } = useForm<z.infer<typeof TForm>>({
     resolver: zodResolver(TForm),
     defaultValues: {
@@ -88,11 +89,6 @@ export default function ScheduleInfo() {
     });
   };
 
-  const handleUpdateDateTime = (date: string, time: string) => {
-    const resultValue = updateDateTime(selectedDateTime, date, time);
-    setSelectedDateTime(resultValue);
-  };
-
   const handleConfirmTime = async (data: z.infer<typeof TForm>) => {
     updateScheduleInfo(
       {
@@ -100,12 +96,20 @@ export default function ScheduleInfo() {
         confirm_date: data.confirm_date,
       },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
           alert('확정 되었습니다.');
           router.replace('/home');
         },
       },
     );
+  };
+
+  // label 처리
+  const getLabelAtDateTime = (date: DateTime) => {
+    if (date.length < 1) return '';
+
+    const yyyymmdd = Object.keys(date[0])[0];
+    return `${yyyymmdd} (${dayjs(yyyymmdd).format('dd')}) ${date[0][yyyymmdd][0].time} `;
   };
 
   React.useEffect(() => {
@@ -143,7 +147,9 @@ export default function ScheduleInfo() {
                 className='bg-brand'
                 variant={'default'}
                 size={'small'}
-                onPress={handleSubmit(handleConfirmTime)}
+                onPress={() => {
+                  setOpen(true);
+                }}
                 disabled={!formState.isValid}>
                 <Text>일정 확정</Text>
               </Button>
@@ -191,7 +197,6 @@ export default function ScheduleInfo() {
                             userCnt={scheduleData.member_cnt ?? 0}
                             selectedCnt={0}
                             onAction={() => {
-                              // handleUpdateDateTime(date, time);
                               setSelectedDateTime([{ [date]: [{ time }] }]);
                               setValue('confirm_date', [{ [date]: [{ time }] }], { shouldValidate: true });
                             }}
@@ -235,16 +240,12 @@ export default function ScheduleInfo() {
               <AlertDialogTitle>일정을 확정하시겠습니까?</AlertDialogTitle>
               <AlertDialogDescription className=''>
                 <Text>선택된 일정</Text> {'\n'}
-                2024.10.17(목) 10:00{'\n'}
-                2024.10.18(금) 10:00, 11:00
+                {/* 2024.10.17(목) 10:00 */}
+                {getLabelAtDateTime(selectedDateTime)}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogAction
-                className='w-[50%] text-center'
-                onPress={() => {
-                  router.push('/pub/detail/scheduleConfirm');
-                }}>
+              <AlertDialogAction className='w-[50%] text-center' onPress={handleSubmit(handleConfirmTime)}>
                 <Text>확정</Text>
               </AlertDialogAction>
               <AlertDialogCancel className='w-[50%] text-center'>

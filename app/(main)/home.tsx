@@ -9,7 +9,6 @@ import { DateItem } from '~/components/screen/dateItem';
 import { useAuth } from '~/providers/AuthProvider';
 import { useFocusEffect, useRouter } from 'expo-router';
 import useGetHomeList from '~/api/useGetHomeList';
-import { isEmpty } from 'lodash';
 import { extractDate } from '~/lib/utils';
 
 export default function Home() {

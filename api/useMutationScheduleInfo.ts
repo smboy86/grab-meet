@@ -36,7 +36,6 @@ const useMutationScheduleInfo = () => {
       return data;
     },
     onSuccess: async () => {
-      console.log('일정 확정 완료');
       await queryClient.invalidateQueries({ queryKey: ['home'] });
     },
   });
