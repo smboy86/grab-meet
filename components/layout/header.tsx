@@ -20,7 +20,7 @@ const Header = React.forwardRef<ViewRef, HeaderProps>(
     return (
       <View
         className={cn(
-          'borde flex h-14 w-full flex-row items-center px-5',
+          'flex h-14 w-full flex-row items-center px-5',
           type === 'default' ? 'justify-center' : 'justify-between',
         )}
         ref={ref}>

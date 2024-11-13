@@ -44,6 +44,7 @@ export default function RootLayout() {
     (async () => {
       const theme = await AsyncStorage.getItem('theme');
       if (Platform.OS === 'web') {
+        console.log('33333');
         // Adds the background color to the html element to prevent white background on overscroll.
         document.documentElement.classList.add('bg-background');
       }
@@ -62,7 +63,9 @@ export default function RootLayout() {
       setAndroidNavigationBar(colorTheme);
       setIsColorSchemeLoaded(true);
     })().finally(() => {
+      console.log('2111');
       SplashScreen.hideAsync();
+      console.log('3333');
       // TODO - 좀 언섹시
       router.replace('/home');
     });

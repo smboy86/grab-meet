@@ -96,9 +96,19 @@ export default function ScheduleInfo() {
   useEffect(() => {
     trigger(); // 수동으로 체크하는 이게 최선인가..?
 
+    // if (scheduleData?.confirm_date && !isEmpty(scheduleData.confirm_date)) {
+    //   setSelectedDateTime(JSON.parse(scheduleData.confirm_date));
+    //   setValue('confirm_date', JSON.parse(scheduleData.confirm_date), { shouldValidate: true });
+    // }
     if (scheduleData?.confirm_date && !isEmpty(scheduleData.confirm_date)) {
-      setSelectedDateTime(JSON.parse(scheduleData.confirm_date));
-      setValue('confirm_date', JSON.parse(scheduleData.confirm_date), { shouldValidate: true });
+      const parsedConfirmDate = JSON.parse(scheduleData.confirm_date);
+
+      if (typeof parsedConfirmDate === 'string' || typeof parsedConfirmDate === 'number') {
+        setSelectedDateTime(parsedConfirmDate);
+        setValue('confirm_date', parsedConfirmDate.toString(), { shouldValidate: true });
+      } else {
+        console.error('Invalid confirm_date format:', parsedConfirmDate);
+      }
     }
   }, []);
 

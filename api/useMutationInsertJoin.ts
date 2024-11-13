@@ -1,3 +1,4 @@
+// TODO - 참석자 제한 hp로 분별
 import { useMutation } from '@tanstack/react-query';
 import { Json } from '~/types/database.types';
 import { supabase } from '~/utils/supabase';

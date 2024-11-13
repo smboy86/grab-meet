@@ -8,27 +8,6 @@ import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 import { supabase } from '~/utils/supabase';
 
-type Menu = {
-  title: string;
-  link: Routes;
-};
-
-// TODO - 메뉴 화면 링크 or 기능 추가
-// const MENU_LIST: Array<Menu> = [
-//   {
-//     title: '앱정보',
-//     link: '/(main)/home',
-//   },
-//   {
-//     title: '패스워드 재설정',
-//     link: '/',
-//   },
-//   {
-//     title: '스토어 평점주기',
-//     link: '/',
-//   },
-// ];
-
 export default function My() {
   const router = useRouter();
   const { isLogin } = useAuth();

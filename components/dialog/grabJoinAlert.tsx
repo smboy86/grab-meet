@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, Platform, View } from 'react-native';
 import { Button } from '../ui/button';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Input } from '../ui/input';
@@ -44,8 +44,10 @@ export default function GrabJoinAlert(props: Props) {
                   placeholder='핸드폰 번호를 입력하세요'
                   className='my-2'
                   style={{
-                    width: width * 0.75,
+                    width: Platform.OS === 'web' ? '100%' : width * 0.75,
                   }}
+                  keyboardType='number-pad'
+                  maxLength={9}
                 />
               </View>
             </View>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { cn } from '~/lib/utils';
 import { ViewRef } from '@rn-primitives/types';
 import { Text } from '../ui/text';
@@ -21,6 +21,7 @@ const Wrap = React.forwardRef<ViewRef, WrapProps>(
       <View
         className={cn(
           `flex w-full max-w-[372px] flex-col ${full && 'flex-1'} ${type === 'default' ? 'px-5' : 'px-8'}`,
+          Platform.OS === 'web' ? 'pb-10' : '',
           className,
         )}
         ref={ref}

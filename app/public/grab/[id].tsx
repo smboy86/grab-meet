@@ -37,6 +37,7 @@ export const TFormSec = z.object({
 export default function Screen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<PageProps>();
+  console.log('fffff   ', id);
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
   const scheduleData = React.useMemo(() => {
     return data && data.length > 0 ? data[0] : null;
@@ -88,7 +89,7 @@ export default function Screen() {
           headerShown: false,
         }}
       />
-      <Container className='items-center justify-center'>
+      <Container className='items-center justify-center bg-white'>
         <Header type='default' />
         <Wrap type='default' scroll className='mt-6'>
           <ScrollView showsVerticalScrollIndicator={false}>
