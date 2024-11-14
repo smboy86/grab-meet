@@ -63,9 +63,7 @@ export default function RootLayout() {
       setAndroidNavigationBar(colorTheme);
       setIsColorSchemeLoaded(true);
     })().finally(() => {
-      console.log('2111');
       SplashScreen.hideAsync();
-      console.log('3333');
       // TODO - 좀 언섹시
       router.replace('/home');
     });
