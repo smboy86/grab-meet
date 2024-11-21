@@ -1,13 +1,14 @@
 import { clsx, type ClassValue } from 'clsx';
 import { isEmpty } from 'lodash';
 import { twMerge } from 'tailwind-merge';
+import { Json } from '~/types/database.types';
 import { DateTime } from '~/types/schedule.types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function extractDate(dateString: string | null): string {
+export function extractDate(dateString: Json | string | null): string {
   try {
     if (isEmpty(dateString)) {
       return '____.__.__';
