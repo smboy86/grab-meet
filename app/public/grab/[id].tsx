@@ -37,7 +37,7 @@ export const TFormSec = z.object({
 export default function Screen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<PageProps>();
-  console.log('fffff   ', id);
+
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
   const scheduleData = React.useMemo(() => {
     return data && data.length > 0 ? data[0] : null;
