@@ -1,6 +1,6 @@
 // TODO - 카카오 공유하기
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Alert, Platform, Pressable, ScrollView, View } from 'react-native';
 import useGetScheduleDetail from '~/api/useGetScheduleInfo';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
@@ -30,6 +30,10 @@ import { isActive } from '~/lib/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { domain } from '~/constants/options';
 import * as Clipboard from 'expo-clipboard';
+import { shareCustomTemplate, shareFeedTemplate, shareTextTemplate } from '@react-native-kakao/share';
+
+import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
+dayjs.locale('ko');
 
 const TimeSlotScheme = z.object({
   time: z.string(),
@@ -223,7 +227,76 @@ export default function ScheduleInfo() {
                 variant='outline'
                 className=''
                 onPress={() => {
-                  alert('카카오로 공유하기');
+                  // const template = {
+                  //   content: KakaoTemplateContent;
+                  //   // itemContent?: KakaoTemplateItemContent;
+                  //   // social?: KakaoTemplateSocial;
+                  //   // buttons?: KakaoTemplateButton[];
+                  //   buttonTitle?: '하이';
+                  // }
+                  if (Platform.OS === 'web') {
+                    Alert.alert('안내', '웹에서는 카카오 공유하기가 작동하지 않습니다.');
+                    return;
+                  }
+
+                  shareCustomTemplate({
+                    templateId: 114268,
+                    templateArgs: {},
+                    serverCallbackArgs: {},
+                    // useWebBrowserIfKakaoTalkNotAvailable: true,
+                  }).catch(console.log);
+                  // shareTextTemplate({
+                  //   template: {
+                  //     text: 'text',
+                  //     link: {
+                  //       webUrl: 'https://mjstudio.net',
+                  //       mobileWebUrl: 'https://mjstudio.net',
+                  //       iosExecutionParams: {},
+                  //       androidExecutionParams: {},
+                  //     },
+                  //     buttons: [
+                  //       {
+                  //         title: '앱에서 보기',
+                  //         link: {
+                  //           webUrl: 'https://mjstudio.net',
+                  //           mobileWebUrl: 'https://mjstudio.net',
+                  //           iosExecutionParams: {},
+                  //           androidExecutionParams: {},
+                  //         },
+                  //       },
+                  //     ],
+                  //   },
+                  //   serverCallbackArgs: {},
+                  // }).catch((e) => {
+                  //   console.log('ffff ', e);
+                  // });
+
+                  // export interface KakaoTextTemplate {
+                  //   text: string;
+                  //   link: KakaoTemplateLink;
+                  //   buttons?: KakaoTemplateButton[];
+                  //   buttonTitle?: string;
+                  // }
+                  // try {
+                  //   shareTextTemplate({
+                  //     template: {
+                  //       link: {
+                  //         webUrl: `${domain}/public/grab/${id}`,
+                  //         mobileWebUrl: `${domain}/public/grab/${id}`,
+                  //       },
+                  //       text: '공유해보자ㅣㅏㅏㅏ',
+                  //     },
+                  //     serverCallbackArgs: {},
+                  //   })
+                  //     .then((data) => {
+                  //       console.log('4444  ', data);
+                  //     })
+                  //     .catch((e) => {
+                  //       console.log('eeeee  ', e);
+                  //     });
+                  // } catch (e) {
+                  //   console.log('ffffffff  ', e);
+                  // }
                 }}>
                 <Text>카카오로 공유하기</Text>
               </Button>

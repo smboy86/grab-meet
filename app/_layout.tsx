@@ -2,7 +2,7 @@ import '~/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
-import { SplashScreen, Stack, useRouter } from 'expo-router';
+import { SplashScreen, Stack, useRootNavigationState, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Platform } from 'react-native';
@@ -10,11 +10,11 @@ import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
-import { AuthProvider } from '~/providers/AuthProvider';
+import { AuthProvider, useAuth } from '~/providers/AuthProvider';
 import QueryProvider from '~/providers/QueryProvider';
 
 export const unstable_settings = {
-  initialRouteName: '/pub/index',
+  initialRouteName: '(main)',
 };
 
 const LIGHT_THEME: Theme = {
@@ -38,13 +38,13 @@ export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
   const router = useRouter();
+  const rootNavigationState = useRootNavigationState();
 
   // for splash / font / asset
   React.useEffect(() => {
     (async () => {
       const theme = await AsyncStorage.getItem('theme');
       if (Platform.OS === 'web') {
-        console.log('33333');
         // Adds the background color to the html element to prevent white background on overscroll.
         document.documentElement.classList.add('bg-background');
       }
@@ -63,15 +63,30 @@ export default function RootLayout() {
       setAndroidNavigationBar(colorTheme);
       setIsColorSchemeLoaded(true);
     })().finally(() => {
-      SplashScreen.hideAsync();
-      // TODO - 좀 언섹시
-      router.replace('/home');
+      if (Platform.OS === 'ios') {
+        setTimeout(() => {
+          SplashScreen.hideAsync();
+          //TODO - 언섹시...
+          router.replace('/home');
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          SplashScreen.hideAsync();
+          router.replace('/home');
+        }, 1000);
+        // setImmediate(() => {
+        //   SplashScreen.hideAsync();
+        //   router.replace('/home');
+        // });
+      }
     });
   }, []);
 
   if (!isColorSchemeLoaded) {
     return null;
   }
+
+  // if (!rootNavigationState?.key) return null;
 
   return (
     <AuthProvider>
@@ -81,7 +96,8 @@ export default function RootLayout() {
           <Stack
             screenOptions={{
               headerShown: true,
-              headerBackTitleVisible: false,
+              // headerBackTitleVisible: false,
+              headerBackTitle: '',
             }}>
             <Stack.Screen
               name='(main)'

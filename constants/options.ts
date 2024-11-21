@@ -1,1 +1,1 @@
-export const domain = 'http://localhost:8081';
+export const domain = 'https://grabmeet.devpoi.store';
