@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>grab-meet</string>
-          <string>com.naldacompany.grab-meet</string>
+          <string>com.naldacompany.grabmeet</string>
         </array>
       </dict>
       <dict>
@@ -37,9 +37,26 @@
           <string>exp+grab-meet</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>kakaodd4dbb779927ca4fc5601741e00024c2</string>
+        </array>
+        <key>CFBundleURLName</key>
+        <string>Kakao</string>
+      </dict>
     </array>
     <key>CFBundleVersion</key>
     <string>1</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>kakaokompassauth</string>
+      <string>kakaolink</string>
+      <string>kakaoplus</string>
+      <string>kakaonavi-sdk</string>
+    </array>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
@@ -78,7 +95,7 @@
       <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
     <key>UIUserInterfaceStyle</key>
-    <string>Automatic</string>
+    <string>Light</string>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
   </dict>
