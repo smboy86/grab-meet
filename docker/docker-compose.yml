@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  expo-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    environment:
+      - PORT=31543
+    ports:
+      - 31543:3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    # command: npx serve dist --single --listen 3000

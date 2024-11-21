@@ -7,6 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "grab-meet",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/app/splash_new.png",
       "resizeMode": "contain",
@@ -15,14 +16,18 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.naldacompany.grab-meet"
+      "bundleIdentifier": "com.naldacompany.grabmeet",
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.gogaesanghoe.grabmeet"
+      "package": "com.naldacompany.grabmeet",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "bundler": "metro",
@@ -30,7 +35,39 @@
       "favicon": "./assets/images/favicon.png",
       "backgroundColor": "#ffffff"
     },
-    "plugins": ["expo-router", "expo-secure-store", "expo-asset"],
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-asset",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": [
+              "https://repository.map.naver.com/archive/maven",
+              "https://devrepo.kakao.com/nexus/content/groups/public/",
+              "https://devrepo.kakao.com/nexus/repository/kakaomap-releases/"
+            ],
+            "minSdkVerson": 26
+          }
+        }
+      ],
+      [
+        "@react-native-kakao/core",
+        {
+          "nativeAppKey": "dd4dbb779927ca4fc5601741e00024c2",
+          "android": {
+            "authCodeHandlerActivity": true,
+            "followChannelHandlerActivity": true,
+            "forwardKakaoLinkIntentFilterToMainActivity": true
+          },
+          "ios": {
+            "handleKakaoOpenUrl": true,
+            "naviApplicationQuerySchemes": true
+          }
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },
@@ -38,6 +75,9 @@
       "eas": {
         "projectId": "b64e64b3-9caa-4a16-8d76-50db5722cec6"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b64e64b3-9caa-4a16-8d76-50db5722cec6"
     }
   }
 }
