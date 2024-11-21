@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Json } from '~/types/database.types';
 import { supabase } from '~/utils/supabase';
 
 // type Return = Database['public']['Tables']['schedule']['Row'];
@@ -7,7 +8,7 @@ type ReturnValue = {
   title: string | null;
   status: string | null;
   member_cnt: number | null; // 참여 인원
-  confirm_date: string | null; // 확정일 2024. 10. 11
+  confirm_date: Json | null; // 확정일 2024. 10. 11
 };
 
 const useGetHomeList = () => {

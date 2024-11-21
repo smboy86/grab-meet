@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Pressable, View, ViewProps } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { cn } from '~/lib/utils';
-import { PressableRef, ViewRef } from '@rn-primitives/types';
+import { PressableRef } from '@rn-primitives/types';
 import { Text } from '../ui/text';
+import { Json } from '~/types/database.types';
 
 interface DateItemProps {
   ref?: PressableRef;
   title: string;
   status: string; // 투표중, 확정, 종료
   member_cnt: number;
-  confirm_date: string | null; // 확정일 2024. 10. 11
+  confirm_date: Json | null; // 확정일 2024. 10. 11
   onPress: (item: string) => void;
 }
 
@@ -27,7 +28,7 @@ const DateItem = React.forwardRef<React.ElementRef<typeof Pressable>, DateItemPr
             {title}
           </Text>
           <Text className='text-sm text-[#767676]'>
-            {confirm_date ? confirm_date : '____.__.__'} 참여인원 {member_cnt}명
+            {confirm_date ? confirm_date.toString() : '____.__.__'} 참여인원 {member_cnt}명
           </Text>
         </View>
         <View className='flex w-2/12'>

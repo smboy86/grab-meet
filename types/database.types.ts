@@ -1,266 +1,217 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
   public: {
     Tables: {
       join: {
         Row: {
-          created_at: string
-          id: number
-        }
+          created_at: string;
+          id: number;
+        };
         Insert: {
-          created_at?: string
-          id?: number
-        }
+          created_at?: string;
+          id?: number;
+        };
         Update: {
-          created_at?: string
-          id?: number
-        }
-        Relationships: []
-      }
+          created_at?: string;
+          id?: number;
+        };
+        Relationships: [];
+      };
       schedule: {
         Row: {
-          confirm_date: Json | null
-          created_at: string
-          date_time: Json[] | null
-          id: number
-          member_cnt: number | null
-          schedule_id: string
-          status: string | null
-          title: string | null
-          user_id: string | null
-        }
+          confirm_date: Json | null;
+          created_at: string;
+          date_time: Json[] | null;
+          id: number;
+          member_cnt: number | null;
+          schedule_id: string;
+          status: string | null;
+          title: string | null;
+          user_id: string | null;
+        };
         Insert: {
-          confirm_date?: Json | null
-          created_at?: string
-          date_time?: Json[] | null
-          id?: number
-          member_cnt?: number | null
-          schedule_id?: string
-          status?: string | null
-          title?: string | null
-          user_id?: string | null
-        }
+          confirm_date?: Json | null;
+          created_at?: string;
+          date_time?: Json[] | null;
+          id?: number;
+          member_cnt?: number | null;
+          schedule_id?: string;
+          status?: string | null;
+          title?: string | null;
+          user_id?: string | null;
+        };
         Update: {
-          confirm_date?: Json | null
-          created_at?: string
-          date_time?: Json[] | null
-          id?: number
-          member_cnt?: number | null
-          schedule_id?: string
-          status?: string | null
-          title?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      schedule_date: {
-        Row: {
-          date: string | null
-          id: string
-        }
-        Insert: {
-          date?: string | null
-          id: string
-        }
-        Update: {
-          date?: string | null
-          id?: string
-        }
-        Relationships: []
-      }
+          confirm_date?: Json | null;
+          created_at?: string;
+          date_time?: Json[] | null;
+          id?: number;
+          member_cnt?: number | null;
+          schedule_id?: string;
+          status?: string | null;
+          title?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
       schedule_grab: {
         Row: {
-          created_at: string
-          date_time: Json | null
-          hp: string
-          id: number
-          schedule_id: string
-          udpate_at: string | null
-        }
+          created_at: string;
+          date_time: Json | null;
+          hp: string;
+          id: number;
+          schedule_id: string;
+          udpate_at: string | null;
+        };
         Insert: {
-          created_at?: string
-          date_time?: Json | null
-          hp: string
-          id?: number
-          schedule_id: string
-          udpate_at?: string | null
-        }
+          created_at?: string;
+          date_time?: Json | null;
+          hp: string;
+          id?: number;
+          schedule_id: string;
+          udpate_at?: string | null;
+        };
         Update: {
-          created_at?: string
-          date_time?: Json | null
-          hp?: string
-          id?: number
-          schedule_id?: string
-          udpate_at?: string | null
-        }
+          created_at?: string;
+          date_time?: Json | null;
+          hp?: string;
+          id?: number;
+          schedule_id?: string;
+          udpate_at?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "schedule_grab_schedule_id_fkey"
-            columns: ["schedule_id"]
-            isOneToOne: false
-            referencedRelation: "schedule"
-            referencedColumns: ["schedule_id"]
+            foreignKeyName: 'schedule_grab_schedule_id_fkey';
+            columns: ['schedule_id'];
+            isOneToOne: false;
+            referencedRelation: 'schedule';
+            referencedColumns: ['schedule_id'];
           },
-        ]
-      }
-      schedule_time: {
-        Row: {
-          created_at: string
-          id: string
-          time: string | null
-        }
-        Insert: {
-          created_at?: string
-          id: string
-          time?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          time?: string | null
-        }
-        Relationships: []
-      }
+        ];
+      };
       user: {
         Row: {
-          created_at: string
-          email: string | null
-          id: number
-          name: string | null
-          user_id: string
-        }
+          created_at: string;
+          email: string | null;
+          id: number;
+          name: string | null;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          email?: string | null
-          id?: number
-          name?: string | null
-          user_id?: string
-        }
+          created_at?: string;
+          email?: string | null;
+          id?: number;
+          name?: string | null;
+          user_id?: string;
+        };
         Update: {
-          created_at?: string
-          email?: string | null
-          id?: number
-          name?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
-    }
+          created_at?: string;
+          email?: string | null;
+          id?: number;
+          name?: string | null;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, 'public'>];
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+        Database[PublicTableNameOrOptions['schema']]['Views'])
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+      Row: infer R;
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
+  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+    ? (PublicSchema['Tables'] & PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+        Row: infer R;
       }
       ? R
       : never
-    : never
+    : never;
 
 export type TablesInsert<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
-    | { schema: keyof Database },
+  PublicTableNameOrOptions extends keyof PublicSchema['Tables'] | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+      Insert: infer I;
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+        Insert: infer I;
       }
       ? I
       : never
-    : never
+    : never;
 
 export type TablesUpdate<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
-    | { schema: keyof Database },
+  PublicTableNameOrOptions extends keyof PublicSchema['Tables'] | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+      Update: infer U;
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+        Update: infer U;
       }
       ? U
       : never
-    : never
+    : never;
 
 export type Enums<
-  PublicEnumNameOrOptions extends
-    | keyof PublicSchema["Enums"]
-    | { schema: keyof Database },
+  PublicEnumNameOrOptions extends keyof PublicSchema['Enums'] | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
     : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
+    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+    : never;
 
 export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
-    | { schema: keyof Database },
+  PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes'] | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof Database;
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
+    ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+    : never;
