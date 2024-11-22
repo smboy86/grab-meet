@@ -1,5 +1,3 @@
-import { Stack } from 'expo-router';
-import * as React from 'react';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
 import { Header } from '~/components/layout/header';

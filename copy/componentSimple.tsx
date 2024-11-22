@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ElementRef, forwardRef } from 'react';
 import { View, ViewProps } from 'react-native';
 import { cn } from '~/lib/utils';
 
@@ -8,7 +8,7 @@ interface ComponentProps extends ViewProps {
   // TODO create rightBtn
 }
 
-const Component = React.forwardRef<React.ElementRef<typeof View>, ComponentProps>(
+const Component = forwardRef<ElementRef<typeof View>, ComponentProps>(
   ({ type = 'defalut', onAction }, ref) => {
     return <View className={cn('borde flex h-14 w-full flex-row items-center px-5')} ref={ref}></View>;
   },
