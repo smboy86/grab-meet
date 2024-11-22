@@ -1,4 +1,4 @@
-import { Link, Routes, Stack, useRouter } from 'expo-router';
+import { Link, Stack, useRouter } from 'expo-router';
 import * as React from 'react';
 import { useAuth } from '~/providers/AuthProvider';
 import { Wrap } from '~/components/layout/\bwrap';
