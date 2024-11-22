@@ -73,7 +73,7 @@ export default function Login() {
 
   return (
     <Container className='items-center justify-center'>
-      <Stack.Screen options={{ title: '화면에서 타이틀 재정의', headerBackTitleVisible: false }} redirect />
+      <Stack.Screen options={{ title: '화면에서 타이틀 재정의', headerBackTitle: '' }} redirect />
       <Header type='default' />
       <Wrap type='default' full className='mt-6'>
         <View className='flex h-full justify-between'>
