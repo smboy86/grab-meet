@@ -1,19 +1,15 @@
-import { ElementRef, forwardRef } from 'react';
-import { View, ViewProps } from 'react-native';
-import { cn } from '~/lib/utils';
+import { View } from 'react-native';
+import { Text } from '~/components/ui/text';
 
-interface ComponentProps extends ViewProps {
-  type?: 'default' | 'btn';
-  onAction?: () => void;
-  // TODO create rightBtn
+type Props = {
+  content: string[];
+};
+
+export function ComponentSimple(props: Props) {
+  const { content = '' } = props;
+  return (
+    <View className='flex h-28 items-center justify-end'>
+      <Text className='mb-1 text-[#767676]'>하이!, 컴포넌트 {content}</Text>
+    </View>
+  );
 }
-
-const Component = forwardRef<ElementRef<typeof View>, ComponentProps>(
-  ({ type = 'defalut', onAction }, ref) => {
-    return <View className={cn('borde flex h-14 w-full flex-row items-center px-5')} ref={ref}></View>;
-  },
-);
-Component.displayName = 'Component';
-
-export { Component };
-export type { ComponentProps };
