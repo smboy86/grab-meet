@@ -10,6 +10,7 @@ import { useAuth } from '~/providers/AuthProvider';
 import { useFocusEffect, useRouter } from 'expo-router';
 import useGetHomeList from '~/api/useGetHomeList';
 import { extractDate } from '~/lib/utils';
+import { EmptyList } from '~/components/EmptyList';
 
 export default function Home() {
   const { isLogin } = useAuth();
@@ -76,10 +77,7 @@ export default function Home() {
           estimatedItemSize={40}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
-            <View className='flex h-28 items-center justify-end'>
-              <Text className='mb-1 text-[#767676]'>일정이 없습니다.</Text>
-              <Text className='text-[#767676]'>상단의 '일정 추가' 버튼을 눌러 추가해 주세요.</Text>
-            </View>
+            <EmptyList content={['일정이 없습니다.', '상단의 "일정 추가" 버튼을 눌러 추가해 주세요.']} />
           }
         />
       </Wrap>

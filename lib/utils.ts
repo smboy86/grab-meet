@@ -71,3 +71,30 @@ export const toggleSelectedTime = (dateTime: DateTime, date: string, time: strin
     return [];
   }
 };
+
+// 선택된 날짜를 투표 날짜로 변환
+// ex) []
+export const convertToScheduleArray = (dates: string[]): DateTime => {
+  dates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
+  return dates.map((date) => ({
+    [date]: Array.from({ length: 12 }, (_, index) => ({
+      time: `${('0' + (9 + index)).slice(-2)}:00`, // '09:00', '10:00', ..., '21:00'
+    })),
+  }));
+};
+
+// json 데이터에서 날짜가 존재하는지 확인하는 함수
+// ex) checkDateExists([{"2024-11-05":[{"time":"09:00"}]}] ["2024-11-06", "2024-11-22"])
+export const checkDateExists = (
+  // data: DateObject[],
+  data: any | null,
+  searchDates: string[],
+): boolean => {
+  if (data === null) return false;
+  // 데이터에서 날짜 추출
+  const existingDate = Object.keys(data[0])[0];
+
+  // searchDates 배열에 existingDate가 포함되어 있는지 확인
+  return searchDates.includes(existingDate);
+};

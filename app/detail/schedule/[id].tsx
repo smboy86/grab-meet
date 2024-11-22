@@ -103,12 +103,11 @@ export default function ScheduleInfo() {
     if (scheduleData?.confirm_date && !isEmpty(scheduleData.confirm_date)) {
       const parsedConfirmDate: DateTime = JSON.parse(scheduleData.confirm_date as string);
 
-      if (typeof parsedConfirmDate === 'string' || typeof parsedConfirmDate === 'number') {
-        setSelectedDateTime(parsedConfirmDate);
-        setValue('confirm_date', parsedConfirmDate, { shouldValidate: true });
-      } else {
-        console.error('Invalid confirm_date format:', parsedConfirmDate);
-      }
+      setSelectedDateTime(parsedConfirmDate);
+      // TODO - 코드 리펙토링 (타입)
+      setValue('confirm_date', parsedConfirmDate as z.infer<typeof TForm>['confirm_date'], {
+        shouldValidate: true,
+      });
     }
   }, []);
 

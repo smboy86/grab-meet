@@ -22,7 +22,7 @@ import {
 } from '~/components/ui/select';
 import { Text } from '~/components/ui/text';
 import images from '~/constants/images';
-import { cn, toggleSelectedTime } from '~/lib/utils';
+import { cn, convertToScheduleArray, toggleSelectedTime } from '~/lib/utils';
 import * as z from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -107,17 +107,6 @@ export default function Screen() {
         },
       },
     );
-  };
-
-  // 선택된 날짜를 투표 날짜로 변환
-  const convertToScheduleArray = (dates: string[]): DateTime => {
-    dates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
-    return dates.map((date) => ({
-      [date]: Array.from({ length: 12 }, (_, index) => ({
-        time: `${('0' + (9 + index)).slice(-2)}:00`, // '09:00', '10:00', ..., '21:00'
-      })),
-    }));
   };
 
   // 날짜 선택시 선택 유무 업데이트
