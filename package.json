@@ -13,7 +13,8 @@
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
     "storybook-generate": "sb-rn-get-stories",
-    "supabase:gen": "npx supabase gen types --lang=typescript --project-id dhlfezdmcnodzwreqzrj --schema public > ./types/database.types.ts"
+    "supabase:gen": "npx supabase gen types --lang=typescript --project-id dhlfezdmcnodzwreqzrj --schema public > ./types/database.types.ts",
+    "check:type": "npx tsc --noEmit"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
