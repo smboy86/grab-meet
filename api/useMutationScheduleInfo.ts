@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { DateTime } from '~/app/detail/schedule/[id]';
 import { Json } from '~/types/database.types';
+import { DateTime } from '~/types/schedule.types';
 import { supabase } from '~/utils/supabase';
 
 type Props = {
