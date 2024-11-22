@@ -10,7 +10,7 @@ import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
-import { AuthProvider, useAuth } from '~/providers/AuthProvider';
+import { AuthProvider } from '~/providers/AuthProvider';
 import QueryProvider from '~/providers/QueryProvider';
 
 export const unstable_settings = {
@@ -37,8 +37,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
-  const router = useRouter();
-  const rootNavigationState = useRootNavigationState();
 
   // for splash / font / asset
   React.useEffect(() => {
@@ -62,24 +60,7 @@ export default function RootLayout() {
       }
       setAndroidNavigationBar(colorTheme);
       setIsColorSchemeLoaded(true);
-    })().finally(() => {
-      if (Platform.OS === 'ios') {
-        setTimeout(() => {
-          SplashScreen.hideAsync();
-          //TODO - 언섹시...
-          router.replace('/home');
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          SplashScreen.hideAsync();
-          router.replace('/home');
-        }, 1000);
-        // setImmediate(() => {
-        //   SplashScreen.hideAsync();
-        //   router.replace('/home');
-        // });
-      }
-    });
+    })();
   }, []);
 
   if (!isColorSchemeLoaded) {
@@ -96,7 +77,6 @@ export default function RootLayout() {
           <Stack
             screenOptions={{
               headerShown: true,
-              // headerBackTitleVisible: false,
               headerBackTitle: '',
             }}>
             <Stack.Screen

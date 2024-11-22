@@ -84,7 +84,7 @@ export default function ScheduleInfo() {
       {
         onSuccess: () => {
           alert('확정 되었습니다.');
-          router.replace('/home');
+          router.replace('/(main)/home');
         },
       },
     );

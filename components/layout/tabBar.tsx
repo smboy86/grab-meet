@@ -1,8 +1,7 @@
 import { View, StyleSheet, Platform } from 'react-native';
 import TabBarButton from './tabBarButton';
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { BottomTabBarProps } from 'expo-router/node_modules/@react-navigation/bottom-tabs/src/types';
 
-// TODO - 타입 세이프
 type Props = {} & BottomTabBarProps;
 
 const TabBar = ({ state, descriptors, navigation }: Props) => {
@@ -12,6 +11,8 @@ const TabBar = ({ state, descriptors, navigation }: Props) => {
   return (
     <View style={styles.tabbar}>
       {state.routes.map((route, index) => {
+        if (route.name === 'index') return null;
+
         const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
