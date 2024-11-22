@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import { isEmpty } from 'lodash';
+import { useAuth } from '~/providers/AuthProvider';
 import { Json } from '~/types/database.types';
 import { supabase } from '~/utils/supabase';
 
@@ -12,12 +14,17 @@ type ReturnValue = {
 };
 
 const useGetHomeList = () => {
+  const { session } = useAuth();
+
   return useQuery<Array<ReturnValue>>({
     queryKey: ['home'],
     queryFn: async () => {
+      if (isEmpty(session)) return [];
+
       const { data, error } = await supabase
         .from('schedule')
         .select(`schedule_id, title, status, member_cnt, confirm_date`)
+        .eq('user_id', session.user.id)
         .order('created_at', { ascending: false });
 
       if (error || !data) {
