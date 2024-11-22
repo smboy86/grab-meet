@@ -1,4 +1,3 @@
-// TODO - 카카오 공유하기
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { Alert, Platform, Pressable, ScrollView, View } from 'react-native';
 import useGetScheduleDetail from '~/api/useGetScheduleInfo';
@@ -101,16 +100,12 @@ export default function ScheduleInfo() {
   useEffect(() => {
     trigger(); // 수동으로 체크하는 이게 최선인가..?
 
-    // if (scheduleData?.confirm_date && !isEmpty(scheduleData.confirm_date)) {
-    //   setSelectedDateTime(JSON.parse(scheduleData.confirm_date));
-    //   setValue('confirm_date', JSON.parse(scheduleData.confirm_date), { shouldValidate: true });
-    // }
     if (scheduleData?.confirm_date && !isEmpty(scheduleData.confirm_date)) {
-      const parsedConfirmDate = JSON.parse(scheduleData.confirm_date);
+      const parsedConfirmDate: DateTime = JSON.parse(scheduleData.confirm_date as string);
 
       if (typeof parsedConfirmDate === 'string' || typeof parsedConfirmDate === 'number') {
         setSelectedDateTime(parsedConfirmDate);
-        setValue('confirm_date', parsedConfirmDate.toString(), { shouldValidate: true });
+        setValue('confirm_date', parsedConfirmDate, { shouldValidate: true });
       } else {
         console.error('Invalid confirm_date format:', parsedConfirmDate);
       }

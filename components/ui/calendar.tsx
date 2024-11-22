@@ -12,7 +12,7 @@ interface CalendarBoxProps extends ViewProps {
   initMarkedDates?: Record<string, { selected: boolean }>; // 초기 선택된 날짜
   markedDates?: Record<string, { selected: boolean }>; // 수정된 선택된 날짜
   // onDaySelect?: (selectDay: string, selectedDays: string[]) => void; // 날짜 선택시 이벤트
-  onDaySelect: (selectDay: string) => void; // 날짜 선택시 이벤트
+  onDaySelect?: (selectDay: string) => void; // 날짜 선택시 이벤트
 }
 
 // Theme 타입 확장
@@ -103,7 +103,7 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(
             // day >> {"dateString": "2024-11-07", "day": 7, "month": 11, "timestamp": 1730937600000, "year": 2024}
             // console.log('ffff  ', day);
             // handleToggleDate(day.dateString);
-            onDaySelect(day.dateString);
+            onDaySelect?.(day.dateString);
           }}
           markedDates={markedDates}
           renderArrow={(direction) => {
