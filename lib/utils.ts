@@ -86,11 +86,7 @@ export const convertToScheduleArray = (dates: string[]): DateTime => {
 
 // json 데이터에서 날짜가 존재하는지 확인하는 함수
 // ex) checkDateExists([{"2024-11-05":[{"time":"09:00"}]}] ["2024-11-06", "2024-11-22"])
-export const checkDateExists = (
-  // data: DateObject[],
-  data: any | null,
-  searchDates: string[],
-): boolean => {
+export const checkDateExists = (data: any | null, searchDates: string[]): boolean => {
   if (data === null) return false;
   // 데이터에서 날짜 추출
   const existingDate = Object.keys(data[0])[0];
