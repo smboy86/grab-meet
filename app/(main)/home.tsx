@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, Platform, View } from 'react-native';
 import { Wrap } from '~/components/layout/\bwrap';
 import { Container } from '~/components/layout/container';
 import { Header } from '~/components/layout/header';
-import { Text } from '~/components/ui/text';
 import { FlashList } from '@shopify/flash-list';
 import { DateItem } from '~/components/screen/dateItem';
 import { useAuth } from '~/providers/AuthProvider';
@@ -73,7 +72,7 @@ export default function Home() {
               }}
             />
           )}
-          ListFooterComponent={<View className='py-5' />}
+          ListFooterComponent={<View className={Platform.OS === 'ios' ? 'py-5' : 'py-14'} />}
           estimatedItemSize={40}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
