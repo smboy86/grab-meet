@@ -10,19 +10,20 @@ import { GrabDateItem } from '~/components/screen/grabDateItem';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 import dayjs from 'dayjs';
-import { DateTime } from '~/types/schedule.types';
+import { DateTime, GrabDateTime } from '~/types/schedule.types';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { DayTimeScheme } from '~/types/scheme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FlashList } from '@shopify/flash-list';
-import { isActive, toggleSelectedTime } from '~/lib/utils';
+import { findMatchSchedules, isActive, toggleSelectedTime } from '~/lib/utils';
 import { Json } from '~/types/database.types';
 import GrabJoinAlert from '~/components/dialog/grabJoinAlert';
 import useMutationInsertJoin, { useMutationInsertJoinProps } from '~/api/useMutationInsertJoin';
 import { useRouter } from 'expo-router';
 
 import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
+import useGetGrabStatus from '~/api/useGetGrabStatus';
 dayjs.locale('ko');
 
 type PageProps = {
@@ -42,6 +43,8 @@ export default function Screen() {
   const { id } = useLocalSearchParams<PageProps>();
 
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
+  const { data: grabData } = useGetGrabStatus({ id });
+
   const scheduleData = React.useMemo(() => {
     return data && data.length > 0 ? data[0] : null;
   }, [data]);
@@ -52,6 +55,33 @@ export default function Screen() {
     const value = data[0].date_time as Json[];
     return value.map((item) => item) as DateTime;
   }, [data]);
+
+  // 현재 확정된 데이터 배열 (time 부분이 배열이 아니다)
+  // ex) [{"2024-11-14": {"time": "09:00"}},{"2024-11-14": {"time": "14:00"}}, ... ]
+  const grabScheduleData = React.useMemo(() => {
+    if (!grabData) return [];
+    if (grabData.length <= 0) return [];
+
+    const result: GrabDateTime = [];
+    grabData.forEach((item) => {
+      if (item.date_time === null) return;
+      const dateTimeList = item.date_time as DateTime;
+      dateTimeList.forEach((subItem) => {
+        Object.entries(subItem).forEach(([date, times]) => {
+          times.forEach((subItemTime) => {
+            result.push({
+              [date]: {
+                time: subItemTime.time,
+              },
+            });
+          });
+        });
+      });
+    });
+
+    return result;
+  }, [grabData]);
+
   const { control, handleSubmit, formState, trigger } = useForm<z.infer<typeof TForm>>({
     resolver: zodResolver(TForm),
     defaultValues: {
@@ -64,19 +94,6 @@ export default function Screen() {
 
   const [open, setOpen] = React.useState(false);
   const { mutateAsync: insertJoin } = useMutationInsertJoin();
-
-  // 현재 날짜와 시간이 존재하는지 체크 (for 활성화)
-  const checkTimeExists = (data: DateTime, date: string, time: string): boolean => {
-    // 해당 날짜의 데이터 찾기
-    const dateData = data.find((item) => Object.keys(item)[0] === date);
-
-    if (!dateData) {
-      return false;
-    }
-
-    // 해당 시간이 존재하는지 확인
-    return dateData[date].some((timeSlot) => timeSlot.time === time);
-  };
 
   React.useEffect(() => {
     trigger(); // 수동으로 체크하는 이게 최선인가..?
@@ -101,8 +118,14 @@ export default function Screen() {
               <Text className='text-[15px] font-semibold text-[#111111]'>{scheduleData?.title}</Text>
             </View>
             <View className='mb-6'>
+              {/* TODO - 현재 참여 인원 / 총 참여인원 표기가 좋을듯 */}
               <Text className='mb-2 text-sm text-[#111111]'>참여 인원</Text>
-              <Text className='text-[15px] font-semibold text-[#111111]'>{scheduleData?.member_cnt}명</Text>
+              <Text className='text-[15px] font-semibold text-[#111111]'>
+                {grabData !== undefined && grabData?.length <= 0
+                  ? `${scheduleData?.member_cnt}`
+                  : `${grabData?.length}/${scheduleData?.member_cnt}`}
+                명
+              </Text>
             </View>
             <View className='mb-6 flex'>
               <Text className='mb-2 text-sm text-[#111111]'>일정 선택</Text>
@@ -125,16 +148,22 @@ export default function Screen() {
 
                           <View className='gab-1'>
                             {(valueTime ?? []).map((subItem) => {
-                              const isActivett = isActive(value, keyDate, subItem.time);
+                              const isActiveValue = isActive(value, keyDate, subItem.time);
+                              const cntGrabDateTime = findMatchSchedules(
+                                grabScheduleData,
+                                keyDate,
+                                subItem.time,
+                              );
+
                               return (
                                 <GrabDateItem
                                   key={`${keyDate}-${subItem.time}`}
                                   isEditable
                                   isInit={false}
-                                  isSelected={isActive(value, keyDate, subItem.time)}
+                                  isSelected={isActiveValue}
                                   date={subItem.time}
                                   userCnt={scheduleData?.member_cnt ?? 0}
-                                  selectedCnt={3}
+                                  selectedCnt={cntGrabDateTime}
                                   onAction={() => {
                                     // 1) form 데이터 셋팅
                                     onChange(toggleSelectedTime(value, keyDate, subItem.time));

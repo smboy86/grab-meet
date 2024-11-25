@@ -1,3 +1,4 @@
+// TODO - 카카오 공유하기 기능 마무리
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { Alert, Platform, Pressable, ScrollView, View } from 'react-native';
 import useGetScheduleDetail from '~/api/useGetScheduleInfo';
@@ -24,14 +25,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import useMutationScheduleInfo from '~/api/useMutationScheduleInfo';
 import { isEmpty } from 'lodash';
-import { DateTime } from '~/types/schedule.types';
-import { isActive } from '~/lib/utils';
+import { DateTime, GrabDateTime } from '~/types/schedule.types';
+import { findMatchSchedules, isActive } from '~/lib/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { domain } from '~/constants/options';
 import * as Clipboard from 'expo-clipboard';
-import { shareCustomTemplate, shareFeedTemplate, shareTextTemplate } from '@react-native-kakao/share';
+import { shareCustomTemplate } from '@react-native-kakao/share';
 
 import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
+import useGetGrabStatus from '~/api/useGetGrabStatus';
 dayjs.locale('ko');
 
 const TimeSlotScheme = z.object({
@@ -56,9 +58,35 @@ export default function ScheduleInfo() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
+  const { data: grabData } = useGetGrabStatus({ id });
+
   const scheduleData = useMemo(() => {
     return data && data.length > 0 ? data[0] : null;
   }, [data]);
+
+  const grabScheduleData = useMemo(() => {
+    if (!grabData) return [];
+    if (grabData.length <= 0) return [];
+
+    const result: GrabDateTime = [];
+    grabData.forEach((item) => {
+      if (item.date_time === null) return;
+      const dateTimeList = item.date_time as DateTime;
+      dateTimeList.forEach((subItem) => {
+        Object.entries(subItem).forEach(([date, times]) => {
+          times.forEach((subItemTime) => {
+            result.push({
+              [date]: {
+                time: subItemTime.time,
+              },
+            });
+          });
+        });
+      });
+    });
+
+    return result;
+  }, [grabData]);
 
   const [selectedDateTime, setSelectedDateTime] = useState<DateTime>([]);
 
@@ -156,7 +184,12 @@ export default function ScheduleInfo() {
             </View>
             <View className='mb-6'>
               <Text className='mb-2 text-sm text-[#111111]'>참여 인원</Text>
-              <Text className='text-[15px] font-semibold text-[#111111]'>{scheduleData?.member_cnt}명</Text>
+              <Text className='text-[15px] font-semibold text-[#111111]'>
+                {grabData !== undefined && grabData?.length <= 0
+                  ? `${scheduleData?.member_cnt}`
+                  : `${grabData?.length}/${scheduleData?.member_cnt}`}
+                명
+              </Text>
             </View>
             <View className='mb-6 flex'>
               <Text className='mb-2 text-sm text-[#111111]'>
@@ -176,22 +209,26 @@ export default function ScheduleInfo() {
                         {date} ({dayjs(date).format('dd')})
                       </Text>
                       <View className='gab-1'>
-                        {/* {times.map((time: string) => ( */}
-                        {times.map(({ time }) => (
-                          <GrabDateItem
-                            isEditable={mode === 'edit'}
-                            key={`${date}-${time}`}
-                            isInit={selectedDateTime.length === 0}
-                            isSelected={isActive(selectedDateTime, date, time)}
-                            date={time}
-                            userCnt={scheduleData.member_cnt ?? 0}
-                            selectedCnt={0}
-                            onAction={() => {
-                              setSelectedDateTime([{ [date]: [{ time }] }]);
-                              setValue('confirm_date', [{ [date]: [{ time }] }], { shouldValidate: true });
-                            }}
-                          />
-                        ))}
+                        {times.map(({ time }) => {
+                          const isActiveValue = isActive(selectedDateTime, date, time);
+                          const cntGrabDateTime = findMatchSchedules(grabScheduleData, date, time);
+
+                          return (
+                            <GrabDateItem
+                              isEditable={mode === 'edit'}
+                              key={`${date}-${time}`}
+                              isInit={selectedDateTime.length === 0}
+                              isSelected={isActiveValue}
+                              date={time}
+                              userCnt={scheduleData.member_cnt ?? 0}
+                              selectedCnt={cntGrabDateTime}
+                              onAction={() => {
+                                setSelectedDateTime([{ [date]: [{ time }] }]);
+                                setValue('confirm_date', [{ [date]: [{ time }] }], { shouldValidate: true });
+                              }}
+                            />
+                          );
+                        })}
                       </View>
                     </View>
                   );
@@ -210,7 +247,7 @@ export default function ScheduleInfo() {
                   className=''
                   onPress={async () => {
                     await Clipboard.setStringAsync(`${domain}/public/grab/${id}`);
-                    alert('복사 완료');
+                    Alert.alert('Grab Meet', '복사 완료');
                   }}>
                   <ImageBox source={images.icon_copy} style={{ width: 20, height: 20 }} className='h-5 w-5' />
                 </Pressable>
@@ -221,76 +258,31 @@ export default function ScheduleInfo() {
                 variant='outline'
                 className=''
                 onPress={() => {
-                  // const template = {
-                  //   content: KakaoTemplateContent;
-                  //   // itemContent?: KakaoTemplateItemContent;
-                  //   // social?: KakaoTemplateSocial;
-                  //   // buttons?: KakaoTemplateButton[];
-                  //   buttonTitle?: '하이';
-                  // }
                   if (Platform.OS === 'web') {
                     Alert.alert('안내', '웹에서는 카카오 공유하기가 작동하지 않습니다.');
                     return;
                   }
 
-                  shareCustomTemplate({
-                    templateId: 114268,
-                    templateArgs: {},
-                    serverCallbackArgs: {},
-                    // useWebBrowserIfKakaoTalkNotAvailable: true,
-                  }).catch(console.log);
-                  // shareTextTemplate({
-                  //   template: {
-                  //     text: 'text',
-                  //     link: {
-                  //       webUrl: 'https://mjstudio.net',
-                  //       mobileWebUrl: 'https://mjstudio.net',
-                  //       iosExecutionParams: {},
-                  //       androidExecutionParams: {},
-                  //     },
-                  //     buttons: [
-                  //       {
-                  //         title: '앱에서 보기',
-                  //         link: {
-                  //           webUrl: 'https://mjstudio.net',
-                  //           mobileWebUrl: 'https://mjstudio.net',
-                  //           iosExecutionParams: {},
-                  //           androidExecutionParams: {},
-                  //         },
-                  //       },
-                  //     ],
-                  //   },
-                  //   serverCallbackArgs: {},
-                  // }).catch((e) => {
-                  //   console.log('ffff ', e);
-                  // });
-
-                  // export interface KakaoTextTemplate {
-                  //   text: string;
-                  //   link: KakaoTemplateLink;
-                  //   buttons?: KakaoTemplateButton[];
-                  //   buttonTitle?: string;
-                  // }
-                  // try {
-                  //   shareTextTemplate({
-                  //     template: {
-                  //       link: {
-                  //         webUrl: `${domain}/public/grab/${id}`,
-                  //         mobileWebUrl: `${domain}/public/grab/${id}`,
-                  //       },
-                  //       text: '공유해보자ㅣㅏㅏㅏ',
-                  //     },
-                  //     serverCallbackArgs: {},
-                  //   })
-                  //     .then((data) => {
-                  //       console.log('4444  ', data);
-                  //     })
-                  //     .catch((e) => {
-                  //       console.log('eeeee  ', e);
-                  //     });
-                  // } catch (e) {
-                  //   console.log('ffffffff  ', e);
-                  // }
+                  try {
+                    shareCustomTemplate({
+                      templateId: 114268,
+                      templateArgs: {
+                        title: '미팅을 잡자',
+                        content: '가능한 미팅날을 선택해주세요',
+                        url: `public/grab/${id}`, // 앞에 / 붙이면 중복 에러
+                      },
+                      serverCallbackArgs: {},
+                    })
+                      .then((data) => {
+                        // console.log('4444  ', data);
+                        // >> data : 42
+                      })
+                      .catch((e) => {
+                        console.log('eeeee  ', e);
+                      });
+                  } catch (e) {
+                    console.log('ffffffff  ', e);
+                  }
                 }}>
                 <Text>카카오로 공유하기</Text>
               </Button>

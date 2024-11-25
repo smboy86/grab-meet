@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { isEmpty } from 'lodash';
 import { twMerge } from 'tailwind-merge';
 import { Json } from '~/types/database.types';
-import { DateTime } from '~/types/schedule.types';
+import { DateTime, GrabDateTime } from '~/types/schedule.types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -93,4 +93,24 @@ export const checkDateExists = (data: any | null, searchDates: string[]): boolea
 
   // searchDates 배열에 existingDate가 포함되어 있는지 확인
   return searchDates.includes(existingDate);
+};
+
+// 현재 미팅 참여 요청한 데이터들 중 몇명이 누가 선택하는지 체크하는 함수
+// ex)
+export const findMatchSchedules = (
+  grabDateTime: GrabDateTime | undefined,
+  targetDate: string,
+  targetTime: string,
+) => {
+  if (grabDateTime === undefined) return 0;
+
+  return grabDateTime.reduce((count, entry) => {
+    const date = Object.keys(entry)[0];
+    const timeValue = entry[date].time;
+
+    if (date === targetDate && timeValue === targetTime) {
+      return count + 1;
+    }
+    return count;
+  }, 0);
 };
