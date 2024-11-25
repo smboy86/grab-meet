@@ -148,7 +148,7 @@ export default function ScheduleInfo() {
         }}
       />
       <Container gray className='items-center justify-center'>
-        <Wrap type='default' scroll className='mt-6'>
+        <Wrap type='default' scroll>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View className='mb-6'>
               <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>

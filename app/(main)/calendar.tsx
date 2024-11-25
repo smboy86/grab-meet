@@ -48,7 +48,7 @@ export default function CalendarScreen() {
   return (
     <Container>
       <Header type='btn' onAction={() => alert('일정 추가')} actionBtnText='일정 추가' />
-      <Wrap type='default' full className='mt-6'>
+      <Wrap type='default' full>
         <CalendarBox
           markedDates={markedDates}
           onDaySelect={(day) => {

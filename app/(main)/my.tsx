@@ -25,7 +25,7 @@ export default function My() {
     <Container className='items-center justify-center'>
       <Stack.Screen options={{ title: 'Sign up' }} />
       <Header type='default' onAction={() => alert('일정 추가')} actionBtnText='일정 추가' />
-      <Wrap type='default' full className='mt-6'>
+      <Wrap type='default' full>
         <Link
           href={{
             pathname: '/public/grab/[id]',

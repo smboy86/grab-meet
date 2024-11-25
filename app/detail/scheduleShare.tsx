@@ -72,7 +72,7 @@ export default function Screen() {
 
   return (
     <Container gray className='items-center justify-center'>
-      <Wrap type='default' scroll className='mt-6'>
+      <Wrap type='default' scroll>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>링크 복사</Text>

@@ -20,7 +20,7 @@ const Wrap = React.forwardRef<ViewRef, WrapProps>(
     return (
       <View
         className={cn(
-          `flex w-full max-w-[372px] flex-col ${full && 'flex-1'} ${type === 'default' ? 'px-5' : 'px-8'}`,
+          `mt-6 flex w-full max-w-[372px] flex-col ${full && 'flex-1'} ${type === 'default' ? 'px-5' : 'px-8'}`,
           Platform.OS === 'web' ? 'pb-10' : '',
           className,
         )}

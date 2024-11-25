@@ -11,7 +11,7 @@ export default function Screen() {
 
   return (
     <Container className='items-center justify-center'>
-      <Wrap type='default' full className='mt-6'>
+      <Wrap type='default' full>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>일정 확정 공유</Text>

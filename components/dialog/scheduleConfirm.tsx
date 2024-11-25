@@ -8,7 +8,7 @@ export default function ScheduleConfirm() {
   return (
     <Container className='items-center justify-center'>
       <Header type='default' />
-      <Wrap type='default' full className='mt-6'>
+      <Wrap type='default' full>
         <Text>스케쥴 상세</Text>
       </Wrap>
     </Container>

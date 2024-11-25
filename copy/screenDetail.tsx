@@ -10,7 +10,7 @@ export default function Screen() {
       <Stack.Screen options={{ title: '스크린 제목' }} />
       <Container className='items-center justify-center'>
         <Header type='default' />
-        <Wrap type='default' full className='mt-6'>
+        <Wrap type='default' full>
           <Text>스케쥴 상세</Text>
         </Wrap>
       </Container>

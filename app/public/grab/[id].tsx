@@ -22,6 +22,9 @@ import GrabJoinAlert from '~/components/dialog/grabJoinAlert';
 import useMutationInsertJoin, { useMutationInsertJoinProps } from '~/api/useMutationInsertJoin';
 import { useRouter } from 'expo-router';
 
+import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
+dayjs.locale('ko');
+
 type PageProps = {
   id: string;
 };
@@ -91,7 +94,7 @@ export default function Screen() {
       />
       <Container className='items-center justify-center bg-white'>
         <Header type='default' />
-        <Wrap type='default' scroll className='mt-6'>
+        <Wrap type='default' scroll>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View className='mb-6'>
               <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>

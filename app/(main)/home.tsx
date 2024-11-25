@@ -53,7 +53,7 @@ export default function Home() {
   return (
     <Container className='items-center justify-center'>
       <Header type='btn' onAction={handleAddSchedule} actionBtnText='일정 추가' />
-      <Wrap type='default' full className='mt-6'>
+      <Wrap type='default' full>
         <FlashList
           data={data}
           renderItem={({ item }) => (

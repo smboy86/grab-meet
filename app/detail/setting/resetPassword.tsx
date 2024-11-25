@@ -13,7 +13,7 @@ export default function ResetPassword() {
 
   return (
     <Container className='items-center justify-center'>
-      <Wrap type='default' full className='mt-6'>
+      <Wrap type='default' full>
         <View className='h-full flex-col justify-between'>
           <View>
             <View className='mb-6 flex items-center justify-center'>
