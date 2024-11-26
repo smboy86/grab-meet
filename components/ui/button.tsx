@@ -76,6 +76,7 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
           className={cn(
             buttonVariants({ variant, size, className }),
             props.disabled && 'bg-[#F1F1F5] web:pointer-events-none',
+            props.disabled && size === 'default' && 'border-[#E5E5EC] bg-[#E5E5EC]',
           )}
           ref={ref}
           role='button'

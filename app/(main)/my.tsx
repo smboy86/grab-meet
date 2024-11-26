@@ -7,18 +7,27 @@ import { Header } from '~/components/layout/header';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 import { supabase } from '~/utils/supabase';
+import { Alert } from 'react-native';
 
 export default function My() {
   const router = useRouter();
   const { isLogin } = useAuth();
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error(error);
-    }
+    Alert.alert('미팅을 잡자', '로그아웃 하시겠습니까?', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '확인',
+        onPress: async () => {
+          const { error } = await supabase.auth.signOut();
+          if (error) {
+            console.error(error);
+          }
 
-    router.replace('/(main)/home');
+          router.replace('/(main)/home');
+        },
+      },
+    ]);
   };
 
   return (
@@ -26,18 +35,6 @@ export default function My() {
       <Stack.Screen options={{ title: 'Sign up' }} />
       <Header type='default' onAction={() => alert('일정 추가')} actionBtnText='일정 추가' />
       <Wrap type='default' full>
-        <Link
-          href={{
-            pathname: '/public/grab/[id]',
-            params: {
-              id: '4ac40eef-718e-4d9b-8aa9-8e6924d4845d',
-            },
-          }}
-          asChild>
-          <Button variant='outline' className='mb-2 border border-brand'>
-            <Text>test 참여하기</Text>
-          </Button>
-        </Link>
         <Link
           href={{
             pathname: '/home',

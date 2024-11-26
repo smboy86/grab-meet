@@ -94,6 +94,12 @@ export default function RootLayout() {
             />
             <Stack.Screen name='detail/index' />
             <Stack.Screen
+              name='public/index'
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name='public/joinComplete'
               options={{
                 headerShown: false,

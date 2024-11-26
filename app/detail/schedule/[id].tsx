@@ -286,6 +286,21 @@ export default function ScheduleInfo() {
                 }}>
                 <Text>카카오로 공유하기</Text>
               </Button>
+              {mode !== 'view' && (
+                <Button
+                  variant='outline'
+                  className='mt-2'
+                  onPress={() => {
+                    router.push({
+                      pathname: '/public/grab/[id]',
+                      params: {
+                        id: id,
+                      },
+                    });
+                  }}>
+                  <Text>미팅 참여하기</Text>
+                </Button>
+              )}
             </View>
           </ScrollView>
         </Wrap>
