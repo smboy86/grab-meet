@@ -161,7 +161,9 @@ export default function Screen() {
             <Button
               variant={'default'}
               size={'small'}
-              onPress={handleSubmit(handleCreateSchedule)}
+              onPress={() => {
+                handleSubmit(handleCreateSchedule)();
+              }}
               disabled={!formState.isValid}
               className='bg-brand'>
               <Text>완료</Text>
