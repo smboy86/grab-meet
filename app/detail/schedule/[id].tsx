@@ -58,7 +58,7 @@ export default function ScheduleInfo() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
-  const { data: grabData } = useGetGrabStatus({ id });
+  const { data: grabData, refetch: grabRefetch } = useGetGrabStatus({ id });
 
   const scheduleData = useMemo(() => {
     return data && data.length > 0 ? data[0] : null;
@@ -143,6 +143,7 @@ export default function ScheduleInfo() {
   useFocusEffect(
     useCallback(() => {
       refetch();
+      grabRefetch();
     }, []),
   );
 

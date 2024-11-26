@@ -22,11 +22,16 @@ const useMutationInsertJoin = () => {
     mutationFn: async ({ id, hp, date_time }: Props) => {
       const { data, error } = await supabase
         .from('schedule_grab')
-        .upsert({
-          schedule_id: id,
-          hp: hp,
-          date_time: date_time,
-        })
+        .upsert(
+          {
+            schedule_id: id,
+            hp: hp,
+            date_time: date_time,
+          },
+          {
+            onConflict: 'schedule_id, hp',
+          },
+        )
         .select();
 
       if (error) throw new Error('err 이게 뭔 에러여.. useMutationInsertJoin : ' + error.message);

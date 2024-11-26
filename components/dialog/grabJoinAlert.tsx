@@ -32,20 +32,20 @@ export default function GrabJoinAlert(props: Props) {
         <DialogHeader>
           <DialogTitle>참석자 정보 입력</DialogTitle>
           <DialogDescription className='flex flex-col pt-1' asChild>
-            <View className='flex flex-col'>
+            <View className='flex w-full flex-col'>
               <View className='flex items-center justify-center pb-3 pt-4'>
                 <Text className='text-sm text-[#505050]'>주최자가 일정을 확정하면</Text>
                 <Text className='text-sm text-[#505050]'>핸드폰번호로 안내드립니다.</Text>
               </View>
-              <View>
+              <View className=''>
                 <Input
                   value={value}
                   onChangeText={setValue}
                   placeholder='핸드폰 번호를 입력하세요'
-                  className='my-2'
-                  style={{
-                    width: Platform.OS === 'web' ? '100%' : width * 0.75,
-                  }}
+                  className='my-2 w-full'
+                  // style={{
+                  //   // width: Platform.OS === 'web' ? '100%' : '100%',
+                  // }}
                   keyboardType='number-pad'
                   maxLength={9}
                 />

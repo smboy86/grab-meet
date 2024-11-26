@@ -24,6 +24,7 @@ import { useRouter } from 'expo-router';
 
 import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
 import useGetGrabStatus from '~/api/useGetGrabStatus';
+import { useFocusEffect } from 'expo-router';
 dayjs.locale('ko');
 
 type PageProps = {
@@ -43,7 +44,7 @@ export default function Screen() {
   const { id } = useLocalSearchParams<PageProps>();
 
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
-  const { data: grabData } = useGetGrabStatus({ id });
+  const { data: grabData, refetch: grabRefetch } = useGetGrabStatus({ id });
 
   const scheduleData = React.useMemo(() => {
     return data && data.length > 0 ? data[0] : null;
@@ -94,6 +95,14 @@ export default function Screen() {
 
   const [open, setOpen] = React.useState(false);
   const { mutateAsync: insertJoin } = useMutationInsertJoin();
+
+  // 포커스 재조회
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+      grabRefetch();
+    }, []),
+  );
 
   React.useEffect(() => {
     trigger(); // 수동으로 체크하는 이게 최선인가..?
@@ -208,6 +217,8 @@ export default function Screen() {
                 hp: value,
                 date_time: data.selected_days,
               };
+
+              console.log('params;:: ', params);
 
               insertJoin(params, {
                 onSuccess: (data) => {

@@ -154,6 +154,7 @@ export default function Screen() {
 
   return (
     <>
+      {/* TODO - header 완료 버튼 잘 안눌리는 이슈가 존재함 */}
       <Stack.Screen
         options={{
           title: '일정 추가',
