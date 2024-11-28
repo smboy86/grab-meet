@@ -110,7 +110,7 @@ export default function ScheduleInfo() {
       },
       {
         onSuccess: () => {
-          alert('확정 되었습니다.');
+          Alert.alert('미팅을 잡자', '확정 되었습니다.');
           router.replace('/(main)/home');
         },
       },
@@ -166,7 +166,7 @@ export default function ScheduleInfo() {
                 className='bg-brand'
                 variant={'default'}
                 size={'small'}
-                onPress={() => {
+                onPressOut={() => {
                   setOpen(true);
                 }}
                 disabled={!formState.isValid}>

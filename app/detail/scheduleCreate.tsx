@@ -28,6 +28,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useMutationInsertSchedule, { useMutationInsertScheduleProps } from '~/api/useMutationInsertSchedule';
 import { DateTime } from '~/types/schedule.types';
+import { Alert } from 'react-native';
 
 const { width } = Dimensions.get('window'); // Get screen width
 
@@ -98,9 +99,14 @@ export default function Screen() {
     insertSchedule(
       { ...params },
       {
-        onSuccess: () => {
-          alert('생성 되었습니다.');
-          router.replace('/home');
+        onSuccess: (data) => {
+          Alert.alert('미팅을 잡자', '생성 되었습니다.');
+          router.replace({
+            pathname: `/detail/schedule/[id]`,
+            params: {
+              id: data[0].schedule_id,
+            },
+          });
         },
         onError: (err) => {
           console.log('errrr  ', err);
@@ -162,7 +168,7 @@ export default function Screen() {
             <Button
               variant={'default'}
               size={'small'}
-              onPress={() => {
+              onPressOut={() => {
                 handleSubmit(handleCreateSchedule)();
               }}
               disabled={!formState.isValid}
