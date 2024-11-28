@@ -23,6 +23,7 @@ export function extractDate(dateString: Json | string | null): string {
 }
 
 // 활성화된 날짜와 시간을 확인하는 함수
+// ex) [{"2024-11-29":[{"time":"11:00"}]}] / 2024-11-29 / 09:00
 export const isActive = (dateList: DateTime, date: string, time: string): boolean => {
   return dateList.some((item) => {
     const times = item[date];

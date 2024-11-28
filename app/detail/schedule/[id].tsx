@@ -179,6 +179,59 @@ export default function ScheduleInfo() {
       <Container gray className='items-center justify-center'>
         <Wrap type='default' scroll>
           <ScrollView showsVerticalScrollIndicator={false}>
+            {/* 일정 투표 링크 */}
+            <View className='mb-6'>
+              <Text className='mb-2 text-sm text-[#111111]'>링크 복사</Text>
+              <View className='flex w-full flex-row justify-between rounded-md border border-[#E5E5EC] bg-white p-3'>
+                <View className='w-10/12 flex-nowrap'>
+                  <Text className='flex-nowrap' numberOfLines={1}>
+                    {`${domain}/public/grab/${id}`}
+                  </Text>
+                </View>
+                <Pressable
+                  className=''
+                  onPress={async () => {
+                    await Clipboard.setStringAsync(`${domain}/public/grab/${id}`);
+                    Alert.alert('Grab Meet', '복사 완료');
+                  }}>
+                  <ImageBox source={images.icon_copy} style={{ width: 20, height: 20 }} className='h-5 w-5' />
+                </Pressable>
+              </View>
+            </View>
+            <View className='mb-10'>
+              <Button
+                variant='kakao'
+                className=''
+                onPress={() => {
+                  if (Platform.OS === 'web') {
+                    Alert.alert('안내', '웹에서는 카카오 공유하기가 작동하지 않습니다.');
+                    return;
+                  }
+
+                  try {
+                    shareCustomTemplate({
+                      templateId: 114268,
+                      templateArgs: {
+                        title: '미팅을 잡자',
+                        content: '가능한 미팅날을 선택해주세요',
+                        url: `public/grab/${id}`, // 앞에 / 붙이면 중복 에러
+                      },
+                      serverCallbackArgs: {},
+                    })
+                      .then((data) => {
+                        // console.log('4444  ', data);
+                        // >> data : 42
+                      })
+                      .catch((e) => {
+                        console.log('eeeee  ', e);
+                      });
+                  } catch (e) {
+                    console.log('ffffffff  ', e);
+                  }
+                }}>
+                <Text>카카오로 공유하기</Text>
+              </Button>
+            </View>
             <View className='mb-6'>
               <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
               <Text className='text-[15px] font-semibold text-[#111111]'>{scheduleData?.title}</Text>
@@ -235,58 +288,7 @@ export default function ScheduleInfo() {
                   );
                 })}
             </View>
-            {/* 일정 투표 링크 */}
             <View className='mb-6'>
-              <Text className='mb-2 text-sm text-[#111111]'>일정 투표 링크</Text>
-              <View className='flex w-full flex-row justify-between rounded-md border border-[#E5E5EC] bg-white p-3'>
-                <View className='w-10/12 flex-nowrap'>
-                  <Text className='flex-nowrap' numberOfLines={1}>
-                    {`${domain}/public/grab/${id}`}
-                  </Text>
-                </View>
-                <Pressable
-                  className=''
-                  onPress={async () => {
-                    await Clipboard.setStringAsync(`${domain}/public/grab/${id}`);
-                    Alert.alert('Grab Meet', '복사 완료');
-                  }}>
-                  <ImageBox source={images.icon_copy} style={{ width: 20, height: 20 }} className='h-5 w-5' />
-                </Pressable>
-              </View>
-            </View>
-            <View className='mb-6'>
-              <Button
-                variant='outline'
-                className=''
-                onPress={() => {
-                  if (Platform.OS === 'web') {
-                    Alert.alert('안내', '웹에서는 카카오 공유하기가 작동하지 않습니다.');
-                    return;
-                  }
-
-                  try {
-                    shareCustomTemplate({
-                      templateId: 114268,
-                      templateArgs: {
-                        title: '미팅을 잡자',
-                        content: '가능한 미팅날을 선택해주세요',
-                        url: `public/grab/${id}`, // 앞에 / 붙이면 중복 에러
-                      },
-                      serverCallbackArgs: {},
-                    })
-                      .then((data) => {
-                        // console.log('4444  ', data);
-                        // >> data : 42
-                      })
-                      .catch((e) => {
-                        console.log('eeeee  ', e);
-                      });
-                  } catch (e) {
-                    console.log('ffffffff  ', e);
-                  }
-                }}>
-                <Text>카카오로 공유하기</Text>
-              </Button>
               {mode !== 'view' && (
                 <Button
                   variant='outline'

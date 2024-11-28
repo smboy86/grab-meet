@@ -16,6 +16,8 @@ const icon_btm_my_on = require('~/assets/icon/icon_btm_my_on.png');
 const icon_btm_my = require('~/assets/icon/icon_btm_my.png');
 const icon_btm_home = require('~/assets/icon/icon_btm_home.png');
 const icon_btm_home_on = require('~/assets/icon/icon_btm_home_on.png');
+// gif
+const gif_ok = require('~/assets/gif/ok.gif');
 
 export default {
   icon_grab,
@@ -36,4 +38,5 @@ export default {
   icon_btm_my,
   icon_btm_home,
   icon_btm_home_on,
+  gif_ok,
 };

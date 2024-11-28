@@ -17,6 +17,7 @@ const buttonVariants = cva(
         ghost: 'web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent',
         link: 'web:underline-offset-4 web:hover:underline web:focus:underline ',
         small: 'border border-brand rounded-full py-1',
+        kakao: 'bg-[#FEE500]',
       },
       size: {
         // default: 'h-10 px-4 py-2 native:h-12 native:px-5 native:py-3',
@@ -48,6 +49,7 @@ const buttonTextVariants = cva(
         ghost: 'group-active:text-accent-foreground',
         link: 'text-primary group-active:underline',
         small: 'text-brand',
+        kakao: 'text-[#000000]',
       },
       size: {
         default: '',

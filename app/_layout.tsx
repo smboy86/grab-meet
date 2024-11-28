@@ -92,7 +92,12 @@ export default function RootLayout() {
                 headerShown: false,
               }}
             />
-            <Stack.Screen name='detail/index' />
+            <Stack.Screen
+              name='detail/schedule/confirmed/[id]'
+              options={{
+                title: '일정 확정 공유',
+              }}
+            />
             <Stack.Screen
               name='public/index'
               options={{

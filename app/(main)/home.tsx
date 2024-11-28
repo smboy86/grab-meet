@@ -62,13 +62,22 @@ export default function Home() {
               confirm_date={extractDate(item.confirm_date)}
               status={item.status || ''}
               onPress={() => {
-                router.push({
-                  pathname: `/detail/schedule/[id]`,
-                  params: {
-                    id: item.schedule_id as string,
-                    mode: item.status === '투표중' ? 'edit' : 'view',
-                  },
-                });
+                if (item.status === '확정') {
+                  router.push({
+                    pathname: `/detail/schedule/confirmed/[id]`,
+                    params: {
+                      id: item.schedule_id as string,
+                    },
+                  });
+                } else {
+                  router.push({
+                    pathname: `/detail/schedule/[id]`,
+                    params: {
+                      id: item.schedule_id as string,
+                      mode: item.status === '투표중' ? 'edit' : 'view',
+                    },
+                  });
+                }
               }}
             />
           )}
