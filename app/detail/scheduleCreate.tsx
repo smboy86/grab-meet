@@ -90,10 +90,22 @@ export default function Screen() {
   };
 
   const handleCreateSchedule = async (data: z.infer<typeof TForm>) => {
+    // 시간 오름차순으로 선택한 날짜 값 재정렬
+    const sortedSelectedDays = data.selected_days.map((obj) => {
+      const dateKey = Object.keys(obj)[0];
+      const sortedTimes = obj[dateKey].sort((a, b) => {
+        return a.time.localeCompare(b.time);
+      });
+
+      return {
+        [dateKey]: sortedTimes,
+      };
+    });
+
     const params: useMutationInsertScheduleProps = {
       title: data.title,
       member_cnt: Number(data.member_cnt),
-      date_time: data.selected_days,
+      date_time: sortedSelectedDays,
     };
 
     insertSchedule(
