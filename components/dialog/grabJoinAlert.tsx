@@ -41,13 +41,12 @@ export default function GrabJoinAlert(props: Props) {
                 <Input
                   value={value}
                   onChangeText={setValue}
-                  placeholder='핸드폰 번호를 입력하세요'
+                  placeholder='핸드폰 번호를 입력하세요.'
                   className='my-2 w-full'
                   // style={{
                   //   // width: Platform.OS === 'web' ? '100%' : '100%',
                   // }}
                   keyboardType='number-pad'
-                  maxLength={9}
                 />
               </View>
             </View>
