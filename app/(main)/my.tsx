@@ -33,7 +33,7 @@ export default function My() {
   return (
     <Container className='items-center justify-center'>
       <Stack.Screen options={{ title: 'Sign up' }} />
-      <Header type='default' onAction={() => alert('일정 추가')} actionBtnText='일정 추가' />
+      <Header type='default' />
       <Wrap type='default' full>
         <Link
           href={{
