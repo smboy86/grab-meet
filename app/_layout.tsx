@@ -12,7 +12,7 @@ import { PortalHost } from '@rn-primitives/portal';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { AuthProvider } from '~/providers/AuthProvider';
 import QueryProvider from '~/providers/QueryProvider';
-import { initializeKakaoSDK } from '@react-native-kakao/core';
+import { getKeyHashAndroid, initializeKakaoSDK } from '@react-native-kakao/core';
 
 export const unstable_settings = {
   initialRouteName: '(main)',
@@ -35,18 +35,18 @@ export {
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
 
-// kakao init
-initializeKakaoSDK('dd4dbb779927ca4fc5601741e00024c2');
-
 export default function RootLayout() {
   // TODO - AOS 배포시 한번더 체크
   // ref. https://rnkakao.dev/docs/core/get-android-keyhash
-  // getKeyHashAndroid().then(console.log);
+  getKeyHashAndroid().then(console.log);
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   // for splash / font / asset
   React.useEffect(() => {
+    // kakao init
+    initializeKakaoSDK('dd4dbb779927ca4fc5601741e00024c2');
+
     (async () => {
       const theme = await AsyncStorage.getItem('theme');
       if (Platform.OS === 'web') {

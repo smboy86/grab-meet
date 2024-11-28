@@ -13,6 +13,8 @@ import { Text } from '~/components/ui/text';
 import { ImageBox } from '~/components/ui/imageBox';
 import images from '~/constants/images';
 import { Stack, useRouter } from 'expo-router';
+import { GoogleLogin } from '~/components/login/googleLogin';
+import { KakaoLogin } from '~/components/login/kakaoLogin';
 
 interface User {
   id: string;
@@ -72,7 +74,7 @@ export default function Login() {
   };
 
   return (
-    <Container className='items-center justify-center'>
+    <Container className='items-center justify-center bg-white'>
       <Stack.Screen options={{ title: '화면에서 타이틀 재정의', headerBackTitle: '' }} redirect />
       <Header type='default' />
       <Wrap type='default' full>
@@ -98,33 +100,9 @@ export default function Login() {
             </View>
           </View>
           <View className='btm pb-6'>
-            <Button
-              size={'base'}
-              className='mb-[8px] flex h-[52px] flex-row bg-[#F1F1F5]'
-              onPress={() => {
-                alert('구글로 시작하기');
-              }}>
-              <ImageBox source={images.icon_google} className='mr-1 h-[20px] w-[20px]' />
-              <Text className='text-[#505050]'>구글로 시작하기</Text>
-            </Button>
-            <Button
-              className='mb-[8px] flex h-[52px] flex-row bg-[#F1F1F5]'
-              size={'base'}
-              onPress={() => {
-                alert('카카오로 시작하기');
-              }}>
-              <ImageBox source={images.icon_kakao} className='mr-1 h-[20px] w-[20px]' />
-              <Text className='text-[#505050]'>카카오로 시작하기</Text>
-            </Button>
-            <Button
-              className='flex h-[52px] flex-row bg-[#F1F1F5] text-[16px]'
-              size={'base'}
-              onPress={() => {
-                alert('애플로 시작하기');
-              }}>
-              <ImageBox source={images.icon_apple} className='mr-1 h-[20px] w-[20px]' />
-              <Text className='text-lg text-[#505050]'>애플로 시작하기</Text>
-            </Button>
+            {/* TODO - google login */}
+            {/* <GoogleLogin /> */}
+            <KakaoLogin />
           </View>
         </View>
       </Wrap>
