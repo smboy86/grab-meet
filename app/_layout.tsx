@@ -2,7 +2,7 @@ import '~/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
-import { SplashScreen, Stack, useRootNavigationState, useRouter } from 'expo-router';
+import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Platform } from 'react-native';
@@ -12,7 +12,7 @@ import { PortalHost } from '@rn-primitives/portal';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { AuthProvider } from '~/providers/AuthProvider';
 import QueryProvider from '~/providers/QueryProvider';
-import { initializeKakaoSDK, getKeyHashAndroid } from '@react-native-kakao/core';
+import { initializeKakaoSDK } from '@react-native-kakao/core';
 
 export const unstable_settings = {
   initialRouteName: '(main)',
@@ -74,8 +74,6 @@ export default function RootLayout() {
     return null;
   }
 
-  // if (!rootNavigationState?.key) return null;
-
   return (
     <AuthProvider>
       <QueryProvider>
@@ -108,6 +106,13 @@ export default function RootLayout() {
               name='public/joinComplete'
               options={{
                 headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name='public/meet/[id]'
+              options={{
+                title: '일정 확정 공유',
+                headerBackVisible: false,
               }}
             />
             <Stack.Screen

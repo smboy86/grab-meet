@@ -1,6 +1,6 @@
 import { shareCustomTemplate } from '@react-native-kakao/share';
 import dayjs from 'dayjs';
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { isEmpty } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { Alert, Platform, ScrollView, View } from 'react-native';
@@ -18,6 +18,7 @@ import { DateTime, GrabDateTime } from '~/types/schedule.types';
 
 export default function Screen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
 
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
   const { data: grabData, refetch: grabRefetch } = useGetGrabStatus({ id });
@@ -63,6 +64,13 @@ export default function Screen() {
     return result;
   }, [grabData]);
 
+  const confirmDateLabel = (dateTime: DateTime) => {
+    const dateKey = Object.keys(dateTime[0])[0];
+    const timeValue = dateTime[0][dateKey][0].time;
+
+    return `${dayjs(dateKey).format('YYYY-MM-DD (dd)')} ${timeValue} `;
+  };
+
   // 포커스 재조회
   useFocusEffect(
     useCallback(() => {
@@ -98,10 +106,10 @@ export default function Screen() {
                   shareCustomTemplate({
                     templateId: 114801,
                     templateArgs: {
-                      title: scheduleData?.title ?? '',
-                      date: scheduleData?.date ?? '',
-                      time: scheduleData?.time ?? '',
-                      url: `public/meet/${id}`, // 앞에 / 붙이면 중복 에러
+                      title: '미팅을 잡자',
+                      date: '가능한 미팅날을 선택해주세요',
+                      time: `14:00`,
+                      url: `public/grab/${id}`, // 앞에 / 붙이면 중복 에러
                     },
                     serverCallbackArgs: {},
                   })
@@ -163,10 +171,10 @@ export default function Screen() {
                             <GrabDateItem
                               isEditable={false}
                               key={`${date}-${time}`}
-                              isInit={scheduleData.selectedDateTime.length === 0}
+                              isInit={scheduleData?.selectedDateTime.length === 0}
                               isSelected={isActiveValue}
                               date={time}
-                              userCnt={scheduleData.member_cnt ?? 0}
+                              userCnt={scheduleData?.member_cnt ?? 0}
                               selectedCnt={cntGrabDateTime}
                             />
                           );
@@ -176,6 +184,18 @@ export default function Screen() {
                   );
                 })}
             </View>
+            {Platform.OS !== 'web' && (
+              <View className='mb-6 flex'>
+                <Button
+                  onPress={() => {
+                    router.replace('/(main)/home');
+                  }}
+                  variant='default'
+                  className='bg-[#111111] shadow shadow-foreground/5'>
+                  <Text>종료</Text>
+                </Button>
+              </View>
+            )}
           </View>
         </ScrollView>
       </Wrap>
