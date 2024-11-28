@@ -27,8 +27,6 @@ export default function Screen() {
     return data && data.length > 0 ? data[0] : null;
   }, [data]);
 
-  console.log('ddddd  ', scheduleData);
-
   const grabScheduleData = useMemo(() => {
     if (!grabData) return [];
     if (grabData.length <= 0) return [];
