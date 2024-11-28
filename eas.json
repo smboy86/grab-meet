@@ -4,26 +4,27 @@
     "appVersionSource": "remote"
   },
   "build": {
+    "development-simulator": {
+      "extends": "production",
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    },
     "development": {
+      "extends": "production",
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "ios": {
-        "simulator": true
-      }
+      "extends": "production",
+      "developmentClient": false,
+      "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
-    },
-    "development-simulator": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "ios": {
-        "simulator": true
-      }
+      "autoIncrement": true,
+      "node": "20.18.1"
     }
   },
   "submit": {

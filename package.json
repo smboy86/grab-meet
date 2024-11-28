@@ -15,7 +15,8 @@
     "storybook-generate": "sb-rn-get-stories",
     "supabase:gen": "npx supabase gen types --lang=typescript --project-id dhlfezdmcnodzwreqzrj --schema public > ./types/database.types.ts",
     "export:web": "npx expo export -p web",
-    "check:type": "npx tsc --noEmit"
+    "check:type": "npx tsc --noEmit",
+    "install:fold": "npx expo run:android --device SM_F946N"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
