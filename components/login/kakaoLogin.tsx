@@ -39,9 +39,11 @@ export function KakaoLogin(props: Props) {
         })
         .catch((e) => {
           console.log('k errrrr  ', e);
+          alert(JSON.stringify(e));
         });
     } catch (e) {
       console.log('errr  ');
+      alert(JSON.stringify(e));
     }
   };
 

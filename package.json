@@ -16,7 +16,8 @@
     "supabase:gen": "npx supabase gen types --lang=typescript --project-id dhlfezdmcnodzwreqzrj --schema public > ./types/database.types.ts",
     "export:web": "npx expo export -p web",
     "check:type": "npx tsc --noEmit",
-    "install:fold": "npx expo run:android --device SM_F946N"
+    "install:fold": "npx expo run:android --device SM_F946N",
+    "install:fold:relese": "npx expo run:android --device SM_F946N --variant release"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
