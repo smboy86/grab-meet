@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { isEmpty } from 'lodash';
 import { useCallback, useMemo, useState } from 'react';
+import { Alert } from 'react-native';
 import { View } from 'react-native';
 import useGetCalrendarList from '~/api/useGetCalrendarList';
 import { EmptyList } from '~/components/EmptyList';
@@ -13,9 +14,11 @@ import { Container } from '~/components/layout/container';
 import { Header } from '~/components/layout/header';
 import { DateItem } from '~/components/screen/dateItem';
 import { CalendarBox } from '~/components/ui/calendar';
-import { checkDateExists, extractDate } from '~/lib/utils';
+import { checkDateExists, extractDate, extractTime } from '~/lib/utils';
+import { useAuth } from '~/providers/AuthProvider';
 
 export default function CalendarScreen() {
+  const { isLogin } = useAuth();
   const router = useRouter();
   // for calendar
   // const [markedDates, setMarkedDates] = useState<Record<string, { selected: boolean }>>({}); // ex) {"2024-10-15": {"selected": true}}
@@ -36,6 +39,28 @@ export default function CalendarScreen() {
     return filteredData;
   }, [markedDates, data]);
 
+  const handleAddSchedule = () => {
+    if (!isLogin) {
+      Alert.alert('로그인', '로그인이 필요합니다.', [
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            router.push(`/auth/login`);
+          },
+        },
+      ]);
+
+      return;
+    }
+
+    //
+    router.push(`/detail/scheduleCreate`);
+  };
+
   // 포커스 재조회
   useFocusEffect(
     useCallback(() => {
@@ -46,8 +71,8 @@ export default function CalendarScreen() {
   if (isLoading) return null;
 
   return (
-    <Container>
-      <Header type='btn' onAction={() => alert('일정 추가')} actionBtnText='일정 추가' />
+    <Container main>
+      <Header type='btn' onAction={handleAddSchedule} actionBtnText='일정 추가' />
       <Wrap type='default' full>
         <CalendarBox
           markedDates={markedDates}
@@ -75,6 +100,7 @@ export default function CalendarScreen() {
                   title={item.title || ''}
                   member_cnt={item.member_cnt || 0}
                   confirm_date={extractDate(item.confirm_date)}
+                  confirm_time={extractTime(item.confirm_date)}
                   status={item.status || ''}
                   onPress={() => {
                     router.push({

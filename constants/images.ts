@@ -16,8 +16,13 @@ const icon_btm_my_on = require('~/assets/icon/icon_btm_my_on.png');
 const icon_btm_my = require('~/assets/icon/icon_btm_my.png');
 const icon_btm_home = require('~/assets/icon/icon_btm_home.png');
 const icon_btm_home_on = require('~/assets/icon/icon_btm_home_on.png');
+const icon_clock = require('~/assets/icon/icon_clock.png');
+
 // gif
 const gif_ok = require('~/assets/gif/ok.gif');
+const gif_hi = require('~/assets/gif/hi.gif');
+const gif_promise = require('~/assets/gif/promise.gif');
+const gif_promise_2 = require('~/assets/gif/promise_2.gif');
 
 export default {
   icon_grab,
@@ -39,4 +44,13 @@ export default {
   icon_btm_home,
   icon_btm_home_on,
   gif_ok,
+  gif_hi,
+  gif_promise,
+  gif_promise_2,
+  icon_clock,
 };
+
+// ex)
+/*
+ <ImageBox source={images.gif_promise_2} className='mr-1 h-[80px] w-[80px]' />
+*/

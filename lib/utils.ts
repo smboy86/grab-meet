@@ -22,6 +22,22 @@ export function extractDate(dateString: Json | string | null): string {
   }
 }
 
+// DateTime 변수에서 시간만 출력하는 함수
+// ex) [{"2024-12-13":[{"time":"09:00"}]}] ->>>> "09:00"
+export function extractTime(dateString: Json | string | null): string {
+  try {
+    if (isEmpty(dateString)) {
+      return '--:--';
+    }
+    const parsedData = JSON.parse(dateString as string);
+    const dateKey = Object.keys(parsedData[0])[0];
+
+    return parsedData[0][dateKey][0].time;
+  } catch (error) {
+    return '--:00';
+  }
+}
+
 // 활성화된 날짜와 시간을 확인하는 함수
 // ex) [{"2024-11-29":[{"time":"11:00"}]}] / 2024-11-29 / 09:00
 export const isActive = (dateList: DateTime, date: string, time: string): boolean => {

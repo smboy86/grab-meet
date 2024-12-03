@@ -96,7 +96,7 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(
     // };
 
     return (
-      <View className={cn('w-full', !editable && 'rounded-md border border-[#E5E5EC] p-4')}>
+      <View className={cn('w-full', !editable && 'rounded-[20px] border border-[#E5E5EC] p-4')}>
         <Calendar
           disabledByDefault={!editable}
           onDayPress={(day) => {

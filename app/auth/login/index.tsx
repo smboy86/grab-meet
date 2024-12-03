@@ -80,6 +80,10 @@ export default function Login() {
       <Wrap type='default' full>
         <View className='flex h-full justify-between'>
           <View className=''>
+            <View className='items-center pb-5'>
+              <ImageBox source={images.gif_hi} className='mr-1 h-[80px] w-[80px]' />
+              <Text className='text-xl font-semibold text-brand'>안녕, 반가워요</Text>
+            </View>
             <Input
               value={email}
               onChangeText={setEmail}

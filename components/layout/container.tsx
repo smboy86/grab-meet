@@ -19,7 +19,8 @@ const Container = React.forwardRef<ViewRef, ContainerProps>(
         <>
           <SafeAreaProvider>
             <StatusBar barStyle='dark-content' />
-            <SafeAreaView className={cn('relative flex h-full flex-1', gray && 'bg-[#F7F7FB]')}>
+            <SafeAreaView
+              className={cn('relative flex h-full flex-1', gray && 'bg-[#F7F7FB]', main && 'bg-[#ffffff]')}>
               <View className={cn('flex h-full flex-col items-center', className)} ref={ref} {...props}>
                 {children}
                 {main && (
@@ -57,10 +58,13 @@ const Container = React.forwardRef<ViewRef, ContainerProps>(
       return (
         <SafeAreaProvider>
           <SafeAreaView className={cn('relative flex flex-1')}>
-            <View className={cn('flex h-full flex-col items-center', className)} ref={ref} {...props}>
+            <View
+              className={cn('flex h-full flex-col items-center', main && 'bg-[#ffffff]', className)}
+              ref={ref}
+              {...props}>
               {children}
               {main && (
-                <View className={cn('absolute -bottom-[34px] h-[84px] w-full bg-transparent')}>
+                <View className={cn('absolute -bottom-[0px] h-[94px] w-full bg-transparent')}>
                   <LinearGradient
                     // Background Linear Gradient
                     colors={['rgba(217, 217, 217, 0)', 'rgba(247, 247, 251, 100)']}
@@ -69,7 +73,7 @@ const Container = React.forwardRef<ViewRef, ContainerProps>(
                       left: 0,
                       right: 0,
                       top: 0,
-                      height: 84,
+                      height: 94,
                     }}
                   />
                 </View>

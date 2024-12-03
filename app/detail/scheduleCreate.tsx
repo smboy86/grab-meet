@@ -29,6 +29,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useMutationInsertSchedule, { useMutationInsertScheduleProps } from '~/api/useMutationInsertSchedule';
 import { DateTime } from '~/types/schedule.types';
 import { Alert } from 'react-native';
+import dayjs from 'dayjs';
 
 const { width } = Dimensions.get('window'); // Get screen width
 
@@ -308,7 +309,9 @@ export default function Screen() {
                       return (
                         <View key={keyDate} className='mb-2 bg-white px-5 py-3'>
                           <View className='mb-2.5 flex w-full flex-row justify-between'>
-                            <Text className='mb-2 text-sm font-semibold text-[#000000]'>{keyDate}</Text>
+                            <Text className='mb-2 text-sm font-semibold text-[#000000]'>
+                              {keyDate} ({dayjs(keyDate).format('dd')})
+                            </Text>
                             <Pressable
                               onPress={() => {
                                 // 1) form 데이터 셋팅
@@ -351,10 +354,10 @@ export default function Screen() {
                                   }}
                                   key={index}
                                   className={cn(
-                                    'h-[38px] items-center justify-center rounded-md border border-[#E5E5EC]',
+                                    'h-[38px] items-center justify-center rounded-md border',
                                     checkTimeExists(value, keyDate, subItem.time)
-                                      ? 'bg-brand'
-                                      : 'bg-[#F1F1F5]',
+                                      ? 'border-brand bg-brand'
+                                      : 'border-[#E5E5EC] bg-[#F1F1F5]',
                                   )}
                                   style={{
                                     width: width / 4 - 40, // margin 값 기준으로 40만큼 깍아서 좌우 정렬 맞춤 4열

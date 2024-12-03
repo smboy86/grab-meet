@@ -31,7 +31,7 @@ export default function My() {
   };
 
   return (
-    <Container className='items-center justify-center'>
+    <Container main className='items-center justify-center'>
       <Stack.Screen options={{ title: 'Sign up' }} />
       <Header type='default' />
       <Wrap type='default' full>
