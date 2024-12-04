@@ -14,30 +14,60 @@ import { Container } from '~/components/layout/container';
 import { Header } from '~/components/layout/header';
 import { DateItem } from '~/components/screen/dateItem';
 import { CalendarBox } from '~/components/ui/calendar';
-import { checkDateExists, extractDate, extractTime } from '~/lib/utils';
+import { extractDate, extractTime } from '~/lib/utils';
 import { useAuth } from '~/providers/AuthProvider';
 
 export default function CalendarScreen() {
   const { isLogin } = useAuth();
   const router = useRouter();
   // for calendar
-  // const [markedDates, setMarkedDates] = useState<Record<string, { selected: boolean }>>({}); // ex) {"2024-10-15": {"selected": true}}
-  const [markedDates, setMarkedDates] = useState<Record<string, { selected: boolean }>>({
-    [`${dayjs().format('YYYY-MM-DD')}`]: { selected: true },
-  }); // ex) {"2024-10-15": {"selected": true}} // 오늘 날짜 셋팅
+  const [curMonth, setCurMonth] = useState(dayjs());
+  const [markedDates, setMarkedDates] = useState<Record<string, { selected: boolean }>>(); // ex) [{"2024-10-15": {"selected": true}}] // 오늘 날짜 셋팅
   const { data, isLoading, refetch } = useGetCalrendarList({ date: '' });
 
   const listData = useMemo(() => {
     if (isEmpty(data)) return [];
-
-    const searchDateTime = Object.keys(markedDates).filter((date) => markedDates[date]);
+    // 1) 필터 - 현재 월에 해당하는 데이터만 보임
     const filteredData = data?.filter((item) => {
-      const convertJson = item?.confirm_date === null ? null : JSON.parse(item.confirm_date as string);
-      const isChecked = checkDateExists(convertJson, searchDateTime);
-      return isChecked;
+      const parsedData: null | Array<{ [date: string]: string }> =
+        item?.confirm_date === null ? null : JSON.parse(item.confirm_date as string);
+      if (parsedData === null) return false;
+      const dateKey = Object.keys(parsedData[0])[0]; // only 1
+
+      return curMonth.isSame(dateKey, 'month'); //   같은 달만 보이게
     });
-    return filteredData;
-  }, [markedDates, data]);
+
+    const markedDays = filteredData?.map((item) => {
+      const parsedData: null | Array<{ [date: string]: string }> =
+        item?.confirm_date === null ? null : JSON.parse(item.confirm_date as string);
+      if (parsedData === null) return {};
+      const dateKey = Object.keys(parsedData[0])[0]; // only 1
+
+      return {
+        [dateKey]: { selected: true },
+      };
+    });
+
+    // 2) 달력 마크 표시 생성
+    const converedMarkedDays = markedDays ? Object.assign({}, ...markedDays) : {};
+    setMarkedDates(converedMarkedDays);
+
+    // 2) 정렬 - 날짜 내림차순으로 정렬 (다가오는 순)
+    const sortedData = filteredData?.sort((a, b) => {
+      const parsedDataA: null | Array<{ [date: string]: string }> =
+        a?.confirm_date === null ? null : JSON.parse(a.confirm_date as string);
+      const parsedDataB: null | Array<{ [date: string]: string }> =
+        b?.confirm_date === null ? null : JSON.parse(b.confirm_date as string);
+      if (parsedDataA === null || parsedDataB === null) return 0;
+
+      const dateA = Object.keys(parsedDataA[0])[0];
+      const dateB = Object.keys(parsedDataB[0])[0];
+
+      return dayjs(dateA).diff(dayjs(dateB));
+    });
+
+    return sortedData;
+  }, [curMonth, data]);
 
   const handleAddSchedule = () => {
     if (!isLogin) {
@@ -76,19 +106,9 @@ export default function CalendarScreen() {
       <Wrap type='default' full>
         <CalendarBox
           markedDates={markedDates}
-          onDaySelect={(day) => {
-            setMarkedDates((prev) => {
-              const newMarkedDates = { ...prev }; // Create a new copy of the current markedDates
-
-              // If the date exists, remove it; otherwise, add it
-              if (newMarkedDates[day]) {
-                delete newMarkedDates[day]; // Remove the date
-              } else {
-                newMarkedDates[day] = { selected: true }; // Add the date
-              }
-
-              return newMarkedDates; // Return the updated object
-            });
+          onMonthChange={(date) => {
+            // {"dateString": "2025-01-04", "day": 4, "month": 1, "timestamp": 1735948800000, "year": 2025}
+            setCurMonth(dayjs(date.dateString));
           }}
         />
         <View className='mt-4 flex flex-1'>
