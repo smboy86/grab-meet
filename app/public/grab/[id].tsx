@@ -138,7 +138,7 @@ export default function Screen() {
                 명
               </Text>
             </View>
-            <View className='mb-6 flex'>
+            <View className='mb-4 flex'>
               <Text className='mb-2 text-sm text-[#111111]'>일정 선택</Text>
               <Controller
                 name='selected_days'

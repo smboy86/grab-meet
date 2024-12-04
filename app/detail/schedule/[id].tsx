@@ -34,6 +34,7 @@ import { shareCustomTemplate } from '@react-native-kakao/share';
 
 import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
 import useGetGrabStatus from '~/api/useGetGrabStatus';
+import { useAuth } from '~/providers/AuthProvider';
 dayjs.locale('ko');
 
 const TimeSlotScheme = z.object({
@@ -55,6 +56,7 @@ const TForm = z.object({
 
 export default function ScheduleInfo() {
   const { id, mode } = useLocalSearchParams<{ id: string; mode: string }>();
+  const { isLogin } = useAuth();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { data, isLoading, refetch } = useGetScheduleDetail({ id });
@@ -126,7 +128,9 @@ export default function ScheduleInfo() {
   };
 
   useEffect(() => {
-    trigger(); // 수동으로 체크하는 이게 최선인가..?
+    if (mode === 'edit') {
+      trigger(); // 수동으로 체크하는 이게 최선인가..?
+    }
 
     if (scheduleData?.confirm_date && !isEmpty(scheduleData.confirm_date)) {
       const parsedConfirmDate: DateTime = JSON.parse(scheduleData.confirm_date as string);
@@ -137,7 +141,7 @@ export default function ScheduleInfo() {
         shouldValidate: true,
       });
     }
-  }, []);
+  }, [mode]);
 
   // 포커스 재조회
   useFocusEffect(
@@ -291,7 +295,8 @@ export default function ScheduleInfo() {
                 })}
             </View>
             <View className='mb-6'>
-              {mode !== 'view' && (
+              {/* 본인만 해당 화면에 들어오기 떄문에 가볍게 제한 */}
+              {isLogin && (
                 <Button
                   variant='outline'
                   className='mt-2'
@@ -303,7 +308,7 @@ export default function ScheduleInfo() {
                       },
                     });
                   }}>
-                  <Text>미팅 참여하기</Text>
+                  <Text>나도 투표하기</Text>
                 </Button>
               )}
             </View>

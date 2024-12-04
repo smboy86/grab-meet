@@ -99,7 +99,7 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(
               calendarBackground: '#ffffff', // 캘린더 배경색
               selectedDayBackgroundColor: editable ? '#F59917' : '#FCEA60', // 선택한 날짜 동그란 배경색
               selectedDayTextColor: '#000', // 선택한 날짜 텍스트 색상
-              todayTextColor: '#111111', // 오늘날짜 텍스트 색상
+              todayTextColor: '#19287B', // 오늘날짜 텍스트 색상
               dayTextColor: '#999999', // 해당 월 날짜 색상
               textDayHeaderFontSize: 13, // dayName 폰트 사이즈
               // ## 이하 스타일 강제 정의
@@ -110,7 +110,7 @@ const CalendarBox = React.forwardRef<ViewRef, CalendarBoxProps>(
                   marginTop: 6,
                   alignItems: 'center',
                 },
-                dayTextAtIndex0: { color: 'red' }, // 일요일 dayName 색상 빨간색
+                dayTextAtIndex0: { color: '#111111' }, // 일요일 dayName 색상 빨간색
                 dayTextAtIndex1: { color: '#111111' }, // d dayName 색상 빨간색
                 dayTextAtIndex2: { color: '#111111' }, // 일요일 dayName 색상 빨간색
                 dayTextAtIndex3: { color: '#111111' }, // 일요일 dayName 색상 빨간색

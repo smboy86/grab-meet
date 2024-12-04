@@ -92,7 +92,7 @@ export default function Screen() {
               <ImageBox source={images.gif_ok} className='mr-1 h-[80px] w-[80px]' />
             </View>
             <Text className='font-Pretendard-Semibold text-center'>일정이 확정 되었습니다.</Text>
-            <Text className='font-Pretendard-Semibold mb-6 text-center'>참가자들에게 공유해주세요!</Text>
+            <Text className='font-Pretendard-Semibold mb-6 text-center'>참여자들에게 공유해주세요!</Text>
             <Button
               variant='kakao'
               className=''

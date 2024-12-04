@@ -21,12 +21,12 @@ const buttonVariants = cva(
       },
       size: {
         // default: 'h-10 px-4 py-2 native:h-12 native:px-5 native:py-3',
-        default: 'px-4 py-3.5', // mod
+        default: 'px-4 py-4', // mod
         small: 'px-4 py-[7px]', // add
         sm: 'h-9 rounded-md px-3',
         base: '', // add
         // lg: 'h-11 rounded-md px-8 native:h-14',
-        lg: 'px-4 py-3.5',
+        lg: 'px-4 py-4',
         icon: 'h-10 w-10',
       },
     },

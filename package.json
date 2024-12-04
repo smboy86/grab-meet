@@ -17,7 +17,8 @@
     "export:web": "npx expo export -p web",
     "check:type": "npx tsc --noEmit",
     "install:fold": "npx expo run:android --device SM_F946N",
-    "install:fold:relese": "npx expo run:android --device SM_F946N --variant release"
+    "install:fold:relese": "npx expo run:android --device SM_F946N --variant release",
+    "deploy:store": "npx eas-cli build --platform android --profile production"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
