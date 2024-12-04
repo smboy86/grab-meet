@@ -29,7 +29,8 @@ const useGetCalrendarList = (props: Props) => {
         .from('schedule')
         .select(`schedule_id, title, status, member_cnt, confirm_date`)
         .eq('user_id', session.user.id)
-        .neq('status', '종료')
+        .eq('status', '확정')
+        // .filter('metadata->>created_at', 'gte', '2023-01-01')
         .order('created_at', { ascending: false });
 
       if (error || !data) {
