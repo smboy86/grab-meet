@@ -1,4 +1,4 @@
-const { hairlineWidth } = require('nativewind/theme');
+const { hairlineWidth, platformSelect } = require('nativewind/theme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -7,6 +7,20 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontFamily: {
+        'Pretendard-Light': platformSelect({
+          android: 'Pretendard-Light',
+          ios: 'Pretendard-Light',
+        }),
+        'Pretendard-Regular': platformSelect({
+          android: 'Pretendard-Regular',
+          ios: 'Pretendard-Regular',
+        }),
+        'Pretendard-SemiBold': platformSelect({
+          android: 'Pretendard-SemiBold',
+          ios: 'Pretendard-SemiBold',
+        }),
+      },
       fontSize: {
         sm: '14px', // 12.5px 정도로 측정되는 문제 확인중
       },
