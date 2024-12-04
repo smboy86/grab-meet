@@ -36,22 +36,24 @@ export default function Screen() {
           <View className='mb-6 w-full border-t border-[#E5E5EC]' />
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
-            <Text className='text-[15px] font-semibold text-[#111111]'>24회 동창회 모임</Text>
+            <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>24회 동창회 모임</Text>
           </View>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>참여 인원</Text>
-            <Text className='text-[15px] font-semibold text-[#111111]'>4명</Text>
+            <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>4명</Text>
           </View>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>일정 확정</Text>
-            <Text className='text-[15px] font-semibold text-[#111111]'>🔥︎2024.10.17(목) 14:00🔥︎</Text>
+            <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>
+              🔥︎2024.10.17(목) 14:00🔥︎
+            </Text>
           </View>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>투표 결과</Text>
             <View className='mb-6 flex'>
               {/* 일정 투표 A */}
               <View className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
-                <Text className='text-[14px] font-semibold'>2024.10.15 (목)</Text>
+                <Text className='font-Pretendard-Semibold text-[14px]'>2024.10.15 (목)</Text>
                 {/* 막대기 Box*/}
                 <View className='gab-1'>
                   {/* 막대기 1 */}
@@ -78,7 +80,7 @@ export default function Screen() {
               </View>
               {/* 일정 투표 B */}
               <View className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
-                <Text className='text-[14px] font-semibold'>2024.10.16 (목)</Text>
+                <Text className='font-Pretendard-Semibold text-[14px]'>2024.10.16 (목)</Text>
                 {/* 막대기 List Box*/}
                 <View className='gab-1'>
                   <GrabDateItem
@@ -112,7 +114,7 @@ export default function Screen() {
               </View>
               {/* 일정 투표 C */}
               <View className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
-                <Text className='text-[14px] font-semibold'>2024.10.17 (목)</Text>
+                <Text className='font-Pretendard-Semibold text-[14px]'>2024.10.17 (목)</Text>
                 {/* 막대기 List Box*/}
                 <View className='gab-1'>
                   <GrabDateItem

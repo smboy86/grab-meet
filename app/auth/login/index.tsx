@@ -82,7 +82,7 @@ export default function Login() {
           <View className=''>
             <View className='items-center pb-5'>
               <ImageBox source={images.gif_hi} className='mr-1 h-[80px] w-[80px]' />
-              <Text className='text-xl font-semibold text-brand'>안녕, 반가워요</Text>
+              <Text className='font-Pretendard-Semibold text-xl text-brand'>안녕, 반가워요</Text>
             </View>
             <Input
               value={email}
@@ -99,7 +99,7 @@ export default function Login() {
             />
             <View>
               <Button size={'base'} onPress={signInWithEmail} variant={'default'} className='h-[52px]'>
-                <Text className='font-semibold'>로그인</Text>
+                <Text className='font-Pretendard-Semibold'>로그인</Text>
               </Button>
             </View>
           </View>

@@ -91,8 +91,8 @@ export default function Screen() {
             <View className='items-center pt-4'>
               <ImageBox source={images.gif_ok} className='mr-1 h-[80px] w-[80px]' />
             </View>
-            <Text className='text-center font-semibold'>일정이 확정 되었습니다.</Text>
-            <Text className='mb-6 text-center font-semibold'>참가자들에게 공유해주세요!</Text>
+            <Text className='font-Pretendard-Semibold text-center'>일정이 확정 되었습니다.</Text>
+            <Text className='font-Pretendard-Semibold mb-6 text-center'>참가자들에게 공유해주세요!</Text>
             <Button
               variant='kakao'
               className=''
@@ -130,11 +130,11 @@ export default function Screen() {
           <View className='mb-6 w-full border-t border-[#E5E5EC]' />
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
-            <Text className='text-[15px] font-semibold text-[#111111]'>{scheduleData?.title}</Text>
+            <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>{scheduleData?.title}</Text>
           </View>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>참여 인원</Text>
-            <Text className='text-[15px] font-semibold text-[#111111]'>
+            <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>
               {grabData !== undefined && grabData?.length <= 0
                 ? `${scheduleData?.member_cnt}`
                 : `${grabData?.length}/${scheduleData?.member_cnt}`}
@@ -143,7 +143,7 @@ export default function Screen() {
           </View>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>일정 확정</Text>
-            <Text className='text-[15px] font-semibold text-[#111111]'>
+            <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>
               🔥︎
               {`${dayjs(scheduleData?.date).format('YYYY-MM-DD (dd)')} ${scheduleData?.time}`}
               🔥︎
@@ -159,7 +159,7 @@ export default function Screen() {
 
                   return (
                     <View key={date} className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
-                      <Text className='text-[14px] font-semibold'>
+                      <Text className='font-Pretendard-Semibold text-[14px]'>
                         {date} ({dayjs(date).format('dd')})
                       </Text>
                       <View className='gab-1'>

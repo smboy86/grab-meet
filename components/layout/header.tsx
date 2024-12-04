@@ -2,7 +2,6 @@ import * as React from 'react';
 import { View, ViewProps } from 'react-native';
 import { cn } from '~/lib/utils';
 import { ViewRef } from '@rn-primitives/types';
-import images from '~/constants/images';
 import { ImageBox } from '../ui/imageBox';
 import { Text } from '../ui/text';
 import { Button } from '../ui/button';
@@ -24,7 +23,7 @@ const Header = React.forwardRef<ViewRef, HeaderProps>(
           type === 'default' ? 'justify-center' : 'justify-between',
         )}
         ref={ref}>
-        <ImageBox className='w-[137px]' source={images.icon_grab_new} />
+        <ImageBox className='w-[137px]' source={'icon_grab_new'} />
         {type !== 'default' && (
           <Button variant={'small'} size={'small'} onPress={onAction}>
             <Text>{actionBtnText}</Text>

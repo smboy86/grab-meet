@@ -11,8 +11,9 @@ interface ImageBoxProps extends ImageProps {
 
 // const defaultUri = 'https://picsum.photos/seed/696/3000/2000'; // 초록색 산 모양
 const defaultUri = require('~/assets/icon/icon_grab.png'); // local
-const blurhash =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+// 깜빡이는 문제 있어서 주석
+// const blurhash =
+//   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 const ImageBox = React.forwardRef<ViewRef, ImageBoxProps>(
   ({ className, type = 'defalut', source = defaultUri }, ref) => {
@@ -25,7 +26,7 @@ const ImageBox = React.forwardRef<ViewRef, ImageBoxProps>(
           source={source}
           contentFit='contain' // default
           transition={150}
-          placeholder={{ blurhash }}
+          // placeholder={{ blurhash }}
         />
       </View>
     );

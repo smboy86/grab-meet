@@ -96,11 +96,11 @@ export default function Screen() {
           </View>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
-            <Text className='text-[15px] font-semibold text-[#111111]'>24회 동창회 모임</Text>
+            <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>24회 동창회 모임</Text>
           </View>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>참여 인원</Text>
-            <Text className='text-[15px] font-semibold text-[#111111]'>4명</Text>
+            <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>4명</Text>
           </View>
           <View className='mb-6'>
             <Text className='mb-2 text-sm text-[#111111]'>일정 확인</Text>
@@ -113,7 +113,7 @@ export default function Screen() {
                 return (
                   <View key={keyDate} className='mb-2 bg-white px-5 py-3'>
                     <View className='mb-2.5 flex w-full flex-row justify-between'>
-                      <Text className='mb-2 text-sm font-semibold text-[#000000]'>{keyDate}</Text>
+                      <Text className='font-Pretendard-Semibold mb-2 text-sm text-[#000000]'>{keyDate}</Text>
                     </View>
                     <View className='justify-starts flex flex-row flex-wrap'>
                       {valueTime.map((subItem, index) => {

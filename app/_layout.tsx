@@ -38,7 +38,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   // TODO - AOS 배포시 한번더 체크
   // ref. https://rnkakao.dev/docs/core/get-android-keyhash
-  getKeyHashAndroid().then(console.log);
+  // getKeyHashAndroid().then(console.log);
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 

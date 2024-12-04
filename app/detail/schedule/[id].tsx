@@ -234,11 +234,13 @@ export default function ScheduleInfo() {
             </View>
             <View className='mb-6'>
               <Text className='mb-2 text-sm text-[#111111]'>일정 제목</Text>
-              <Text className='text-[15px] font-semibold text-[#111111]'>{scheduleData?.title}</Text>
+              <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>
+                {scheduleData?.title}
+              </Text>
             </View>
             <View className='mb-6'>
               <Text className='mb-2 text-sm text-[#111111]'>참여 인원</Text>
-              <Text className='text-[15px] font-semibold text-[#111111]'>
+              <Text className='font-Pretendard-Semibold text-[15px] text-[#111111]'>
                 {grabData !== undefined && grabData?.length <= 0
                   ? `${scheduleData?.member_cnt}`
                   : `${grabData?.length}/${scheduleData?.member_cnt}`}
@@ -259,7 +261,7 @@ export default function ScheduleInfo() {
 
                   return (
                     <View key={date} className='mb-2 rounded-md border border-[#E5E5EC] bg-white px-5 py-3'>
-                      <Text className='text-[14px] font-semibold'>
+                      <Text className='font-Pretendard-Semibold text-[14px]'>
                         {date} ({dayjs(date).format('dd')})
                       </Text>
                       <View className='gab-1'>

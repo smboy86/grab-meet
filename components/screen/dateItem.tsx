@@ -26,7 +26,7 @@ const DateItem = React.forwardRef<React.ElementRef<typeof Pressable>, DateItemPr
         className='mb-3 flex w-full flex-row justify-between rounded-[20px] border border-[#E5E5EC] p-5'>
         <View className='w-9/12 items-start justify-center'>
           <Text
-            className='text-ellipsis text-lg font-semibold text-[#111111]'
+            className='font-Pretendard-Semibold text-ellipsis text-lg text-[#111111]'
             ellipsizeMode='tail'
             numberOfLines={1}>
             {title}

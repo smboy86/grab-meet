@@ -309,7 +309,7 @@ export default function Screen() {
                       return (
                         <View key={keyDate} className='mb-2 bg-white px-5 py-3'>
                           <View className='mb-2.5 flex w-full flex-row justify-between'>
-                            <Text className='mb-2 text-sm font-semibold text-[#000000]'>
+                            <Text className='font-Pretendard-Semibold mb-2 text-sm text-[#000000]'>
                               {keyDate} ({dayjs(keyDate).format('dd')})
                             </Text>
                             <Pressable

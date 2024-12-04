@@ -93,10 +93,10 @@ export default function Home() {
               <View className='pb-3'>
                 <ImageBox source={images.gif_promise_2} className='mr-1 h-[80px] w-[80px]' />
               </View>
-              <Text className='text-[15px] font-semibold text-[#767676]'>일정이 없습니다.</Text>
-              <Text className='text-[15px] font-semibold text-[#767676]'>
-                <Text className='text-[15px] font-semibold text-[#F59917]'>'일정등록</Text> 상단의 버튼을 눌러
-                등록해주세요.
+              <Text className='font-Pretendard-Semibold text-[15px] text-[#767676]'>일정이 없습니다.</Text>
+              <Text className='font-Pretendard-SemiBold text-[15px] text-[#767676]'>
+                <Text className='font-Pretendard-SemiBold text-[15px] text-[#F59917]'>'일정등록</Text> 상단의
+                버튼을 눌러 등록해주세요.
               </Text>
             </View>
           }

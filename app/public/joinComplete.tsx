@@ -15,8 +15,10 @@ export default function Screen() {
       <Wrap type='default' full className='flex flex-col justify-between'>
         <View className='flex items-center justify-center pt-[130px]'>
           <ImageBox source={images.gif_promise} className='mr-1 h-[80px] w-[80px]' />
-          <Text className='text-lg font-semibold text-[#111111]'>미팅 참석 요청이 완료 되었습니다.</Text>
-          <Text className='text-lg font-semibold text-[#111111]'>감사합니다 🧡</Text>
+          <Text className='font-Pretendard-Semibold text-lg text-[#111111]'>
+            미팅 참석 요청이 완료 되었습니다.
+          </Text>
+          <Text className='font-Pretendard-Semibold text-lg text-[#111111]'>감사합니다 🧡</Text>
         </View>
         {/* 웹에서는 동작 안해서 삭제 */}
         {Platform.OS !== 'web' && (
