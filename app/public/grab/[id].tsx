@@ -22,10 +22,8 @@ import GrabJoinAlert from '~/components/dialog/grabJoinAlert';
 import useMutationInsertJoin, { useMutationInsertJoinProps } from '~/api/useMutationInsertJoin';
 import { useRouter } from 'expo-router';
 
-import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
 import useGetGrabStatus from '~/api/useGetGrabStatus';
 import { useFocusEffect } from 'expo-router';
-dayjs.locale('ko');
 
 type PageProps = {
   id: string;

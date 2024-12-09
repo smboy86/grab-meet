@@ -31,11 +31,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { domain } from '~/constants/options';
 import * as Clipboard from 'expo-clipboard';
 import { shareCustomTemplate } from '@react-native-kakao/share';
-
-import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
 import useGetGrabStatus from '~/api/useGetGrabStatus';
 import { useAuth } from '~/providers/AuthProvider';
-dayjs.locale('ko');
 
 const TimeSlotScheme = z.object({
   time: z.string(),

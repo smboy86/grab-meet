@@ -14,6 +14,10 @@ import { AuthProvider } from '~/providers/AuthProvider';
 import QueryProvider from '~/providers/QueryProvider';
 import { getKeyHashAndroid, initializeKakaoSDK } from '@react-native-kakao/core';
 
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko'; // TODO - web에서 locale 지정이 풀리는 문제 발견
+dayjs.locale('ko');
+
 export const unstable_settings = {
   initialRouteName: '(main)',
 };
@@ -88,6 +92,13 @@ export default function RootLayout() {
               name='(main)'
               options={{
                 headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name='detail/myInfo'
+              options={{
+                title: '내정보',
+                headerShown: true,
               }}
             />
             <Stack.Screen
