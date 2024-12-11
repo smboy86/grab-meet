@@ -8,7 +8,7 @@ export default function Screen() {
     <Container className='items-center justify-center'>
       <Header type='default' />
       <Wrap type='default' full>
-        <Text>안녕하세요 미팅을 잡자 입니다.</Text>
+        <Text>안녕하세요 그랩밋 입니다.</Text>
       </Wrap>
     </Container>
   );

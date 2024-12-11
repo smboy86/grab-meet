@@ -18,7 +18,9 @@
     "check:type": "npx tsc --noEmit",
     "install:fold": "npx expo run:android --device SM_F946N",
     "install:fold:relese": "npx expo run:android --device SM_F946N --variant release",
-    "deploy:store": "npx eas-cli build --platform android --profile production"
+    "build:production": "npx eas-cli build --platform android --profile production",
+    "build:deploy": "npx eas-cli build --platform android --profile production --auto-submit",
+    "submit:android": "npx eas-cli submit --platform android --profile production"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
@@ -84,7 +86,8 @@
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8",
     "zustand": "^4.5.5",
-    "expo-font": "~13.0.1"
+    "expo-font": "~13.0.1",
+    "expo-web-browser": "~14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -109,7 +109,7 @@ export default function ScheduleInfo() {
       },
       {
         onSuccess: () => {
-          Alert.alert('미팅을 잡자', '확정 되었습니다.');
+          Alert.alert('그랩밋', '확정 되었습니다.');
           router.replace('/(main)/home');
         },
       },
@@ -213,7 +213,7 @@ export default function ScheduleInfo() {
                     shareCustomTemplate({
                       templateId: 114268,
                       templateArgs: {
-                        title: '미팅을 잡자',
+                        title: '그랩밋',
                         content: '가능한 미팅날을 선택해주세요',
                         url: `public/grab/${id}`, // 앞에 / 붙이면 중복 에러
                       },

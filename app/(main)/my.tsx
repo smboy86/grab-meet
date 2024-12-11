@@ -7,10 +7,15 @@ import { Header } from '~/components/layout/header';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 import { Alert } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 
 export default function My() {
   const router = useRouter();
   const { isLogin } = useAuth();
+
+  const handleMoveWeb = (url: string) => {
+    WebBrowser.openBrowserAsync(url);
+  };
 
   return (
     <Container main className='items-center justify-center'>
@@ -22,7 +27,7 @@ export default function My() {
           className='mb-2 border border-brand'
           onPress={() => {
             if (!isLogin) {
-              Alert.alert('미팅을 잡자', '로그인이 필요합니다.');
+              Alert.alert('그랩밋', '로그인이 필요합니다.');
               return;
             }
             router.push('/detail/myInfo');
@@ -38,22 +43,31 @@ export default function My() {
             <Text>패스워드 재설정</Text>
           </Button>
         </Link>
-        <Link
-          href={{
-            pathname: '/home',
-          }}
-          asChild>
-          <Button variant='outline' className='mb-2 border border-brand'>
-            <Text>스토어 평점주기</Text>
-          </Button>
-        </Link>
+        <Button
+          variant='outline'
+          className='mb-2 border border-brand'
+          onPress={() =>
+            handleMoveWeb('https://play.google.com/store/apps/details?id=com.naldacompany.grabmeet')
+          }>
+          <Text>스토어 앱리뷰 쓰기</Text>
+        </Button>
+        <Button
+          variant='outline'
+          className='mb-2 border border-brand'
+          onPress={() =>
+            handleMoveWeb(
+              'https://doc-hosting.flycricket.io/geuraebmis-privacy-policy/3cc3338f-e703-4780-9705-3e4e0eef1a28/privacy',
+            )
+          }>
+          <Text>개인정보 처리방침</Text>
+        </Button>
         {!isLogin && (
           <Link
             href={{
               pathname: '/auth/login',
             }}
             asChild>
-            <Button variant='outline' className='mb-2 border border-brand'>
+            <Button variant='outline' className='mb-2 mt-4 border border-brand'>
               <Text>로그인 하기</Text>
             </Button>
           </Link>

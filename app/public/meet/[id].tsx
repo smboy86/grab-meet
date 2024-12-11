@@ -106,7 +106,7 @@ export default function Screen() {
                   shareCustomTemplate({
                     templateId: 114801,
                     templateArgs: {
-                      title: '미팅을 잡자',
+                      title: '그랩밋',
                       date: '가능한 미팅날을 선택해주세요',
                       time: `14:00`,
                       url: `public/grab/${id}`, // 앞에 / 붙이면 중복 에러

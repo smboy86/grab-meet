@@ -105,7 +105,7 @@ export default function Login() {
           </View>
           <View className='btm pb-6'>
             {/* TODO - google login */}
-            {/* <GoogleLogin /> */}
+            <GoogleLogin />
             <KakaoLogin />
           </View>
         </View>

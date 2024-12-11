@@ -29,7 +29,7 @@ export function KakaoLogin(props: Props) {
 
           if (error) console.log('errrr   ', error);
           if (data) {
-            Alert.alert('미팅을 잡자', '로그인 되었습니다.');
+            Alert.alert('그랩밋', '로그인 되었습니다.');
             router.replace('/(main)');
           }
 

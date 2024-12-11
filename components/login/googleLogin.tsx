@@ -3,7 +3,8 @@ import { Button } from '../ui/button';
 import { ImageBox } from '../ui/imageBox';
 import images from '~/constants/images';
 import { supabase } from '~/utils/supabase';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { Alert } from 'react-native';
 
 type Props = {};
 
@@ -13,23 +14,13 @@ export function GoogleLogin(props: Props) {
   //   webClientId: '619236170667-lo8dd9v1uhfkgqgq95lefrg1ok7mld4g.apps.googleusercontent.com',
   // });
   GoogleSignin.configure({
-    webClientId: '619236170667-lo8dd9v1uhfkgqgq95lefrg1ok7mld4g.apps.googleusercontent.com',
+    webClientId: '577378292795-pqv5lfsc6gvr9mra5njfprp01mf5i6at.apps.googleusercontent.com', // play store
+    // webClientId: '577378292795-2tl67th7tlfkjhb56h10c2eogcu7hkg6.apps.googleusercontent.com', // eas
+    // webClientId: '577378292795-k6as9emtb8375uo9anutn806s9125264.apps.googleusercontent.com', // local gradle
+    offlineAccess: true,
   });
 
   const loginGoogle = async () => {
-    // const { data, error } = await supabase.auth.signInWithOAuth({
-    //   provider: 'google',
-    //   options: {
-    //     queryParams: {
-    //       access_type: 'offline',
-    //       prompt: 'consent',
-    //     },
-    //   },
-    // });
-    // console.log('aaaa  ', data);
-    // if (data) alert('로그인 되었습니다');
-    // if (error) console.log('errrr   ', error);
-
     try {
       await GoogleSignin.hasPlayServices();
       console.log('000000');
@@ -46,7 +37,9 @@ export function GoogleLogin(props: Props) {
         throw new Error('no ID token present!');
       }
     } catch (error: any) {
-      console.log('eeee  ', error);
+      console.log('eeee 111 ', error);
+      console.log('eeee  222 ', JSON.stringify(error));
+      Alert.alert('소셜 로그인 오류', JSON.stringify(error));
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {

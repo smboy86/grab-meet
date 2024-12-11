@@ -113,7 +113,7 @@ export default function Screen() {
       { ...params },
       {
         onSuccess: (data) => {
-          Alert.alert('미팅을 잡자', '생성 되었습니다.');
+          Alert.alert('그랩밋', '생성 되었습니다.');
           // mode를 보내지 않으면 사이드 이펙트 발생하지만 무난한것 같아서 놔둠
           router.replace({
             pathname: `/detail/schedule/[id]`,

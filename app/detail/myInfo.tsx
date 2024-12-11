@@ -15,7 +15,7 @@ export default function Screen() {
   const { session } = useAuth();
 
   const handleLogout = async () => {
-    Alert.alert('미팅을 잡자', '로그아웃 하시겠습니까?', [
+    Alert.alert('그랩밋', '로그아웃 하시겠습니까?', [
       { text: '취소', style: 'cancel' },
       {
         text: '확인',
@@ -32,7 +32,7 @@ export default function Screen() {
   };
 
   const deleteUser = () => {
-    Alert.alert('미팅을 잡자', '회원탈퇴 하시겠습니까?', [
+    Alert.alert('그랩밋', '회원탈퇴 하시겠습니까?', [
       { text: '취소', style: 'cancel' },
       {
         text: '확인',
