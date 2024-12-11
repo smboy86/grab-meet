@@ -27,6 +27,7 @@ export function KakaoLogin(props: Props) {
             token: result.idToken ?? '',
           });
 
+          // TODO - 신규 가입자 정보 DB 저장
           if (error) console.log('errrr   ', error);
           if (data) {
             Alert.alert('그랩밋', '로그인 되었습니다.');
